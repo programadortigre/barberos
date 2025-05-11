@@ -1,38 +1,42 @@
 version: '3.9'
 
 services:
-  db:
+  mysql:
     image: mysql:8.0
-    container_name: mysql
     restart: always
     environment:
-      MYSQL_ROOT_PASSWORD: rootpass
+      MYSQL_ROOT_PASSWORD: rootpassword
       MYSQL_DATABASE: barberia
-      MYSQL_USER: barberuser
-      MYSQL_PASSWORD: barberpass
+      MYSQL_USER: user
+      MYSQL_PASSWORD: userpassword
     ports:
       - "3306:3306"
     volumes:
-      - ./mysql/data:/var/lib/mysql
+      - mysql_data:/var/lib/mysql
 
   backend:
-    build: ./backend
+    build:
+      context: ./backend
     container_name: fastapi
-    restart: always
-    volumes:
-      - ./backend:/app
     ports:
       - "8000:8000"
     depends_on:
-      - db
+      - mysql
+    volumes:
+      - ./backend:/app
+    command: uvicorn main:app --host 0.0.0.0 --port 8000 --reload
 
   frontend:
-    build: ./frontend
+    build:
+      context: ./frontend
     container_name: nuxt
-    restart: always
     ports:
       - "3000:3000"
-    volumes:
-      - ./frontend:/app
     depends_on:
       - backend
+    volumes:
+      - ./frontend:/app
+    command: npm run dev  # Para modo desarrollo, usa "npm run build && node .output/server/index.mjs" en producción
+
+volumes:
+  mysql_data:

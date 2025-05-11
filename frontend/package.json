@@ -1,12 +1,14 @@
 {
   "name": "frontend",
   "version": "1.0.0",
+  "description": "Frontend Nuxt 3 for Barbería",
   "scripts": {
     "dev": "nuxt dev",
     "build": "nuxt build",
     "start": "nuxt start"
   },
   "dependencies": {
-    "nuxt": "latest"
+    "nuxt": "^3.0.0",
+    "@nuxtjs/axios": "^6.0.0"
   }
 }
