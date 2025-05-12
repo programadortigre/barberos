@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Documentación - Gestión de Proyecto con Git y Docker</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f4f4f4;
+            color: #333;
+            margin: 0;
+            padding: 0;
+            line-height: 1.6;
+        }
+
+        header {
+            background-color: #333;
+            color: white;
+            padding: 15px;
+            text-align: center;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        h1,
+        h2,
+        h3 {
+            color: #333;
+        }
+
+        pre {
+            background-color: #2d2d2d;
+            color: white;
+            padding: 15px;
+            border-radius: 5px;
+            overflow-x: auto;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+        }
+
+        .section-title {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px;
+            border-radius: 4px;
+            margin-bottom: 10px;
+        }
+
+        .note {
+            background-color: #fff3e0;
+            padding: 15px;
+            border-left: 5px solid #ffa000;
+            margin: 15px 0;
+        }
+
+        .step {
+            background-color: #e8f5e9;
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 4px;
+        }
+
+        footer {
+            background-color: #333;
+            color: white;
+            text-align: center;
+            padding: 10px 0;
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+        }
+    </style>
+</head>
+
+<body>
+
+    <header>
+        <h1>Documentación - Gestión de Proyecto con Git y Docker</h1>
+    </header>
+
+    <div class="container">
+        <section>
+            <div class="section-title">
+                <h2>🔼 Mandar cambios al repositorio Git</h2>
+            </div>
+            <p>Para enviar tus cambios al repositorio, sigue estos pasos:</p>
+            <div class="step">
+                <strong>1. Agregar todos los cambios realizados:</strong>
+                <pre>git add .</pre>
+            </div>
+            <div class="step">
+                <strong>2. Crear un commit con un mensaje descriptivo:</strong>
+                <pre>git commit -m "Cambié el Docker para que al reiniciar el VPS se active FastAPI y Nuxt"</pre>
+            </div>
+            <div class="step">
+                <strong>3. Enviar los cambios al repositorio remoto:</strong>
+                <pre>git push origin master</pre>
+            </div>
+        </section>
+
+        <section>
+            <div class="section-title">
+                <h2>🔽 Recibir cambios en el servidor</h2>
+            </div>
+            <p>Cuando recibas cambios en el servidor, realiza los siguientes pasos:</p>
+            <div class="step">
+                <strong>1. Ingresa a tu servidor via SSH:</strong>
+                <pre>ssh ubuntu@<IP_O_LOCALHOST> -p <PUERTO>  # Ejemplo: ssh ubuntu@192.168.0.104 o ssh ubuntu@localhost -p 2222</pre>
+            </div>
+            <div class="step">
+                <strong>2. Navega al directorio del proyecto:</strong>
+                <pre>cd ~/barberos</pre>
+            </div>
+            <div class="step">
+                <strong>3. Trae los cambios desde el repositorio:</strong>
+                <pre>git pull origin master</pre>
+            </div>
+            <div class="note">
+                <strong>Nota:</strong> Asegúrate de que los cambios se han descargado correctamente antes de proceder
+                con la reconstrucción de los contenedores Docker.
+            </div>
+        </section>
+
+        <section>
+            <div class="section-title">
+                <h2>🐳 Reconstruir los contenedores Docker</h2>
+            </div>
+            <p>Una vez que los cambios estén actualizados, es necesario reconstruir los contenedores Docker para que los
+                nuevos cambios sean aplicados:</p>
+            <div class="step">
+                <strong>1. Detener los contenedores activos:</strong>
+                <pre>sudo docker-compose down</pre>
+            </div>
+            <div class="step">
+                <strong>2. Reconstruir y levantar los contenedores en segundo plano:</strong>
+                <pre>sudo docker-compose up -d --build</pre>
+            </div>
+            <div class="step">
+                <strong>3. Verificar que los contenedores están corriendo:</strong>
+                <pre>sudo docker ps</pre>
+            </div>
+        </section>
+
+        <section>
+            <div class="section-title">
+                <h2>✅ Comprobaciones Básicas</h2>
+            </div>
+            <p>Verifica que los contenedores de Docker están en funcionamiento:</p>
+            <div class="step">
+                <pre>cd ~/barberos
+sudo docker ps</pre>
+            </div>
+        </section>
+
+        <section>
+            <div class="section-title">
+                <h2>🔐 Habilitar SSH (si aún no está activo)</h2>
+            </div>
+            <p>Si el servicio SSH no está activo, sigue estos pasos para habilitarlo:</p>
+            <div class="step">
+                <strong>1. Actualiza la lista de paquetes:</strong>
+                <pre>sudo apt update</pre>
+            </div>
+            <div class="step">
+                <strong>2. Instala el servidor OpenSSH:</strong>
+                <pre>sudo apt install openssh-server</pre>
+            </div>
+            <div class="step">
+                <strong>3. Habilita el servicio SSH para que se inicie automáticamente:</strong>
+                <pre>sudo systemctl enable ssh</pre>
+            </div>
+            <div class="step">
+                <strong>4. Inicia el servicio SSH:</strong>
+                <pre>sudo systemctl start ssh</pre>
+            </div>
+        </section>
+    </div>
+
+    <footer>
+        <p>&copy; 2025 - Proyecto de Gestión de Barbería</p>
+    </footer>
+
+</body>
+
+</html>
