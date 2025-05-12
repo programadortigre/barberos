@@ -24,7 +24,8 @@ services:
       - mysql
     volumes:
       - ./backend:/app
-    command: uvicorn main:app --host 0.0.0.0 --port 8000 --reload
+    command: uvicorn main:app --host 0.0.0.0 --port 8000 
+   # command: uvicorn main:app --host 0.0.0.0 --port 8000 --reload
 
   frontend:
     build:
@@ -36,7 +37,9 @@ services:
       - backend
     volumes:
       - ./frontend:/app
-    command: npm run dev  # Para modo desarrollo, usa "npm run build && node .output/server/index.mjs" en producción
+    command: npx nuxi dev --host 0.0.0.0
+    #command: npm run dev  # Para modo desarrollo, usa "npm run build && node .output/server/index.mjs" en producción
+    
 
 volumes:
   mysql_data:
