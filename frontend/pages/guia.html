@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Guía Básica de Git y GitLab</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <style>
+        body {
+            padding-top: 2rem;
+            padding-bottom: 2rem;
+        }
+
+        .step {
+            margin-bottom: 2rem;
+        }
+
+        .code-block {
+            background-color: #f8f9fa;
+            padding: 1rem;
+            border-radius: 5px;
+            font-family: monospace;
+            white-space: pre-wrap;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1 class="mb-4 text-center">Guía Básica para Usar <span class="text-primary">Git</span> y <span
+                class="text-danger">GitLab</span></h1>
+        <p class="lead text-center mb-5">
+            Esta guía es para personas que no saben nada de Git ni GitLab.<br />
+            Sigue paso a paso para entender desde lo más básico.
+        </p>
+
+        <!-- Step 1 -->
+        <div class="step">
+            <h3>1. ¿Qué es Git?</h3>
+            <p>
+                Git es una herramienta que ayuda a guardar y controlar los cambios que haces en tus archivos de código o
+                documentos.
+                Es como un "historial" donde puedes ver qué cambiaste, cuándo y quién.
+            </p>
+            <p>
+                Para usar Git, necesitas instalarlo en tu computadora.
+            </p>
+            <div class="alert alert-info">
+                <strong>¿Cómo instalar Git?</strong><br />
+                - En Windows: descarga desde <a href="https://git-scm.com/download/win"
+                    target="_blank">git-scm.com</a><br />
+                - En macOS: usa Homebrew con <code>brew install git</code><br />
+                - En Linux (Ubuntu): <code>sudo apt-get install git</code>
+            </div>
+        </div>
+
+        <!-- Step 2 -->
+        <div class="step">
+            <h3>2. Configura Git en tu PC</h3>
+            <p>Después de instalar, abre la terminal (o consola) y escribe estos comandos para configurar tu nombre y
+                correo:</p>
+            <div class="code-block">
+                git config --global user.name "Tu Nombre"<br />
+                git config --global user.email "tuemail@example.com"
+            </div>
+            <p>Esto es para que Git sepa quién está haciendo los cambios.</p>
+        </div>
+
+        <!-- Step 3 -->
+        <div class="step">
+            <h3>3. ¿Qué es GitLab?</h3>
+            <p>
+                GitLab es una página web donde puedes guardar tus proyectos con Git.
+                Además, permite que tú y otras personas trabajen juntos en el mismo proyecto.
+            </p>
+            <p>Es como una carpeta en internet donde tienes la última versión de tu código y pueden ver los cambios.</p>
+            <a href="https://gitlab.com" target="_blank" class="btn btn-danger mb-2">Ir a GitLab</a>
+        </div>
+
+        <!-- Step 4 -->
+        <div class="step">
+            <h3>4. Crear una cuenta en GitLab</h3>
+            <ol>
+                <li>Entra a <a href="https://gitlab.com/users/sign_up"
+                        target="_blank">https://gitlab.com/users/sign_up</a></li>
+                <li>Regístrate con tu correo o usando Google/GitHub</li>
+                <li>Verifica tu correo y accede</li>
+            </ol>
+        </div>
+
+        <!-- Step 5 -->
+        <div class="step">
+            <h3>5. Crear un nuevo proyecto en GitLab</h3>
+            <ol>
+                <li>En tu cuenta, haz clic en <strong>New project</strong></li>
+                <li>Selecciona <strong>Blank project</strong></li>
+                <li>Escribe un nombre para tu proyecto, ejemplo: <code>mi-primer-proyecto</code></li>
+                <li>Escoge si quieres que sea público o privado (para empezar, privado está bien)</li>
+                <li>Haz clic en <strong>Create project</strong></li>
+            </ol>
+            <img src="https://docs.gitlab.com/ee/gitlab-basics/create-project/create-project.png"
+                alt="Crear proyecto en GitLab" class="img-fluid rounded shadow" />
+        </div>
+
+        <!-- Step 6 -->
+        <div class="step">
+            <h3>6. Clonar el proyecto a tu computadora</h3>
+            <p>Para trabajar con Git, necesitas bajar ("clonar") el proyecto a tu PC. Para eso:</p>
+            <ol>
+                <li>En la página del proyecto, haz clic en <strong>Clone</strong> y copia la URL que aparece (usa HTTPS
+                    para empezar).</li>
+                <li>Abre la terminal (o consola) en tu PC.</li>
+                <li>Escribe este comando (cambia la URL por la que copiaste):</li>
+            </ol>
+            <div class="code-block">
+                git clone https://gitlab.com/tu-usuario/mi-primer-proyecto.git
+            </div>
+            <p>Esto creará una carpeta en tu PC con el proyecto.</p>
+        </div>
+
+        <!-- Step 7 -->
+        <div class="step">
+            <h3>7. Hacer cambios y subirlos a GitLab</h3>
+            <p>Ahora haz algún cambio (por ejemplo, crea un archivo <code>README.md</code>).</p>
+            <p>Para subir los cambios, usa estos comandos:</p>
+            <div class="code-block">
+                git add .<br />
+                git commit -m "Mensaje que describe tus cambios"<br />
+                git push origin main
+            </div>
+            <p>Si la rama principal no es <code>main</code>, puede ser <code>master</code>. Puedes usar
+                <code>git push origin master</code> en ese caso.</p>
+        </div>
+
+        <!-- Step 8 -->
+        <div class="step">
+            <h3>8. Trabajar con ramas (opcional, recomendado para proyectos en equipo)</h3>
+            <p>Las ramas te permiten hacer cambios sin afectar la versión principal hasta que estés listo.</p>
+            <p>Ejemplo para crear y usar una rama nueva:</p>
+            <div class="code-block">
+                git checkout -b mi-rama-nueva<br />
+                git add .<br />
+                git commit -m "Cambios en mi rama"<br />
+                git push origin mi-rama-nueva
+            </div>
+            <p>Luego puedes ir a GitLab y hacer un <strong>Merge Request</strong> para unir los cambios a la rama
+                principal.</p>
+        </div>
+
+        <!-- Step 9 -->
+        <div class="step">
+            <h3>9. Merge Request en GitLab</h3>
+            <p>Cuando subes una rama, GitLab te mostrará un botón para crear un Merge Request.</p>
+            <ol>
+                <li>Haz clic en <strong>Create merge request</strong></li>
+                <li>Escribe un título y descripción clara para explicar tus cambios</li>
+                <li>Haz clic en <strong>Submit</strong></li>
+                <li>Cuando el equipo revise y apruebe, se pueden <strong>fusionar</strong> los cambios a la rama
+                    principal</li>
+            </ol>
+        </div>
+
+        <!-- Step 10 -->
+        <div class="step">
+            <h3>10. Consejos finales</h3>
+            <ul>
+                <li>Siempre escribe mensajes claros en los commits.</li>
+                <li>Haz commits pequeños y frecuentes.</li>
+                <li>Practica usando Git y GitLab en proyectos pequeños.</li>
+                <li>No tengas miedo de preguntar o buscar tutoriales.</li>
+            </ul>
+            <p>¡Con práctica te volverás un experto!</p>
+        </div>
+
+        <footer class="mt-5 text-center text-muted">
+            <small>Guía creada por ChatGPT · 2025</small>
+        </footer>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>

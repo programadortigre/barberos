@@ -1,0 +1,255 @@
+@use 'variables' as *;
+
+.crud {
+  max-width: 900px;
+  margin: 2rem auto;
+  padding: 1rem;
+
+  &__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+
+    h2 {
+      font-size: 1.75rem;
+      font-weight: 700;
+      color: $color-primary;
+      transition: color 0.3s ease;
+    }
+  }
+
+  &__mensaje {
+    background-color: $color-success-bg;
+    color: $color-success-text;
+    border: 1px solid lighten($color-success-text, 25%);
+    padding: 0.75rem 1rem;
+    border-radius: 6px;
+    margin-bottom: 1rem;
+    font-size: 0.95rem;
+    box-shadow: 0 2px 6px rgba($color-success-text, 0.15);
+    transition: all 0.3s ease;
+  }
+}
+
+.tabla {
+  overflow-x: auto;
+  border-radius: 6px;
+  box-shadow: 0 0 12px rgba(0, 0, 0, 0.05);
+
+  table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0 4px;
+    font-size: 0.95rem;
+
+    th, td {
+      border: none;
+      padding: 0.85rem 1rem;
+      text-align: left;
+      background-color: white;
+    }
+
+    th {
+      background-color: $color-gray;
+      font-weight: 600;
+      color: darken($color-gray, 15%);
+      user-select: none;
+    }
+
+    tbody tr {
+      box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+      transition: background-color 0.3s ease, box-shadow 0.3s ease;
+      border-radius: 6px;
+      cursor: pointer;
+
+      &:hover {
+        background-color: lighten($color-primary, 45%);
+        box-shadow: 0 4px 12px rgba($color-primary, 0.15);
+      }
+    }
+  }
+
+  &__vacia {
+    text-align: center;
+    padding: 1.5rem;
+    color: #aaa;
+    font-style: italic;
+  }
+}
+
+.acciones {
+  text-align: center;
+
+  .boton {
+    margin: 0 0.25rem;
+  }
+}
+
+.boton {
+  padding: 0.5rem 1.25rem;
+  border-radius: 6px;
+  font-size: 0.9rem;
+  cursor: pointer;
+  border: none;
+  font-weight: 600;
+  transition: background-color 0.3s ease, color 0.3s ease, box-shadow 0.3s ease, transform 0.15s ease;
+
+  &:hover:not(:disabled) {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 10px rgba(0,0,0,0.12);
+  }
+  &:active:not(:disabled) {
+    transform: translateY(0);
+    box-shadow: none;
+  }
+  &:disabled {
+    cursor: not-allowed;
+    opacity: 0.6;
+    transform: none;
+    box-shadow: none;
+  }
+
+  &--nuevo {
+    background-color: $color-primary;
+    color: white;
+
+    &:hover:not(:disabled) {
+      background-color: $color-primary-hover;
+      box-shadow: 0 8px 20px rgba($color-primary, 0.3);
+    }
+  }
+
+  &--editar {
+    color: $color-primary;
+    background-color: transparent;
+    border: 2px solid transparent;
+
+    &:hover:not(:disabled) {
+      text-decoration: none;
+      background-color: rgba($color-primary, 0.1);
+      border-color: $color-primary;
+      border-radius: 6px;
+    }
+  }
+
+  &--eliminar {
+    color: $color-danger;
+    background-color: transparent;
+    border: 2px solid transparent;
+
+    &:hover:not(:disabled) {
+      text-decoration: none;
+      background-color: rgba($color-danger, 0.1);
+      border-color: $color-danger;
+      border-radius: 6px;
+    }
+  }
+
+  &--guardar {
+    background-color: $color-primary;
+    color: white;
+
+    &:hover:not(:disabled) {
+      background-color: $color-primary-hover;
+      box-shadow: 0 8px 20px rgba($color-primary, 0.3);
+    }
+  }
+
+  &--cancelar {
+    background-color: white;
+    border: 1.5px solid $color-border;
+    color: #444;
+
+    &:hover:not(:disabled) {
+      background-color: $color-gray;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    }
+  }
+}
+
+.modal {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.45);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 999;
+  opacity: 1;
+  animation: fadeIn 0.3s ease forwards;
+
+  &__contenido {
+    background-color: white;
+    padding: 2rem 2.5rem;
+    border-radius: 12px;
+    width: 100%;
+    max-width: 520px;
+    position: relative;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+    transform: translateY(0);
+    animation: slideInUp 0.3s ease forwards;
+    overflow: auto;
+    max-height: 80vh;
+
+    h3 {
+      margin-bottom: 1.5rem;
+      font-weight: 700;
+      color: $color-primary;
+      user-select: none;
+    }
+  }
+}
+
+@keyframes fadeIn {
+  from {opacity: 0;}
+  to {opacity: 1;}
+}
+
+@keyframes slideInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.formulario__grupo {
+  margin-bottom: 1.2rem;
+
+  label {
+    display: block;
+    margin-bottom: 0.6rem;
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: #444;
+    user-select: none;
+  }
+
+  input {
+    width: 100%;
+    padding: 0.6rem 0.75rem;
+    border: 1.8px solid $color-border;
+    border-radius: 8px;
+    font-size: 1rem;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+    box-shadow: inset 0 2px 4px rgba(0,0,0,0.04);
+
+    &:focus {
+      border-color: $color-primary;
+      box-shadow: 0 0 8px rgba($color-primary, 0.3);
+      outline: none;
+    }
+  }
+}
+
+.formulario__acciones {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.75rem;
+  margin-top: 1.25rem;
+}
+    

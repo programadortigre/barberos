@@ -1,11 +1,12 @@
+# Dockerfile para desarrollo
 FROM node:18-alpine
 
 WORKDIR /app
 
-COPY . .
+COPY package*.json ./
 
 RUN npm install
 
 EXPOSE 3000
 
-CMD ["npm", "run", "dev"]
+CMD ["npx", "nuxi", "dev", "--host", "0.0.0.0"]

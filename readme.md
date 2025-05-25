@@ -21,3 +21,6 @@ Este entorno incluye:
 ```bash
 unzip proyecto-barberia.zip
 cd proyecto-barberia
+
+
+

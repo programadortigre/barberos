@@ -5,10 +5,10 @@ services:
     image: mysql:8.0
     restart: always
     environment:
-      MYSQL_ROOT_PASSWORD: rootpassword
-      MYSQL_DATABASE: barberia
-      MYSQL_USER: user
-      MYSQL_PASSWORD: userpassword
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
     ports:
       - "3306:3306"
     volumes:
@@ -24,8 +24,9 @@ services:
       - mysql
     volumes:
       - ./backend:/app
-    command: uvicorn main:app --host 0.0.0.0 --port 8000 
-   # command: uvicorn main:app --host 0.0.0.0 --port 8000 --reload
+    command: uvicorn main:app --host 0.0.0.0 --port 8000 --reload
+    env_file:
+      - .env.development  # Se cargan las variables desde el archivo .env
 
   frontend:
     build:
@@ -36,10 +37,13 @@ services:
     depends_on:
       - backend
     volumes:
-      - ./frontend:/app
-    command: npx nuxi dev --host 0.0.0.0
-    #command: npm run dev  # Para modo desarrollo, usa "npm run build && node .output/server/index.mjs" en producción
-    
+      - ./frontend:/app:delegated
+      - /app/node_modules
+    command: npx nuxi dev --host 0.0.0.0 --port 3000
+    environment:
+      - NUXT_PORT=3000
+      - NUXT_HOST=0.0.0.0
+      - CHOKIDAR_USEPOLLING=true
 
 volumes:
   mysql_data:

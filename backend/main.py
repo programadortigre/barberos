@@ -1,34 +1,55 @@
-from fastapi import FastAPI
-import mysql.connector
-from pydantic import BaseModel
-from typing import List
+from fastapi import FastAPI, Depends
+from fastapi.middleware.cors import CORSMiddleware
+from sqlalchemy.orm import Session
+
+from database import get_db
+from schemas.auth import LoginRequest, TokenResponse
+from auth.auth import login_user
+
+# importar routers
+from api import usuarios, roles, personas, permisos, roles_permisos, logs_usuarios, tokens, tipos_perfil, perfiles, configuraciones, auth_router
 
 app = FastAPI()
 
-# Conexión a MySQL
-def get_db_connection():
-    conn = mysql.connector.connect(
-        host="mysql",  # Nombre del contenedor de MySQL
-        user="user",
-        password="userpassword",
-        database="barberia"
-    )
-    return conn
+# CORS: permitir solo tu frontend (ajusta el dominio en producción)
+origins = [
+    "http://localhost:3000",      # Nuxt local
+    "http://127.0.0.1:3000",      # otra variante local
+    "https://tudominio.com",     # tu dominio real en producción
+]
 
-# Modelo de ejemplo
-class Barber(BaseModel):
-    name: str
-    service: str
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["*"],         # puedes restringir por seguridad
+    allow_headers=["*"],
+)
+
+
+# Login
+@app.post("/login", response_model=TokenResponse)
+def login(data: LoginRequest, db: Session = Depends(get_db)):
+    return login_user(data, db)
+
+# registrar routers
+routers = [
+    usuarios.router,
+    roles.router,
+    personas.router,
+    permisos.router,
+    roles_permisos.router,
+    logs_usuarios.router,
+    tokens.router,
+    tipos_perfil.router,
+    perfiles.router,
+    configuraciones.router,
+]
+
+for router in routers:
+    app.include_router(router)
+
 
 @app.get("/")
-def read_root():
-    return {"message": "Bienvenido a la API de Barbería"}
-
-@app.get("/barbers", response_model=List[Barber])
-def get_barbers():
-    conn = get_db_connection()
-    cursor = conn.cursor()
-    cursor.execute("SELECT name, service FROM barbers")
-    result = cursor.fetchall()
-    conn.close()
-    return [{"name": row[0], "service": row[1]} for row in result]
+def root():
+    return {"message": "API corriendo correctamente 🚀"}

@@ -1,9 +1,32 @@
 export default defineNuxtConfig({
-  ssr: true, // Habilita el rendering del lado del servidor (SSR)
-  build: {
-    transpile: ['@nuxtjs/axios'], // Si usas axios o librerías adicionales
+  css: ['@/assets/styles/main.scss'],
+  runtimeConfig: {
+    public: {
+      apiBaseUrl: process.env.API_BASE || 'http://localhost:8000',
+    }
   },
-  axios: {
-    baseURL: 'http://localhost:8000', // URL de la API FastAPI
+  modules: [
+    '@pinia/nuxt',
+    '@nuxtjs/color-mode'
+  ],
+  colorMode: {
+    classSuffix: '',
+    preference: 'light',
+    fallback: 'light'
+  },
+  pinia: {
+    autoImports: [
+      'defineStore',
+      ['defineStore', 'definePiniaStore']
+    ]
+  },
+  nitro: {
+    devProxy: {
+      '/api': {
+        target: process.env.API_BASE || 'http://localhost:8000',
+        changeOrigin: true,
+        prependPath: true
+      }
+    }
   }
 })

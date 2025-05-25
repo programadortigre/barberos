@@ -1,0 +1,44 @@
+// Media queries rápidas
+@mixin respond-to($breakpoint) {
+  @if $breakpoint == xs {
+    @media (max-width: 480px) { @content; }
+  } @else if $breakpoint == sm {
+    @media (max-width: 768px) { @content; }
+  } @else if $breakpoint == md {
+    @media (max-width: 1024px) { @content; }
+  } @else if $breakpoint == lg {
+    @media (max-width: 1280px) { @content; }
+  } @else if $breakpoint == xl {
+    @media (max-width: 1536px) { @content; }
+  }
+}
+
+// Flexbox centrado
+@mixin flex-center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+// Texto truncado con "..."
+@mixin text-truncate {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+// Botón base
+@mixin button-base($bg: $color-accent, $color: white) {
+  background-color: $bg;
+  color: $color;
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: background-color 0.2s ease;
+
+  &:hover {
+    background-color: darken($bg, 10%);
+  }
+}
