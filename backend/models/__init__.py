@@ -1,4 +1,3 @@
-# from .modelos import *
 from .personas import *
 from .roles import *
 from .usuarios import *
