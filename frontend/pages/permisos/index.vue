@@ -1,22 +1,8 @@
-<script setup>
-import { onMounted } from 'vue'
+<script setup lang="ts">
+import { data } from '@/configs/Permisos'
 definePageMeta({ layout: 'admin' })
-
-const columnas = [
-  { key: 'nombre', label: 'Nombre' },
-  { key: 'clave', label: 'clave' },
-  { key: 'descripcion', label: 'Descripción' }
-]
-
-const camposFormulario = [
-  { key: 'nombre', label: 'Nombre' },
-  { key: 'clave', label: 'clave' },
-  { key: 'descripcion', label: 'Descripción' }
-]
-
-
 </script>
 
 <template>
-  <CrudTable endpoint="permisos" :columnas="columnas" :camposFormulario="camposFormulario" />
+  <CrudTable :config="data" />
 </template>

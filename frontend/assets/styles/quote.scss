@@ -1,0 +1,92 @@
+.quote-container {
+  font-family: 'Segoe UI', sans-serif;
+  background: #fff;
+  padding: 2rem;
+  max-width: 800px;
+  margin: 2rem auto;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+  border-radius: 12px;
+  color: #333;
+
+  .quote-header {
+    display: flex;
+    justify-content: space-between;
+    border-bottom: 2px solid #e74c3c;
+    padding-bottom: 1rem;
+    margin-bottom: 1rem;
+
+    .company-info {
+      h1 {
+        color: #e74c3c;
+        margin: 0;
+      }
+    }
+
+    .quote-info {
+      text-align: right;
+
+      h2 {
+        margin: 0 0 0.5rem;
+        color: #444;
+      }
+    }
+  }
+
+  .client-info {
+    background: #f9f9f9;
+    padding: 1rem;
+    border-left: 4px solid #e74c3c;
+    margin-bottom: 1rem;
+
+    h3 {
+      margin: 0 0 0.5rem;
+      color: #e74c3c;
+    }
+  }
+
+  .quote-items {
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 1rem;
+
+      th, td {
+        padding: 0.75rem;
+        border-bottom: 1px solid #ccc;
+        text-align: left;
+      }
+
+      th {
+        background-color: #e74c3c;
+        color: white;
+      }
+
+      td {
+        background-color: #fefefe;
+      }
+    }
+  }
+
+  .quote-summary {
+    .totals {
+      text-align: right;
+
+      p {
+        margin: 0.3rem 0;
+      }
+
+      .grand-total {
+        font-size: 1.2rem;
+        font-weight: bold;
+        color: #e74c3c;
+      }
+    }
+  }
+
+  .quote-footer {
+    text-align: center;
+    margin-top: 2rem;
+    font-style: italic;
+    color: #555;
+  }
+}

@@ -7,7 +7,8 @@ export default defineNuxtConfig({
   },
   modules: [
     '@pinia/nuxt',
-    '@nuxtjs/color-mode'
+    '@nuxtjs/color-mode',
+    //'@primevue/nuxt-module'
   ],
   colorMode: {
     classSuffix: '',
@@ -28,5 +29,7 @@ export default defineNuxtConfig({
         prependPath: true
       }
     }
-  }
+  },
+
+
 })

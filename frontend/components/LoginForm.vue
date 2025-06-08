@@ -204,6 +204,7 @@ $text-muted: #9ab1d6;
   padding: 1rem;
   font-family: 'Poppins', sans-serif;
   color: $text-light;
+  width: 100%;
 }
 
 .auth-container {

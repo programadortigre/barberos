@@ -1,20 +1,26 @@
+// middleware/auth.global.ts
 import { useAuthStore } from '~/stores/auth'
 
-export default defineNuxtRouteMiddleware(async (to, from) => {
-    // No hacer nada en el servidor (SSR)
-    if (process.server) return
+export default defineNuxtRouteMiddleware(async (to) => {
+  // Solo ejecuta en el cliente
+  if (process.server) return
 
-    const auth = useAuthStore()
+  const auth = useAuthStore()
 
-    const publicPages = ['/login']
-    if (publicPages.includes(to.path)) return
+  const publicPages = ['/login']
+  const isPublic = publicPages.includes(to.path)
 
-    // Asegurarse de inicializar el store y cargar token y usuario
-    if (!auth.token) {
-        await auth.init()
-    }
+  // Cargar desde localStorage si es necesario
+  if (!auth.token) {
+    await auth.init()
+  }
 
-    if (!auth.token) {
-        return navigateTo('/login')
-    }
+  if (!auth.token && !isPublic) {
+    return navigateTo('/login')
+  }
+
+  // Si ya está logueado y va al login, redirigir al home (opcional)
+  if (auth.token && to.path === '/login') {
+    return navigateTo('/')
+  }
 })

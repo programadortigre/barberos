@@ -1,23 +1,23 @@
+<!-- CrudTable.vue -->
 <script setup lang="ts">
-import { onMounted, ref } from 'vue'
+import { ref, computed, onMounted } from 'vue'
+import CrudForm from './CrudForm.vue'
+import CrudTableToolbar from './CrudTableToolbar.vue'
 import { useCrud } from '@/composables/useCrud'
 
+const relacionesData = ref<Record<string, any[]>>({})
+
 const props = defineProps<{
-  endpoint: string
-  columnas: { key: string; label: string }[]
-  camposFormulario: {
-    key: string
-    label: string
-    type?: string
-    options?: { label: string; value: any }[]
-    relatedKey?: string
-  }[]
-  relatedData?: Record<string, any[]>
-  relaciones?: {
-    key: string
-    recurso: string
-    label: string | ((item: any) => string)
-  }[]
+  config: {
+    endpoint: string
+    columnas: { key: string; label: string }[]
+    camposFormulario: any[]
+    relaciones?: {
+      key: string
+      recurso: string
+      label: string | ((item: any) => string)
+    }[]
+  }
 }>()
 
 const {
@@ -31,48 +31,47 @@ const {
   editar,
   limpiar,
   cargar
-} = useCrud(props.endpoint)
+} = useCrud(props.config.endpoint)
 
 const mostrarModal = ref(false)
-const relacionesData = ref<Record<string, any[]>>({})
+const search = ref('')
 
-// Método para obtener el valor a mostrar en las celdas
-const getDisplayValue = (item: any, key: string) => {
-  try {
-    const relacion = props.relaciones?.find(r => r.key === key)
-    
-    if (relacion) {
-      const datosRelacionados = relacionesData.value[key]
-      const valorId = item[key]
-      
-      if (!datosRelacionados || valorId == null) return '-'
-      
-      const itemRelacionado = datosRelacionados.find(d => d.id === valorId)
-      if (!itemRelacionado) return '-'
-      
-      return typeof relacion.label === 'function'
-        ? relacion.label(itemRelacionado)
-        : itemRelacionado[relacion.label]
-    }
-    
-    return item[key] ?? '-'
-  } catch (e) {
-    console.error('Error al obtener valor:', e)
-    return '-'
+// Cargar datos y relaciones al iniciar
+onMounted(async () => {
+  await cargar()
+
+  for (const rel of props.config.relaciones || []) {
+    const { items: relItems, fetchAll } = useCrud(rel.recurso)
+    await fetchAll()
+    relacionesData.value[rel.key] = relItems.value
   }
+})
+
+function getLabel(campoKey: string, valor: any) {
+  const rel = props.config.relaciones?.find(r => r.key === campoKey)
+  if (!rel) return valor
+
+  const lista = relacionesData.value[campoKey]
+  const encontrado = lista?.find(item => item.id === valor)
+
+  if (!encontrado) return valor
+  return typeof rel.label === 'function' ? rel.label(encontrado) : encontrado[rel.label]
 }
 
-// Acciones modales
+const itemsFiltrados = computed(() => {
+  return items.value.filter(item =>
+    JSON.stringify(item).toLowerCase().includes(search.value.toLowerCase())
+  )
+})
+
 const abrirModalParaCrear = () => {
   limpiar()
   mostrarModal.value = true
-  error.value = null
 }
 
-const abrirModalParaEditar = (item: Record<string, any>) => {
+const abrirModalParaEditar = (item: any) => {
   editar(item)
   mostrarModal.value = true
-  error.value = null
 }
 
 const onGuardar = async () => {
@@ -80,148 +79,286 @@ const onGuardar = async () => {
   if (exito) {
     mostrarModal.value = false
     limpiar()
-    await cargar()
   }
 }
-
-// Carga inicial
-onMounted(async () => {
-  await cargar()
-
-  // Cargar datos relacionados
-  if (props.relaciones?.length) {
-    for (const relacion of props.relaciones) {
-      const { items: relatedItems, fetchAll } = useCrud<any>(relacion.recurso)
-      await fetchAll()
-      
-      // Almacenar datos de relación
-      relacionesData.value[relacion.key] = relatedItems.value
-      
-      // Actualizar opciones del campo correspondiente
-      const campoFormulario = props.camposFormulario.find(f => f.key === relacion.key)
-      if (campoFormulario) {
-        campoFormulario.options = relatedItems.value.map(item => ({
-          label: typeof relacion.label === 'function' 
-            ? relacion.label(item) 
-            : item[relacion.label],
-          value: item.id
-        }))
-      }
-    }
-  }
-})
 </script>
 
 <template>
   <section class="crud">
-    <header class="crud__header">
-      <h2>Gestión</h2>
-      <button class="boton boton--nuevo" @click="abrirModalParaCrear">+ Nuevo</button>
-    </header>
+    <CrudTableToolbar
+      :search="search"
+      @update:search="search = $event"
+      @nuevo="abrirModalParaCrear"
+    />
 
-    <p v-if="mensaje" class="crud__mensaje">{{ mensaje }}</p>
-    <p v-if="error" class="crud__error">⚠️ {{ error }}</p>
+    <p v-if="mensaje" class="mensaje">{{ mensaje }}</p>
+    <p v-if="error" class="error">{{ error }}</p>
 
-    <div class="tabla">
-      <table v-if="!loading">
+    <!-- Desktop Table -->
+    <div class="tabla-wrapper" v-if="!loading">
+      <table class="tabla desktop">
         <thead>
           <tr>
-            <th v-for="col in columnas" :key="col.key">{{ col.label }}</th>
+            <th v-for="col in config.columnas" :key="col.key">{{ col.label }}</th>
             <th>Acciones</th>
           </tr>
         </thead>
         <tbody>
-          <tr v-for="item in items" :key="item.id">
-            <td v-for="col in columnas" :key="col.key">
-              <slot :name="`item.${col.key}`" :item="item">
-                {{ getDisplayValue(item, col.key) }}
-              </slot>
+          <tr v-for="item in itemsFiltrados" :key="item.id">
+            <td v-for="col in config.columnas" :key="col.key">
+              {{ getLabel(col.key, item[col.key]) ?? '-' }}
             </td>
             <td class="acciones">
-              <button class="boton boton--editar" @click="abrirModalParaEditar(item)">Editar</button>
-              <button
-                class="boton boton--eliminar"
-                @click="eliminar(item.id)"
-                :disabled="loading"
-              >
-                Eliminar
-              </button>
+              <button @click="abrirModalParaEditar(item)">Editar</button>
+              <button @click="eliminar(item.id)">Eliminar</button>
             </td>
-          </tr>
-          <tr v-if="items.length === 0">
-            <td :colspan="columnas.length + 1" class="tabla__vacia">No hay registros</td>
           </tr>
         </tbody>
       </table>
-      <div v-else class="tabla__cargando">Cargando...</div>
-    </div>
 
-    <div v-if="mostrarModal" class="modal">
-      <div class="modal__contenido">
-        <h3>{{ form.id ? 'Editar Registro' : 'Nuevo Registro' }}</h3>
-        <form @submit.prevent="onGuardar">
+      <!-- Mobile Card List -->
+      <div class="tabla mobile">
+        <article
+          v-for="item in itemsFiltrados"
+          :key="item.id"
+          class="card"
+          role="region"
+          :aria-label="'Registro ID ' + item.id"
+        >
           <div
-            v-for="campo in camposFormulario"
-            :key="campo.key"
-            class="formulario__grupo"
+            v-for="col in config.columnas"
+            :key="col.key"
+            class="campo"
           >
-            <label :for="campo.key">{{ campo.label }}</label>
-
-            <select
-              v-if="campo.type === 'select'"
-              :id="campo.key"
-              v-model="form[campo.key]"
-              required
-            >
-              <option
-                v-for="opt in campo.options"
-                :key="opt.value"
-                :value="opt.value"
-              >
-                {{ opt.label }}
-              </option>
-            </select>
-
-            <input
-              v-else
-              :type="campo.type || 'text'"
-              :id="campo.key"
-              v-model="form[campo.key]"
-              :placeholder="campo.label"
-              required
-            />
+            <strong class="label">{{ col.label }}:</strong>
+            <span class="valor">{{ getLabel(col.key, item[col.key]) ?? '-' }}</span>
           </div>
-
-          <div class="formulario__acciones">
-            <button
-              type="button"
-              class="boton boton--cancelar"
-              @click="mostrarModal = false"
-              :disabled="loading"
-            >
-              Cancelar
-            </button>
-            <button type="submit" class="boton boton--guardar" :disabled="loading">
-              {{ loading ? 'Guardando...' : (form.id ? 'Actualizar' : 'Guardar') }}
-            </button>
+          <div class="acciones">
+            <button @click="abrirModalParaEditar(item)">Editar</button>
+            <button @click="eliminar(item.id)">Eliminar</button>
           </div>
-        </form>
+        </article>
       </div>
+
+      <p v-if="itemsFiltrados.length === 0" class="sin-datos">
+        No hay registros
+      </p>
     </div>
+
+    <div v-else class="cargando">Cargando...</div>
+
+    <CrudForm
+      v-if="mostrarModal"
+      :form="form"
+      :campos="config.camposFormulario"
+      :relaciones="config.relaciones?.map(rel => ({
+        ...rel,
+        items: relacionesData[rel.key] || []
+      }))"
+      @guardar="onGuardar"
+      @cancelar="mostrarModal = false"
+      :loading="loading"
+    />
   </section>
 </template>
 
 <style scoped lang="scss">
-@use '@/assets/styles/crud.scss' as *;
-
-.crud__error {
-  color: red;
-  margin-bottom: 0.5rem;
+@import "@/assets/styles/_variables.scss";
+.crud {
+  max-width: 100%;
+  margin: 2rem auto;
+  padding: 2rem;
+  background-color: var(--color-bg);
+  border-radius: 1rem;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.06);
+  transition: all 0.3s ease-in-out;
+  font-family: 'Inter', 'Roboto', sans-serif;
 }
 
-.tabla__cargando {
-  text-align: center;
-  padding: 1rem;
-  font-weight: bold;
+// Mensajes de estado
+.mensaje,
+.error {
+  margin-bottom: 1rem;
+  padding: 1rem 1.25rem;
+  border-radius: 0.5rem;
+  font-weight: 500;
+  font-size: 0.95rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.mensaje {
+  background: #e0f7ec;
+  color: #2e7d32;
+  border-left: 4px solid #2e7d32;
+}
+
+.error {
+  background: #ffebee;
+  color: var(--color-danger-dark);
+  border-left: 4px solid var(--color-danger-dark);
+}
+
+// Tabla de escritorio
+.tabla {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0 0.75rem;
+
+  thead th {
+    background-color: var(--color-bg-alt);
+    color: var(--color-text-light);
+    font-size: 0.9rem;
+    font-weight: 600;
+    padding: 0.85rem 1.25rem;
+    text-align: left;
+    letter-spacing: 0.02em;
+
+    &:last-child {
+      border-radius: 0 0.5rem 0.5rem 0;
+    }
+  }
+
+  tbody tr {
+    border-radius: 0.5rem;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.025);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+
+    &:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 16px rgba(0, 0, 0, 0.06);
+      background-color: var(--color-bg-alt);
+    }
+  }
+
+  tbody td {
+    background-color: var(--color-bg);
+    padding: 0.85rem 1.25rem;
+    font-size: 1rem;
+    color: var(--color-text);
+    border-bottom: 1px solid var(--color-gray);
+    transition: background-color 0.2s ease;
+
+    &:last-child {
+      display: flex;
+      gap: 0.5rem;
+      justify-content: flex-start;
+    }
+  }
+
+  button {
+    background-color: var(--color-primary);
+    color: #fff;
+    border: none;
+    padding: 0.45rem 0.9rem;
+    border-radius: 0.375rem;
+    font-size: 0.85rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color 0.2s ease, box-shadow 0.2s ease;
+
+    &:hover {
+      background-color: var(--color-primary-dark);
+      box-shadow: 0 2px 10px rgba(25, 118, 210, 0.2);
+    }
+
+    &:nth-child(2) {
+      background-color: var(--color-danger);
+
+      &:hover {
+        background-color: var(--color-danger-dark);
+        box-shadow: 0 2px 10px rgba(229, 57, 53, 0.2);
+      }
+    }
+  }
+}
+
+// Responsive (mobile)
+@media (max-width: 768px) {
+  .tabla {
+    font-size: 0.85rem;
+
+    thead {
+      display: none;
+    }
+
+    tbody tr {
+      display: block;
+      margin-bottom: 1rem;
+      border-radius: 0.5rem;
+      box-shadow: 0 3px 12px rgba(0, 0, 0, 0.03);
+    }
+
+    tbody td {
+      display: block;
+      width: 100%;
+      padding: 0.75rem;
+      text-align: right;
+      position: relative;
+
+      &::before {
+        content: attr(data-label);
+        position: absolute;
+        left: 1rem;
+        top: 0.75rem;
+        font-weight: bold;
+        text-align: left;
+        color: var(--color-text);
+      }
+    }
+  }
+
+  .tabla-wrapper {
+    .desktop {
+      display: none;
+    }
+
+    .mobile {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    .card {
+      background: #fff;
+      border: 1px solid #eee;
+      border-radius: 0.75rem;
+      padding: 1rem;
+      box-shadow: 0 2px 12px rgba(0, 0, 0, 0.03);
+    }
+
+    .campo {
+      margin-bottom: 0.5rem;
+    }
+
+    .label {
+      font-weight: 600;
+      color: #555;
+      font-size: 0.9rem;
+      display: block;
+    }
+
+    .valor {
+      color: #333;
+      font-size: 1rem;
+      display: block;
+    }
+
+    .acciones {
+      display: flex;
+      gap: 0.5rem;
+      margin-top: 1rem;
+    }
+  }
+}
+
+// Default display for desktop
+.tabla-wrapper {
+  .desktop {
+    display: table;
+  }
+
+  .mobile {
+    display: none;
+  }
 }
 </style>
