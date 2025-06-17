@@ -64,6 +64,9 @@ function handleLogout() {
 const menu = [
   { name: 'Dashboard', to: '/dashboard', icon: '📊' },
   {
+    name: 'Crear negocios', to: '/crear-negocio', icon: '🏢' ,
+  },
+  {
     name: 'Gestión de Usuarios',
     icon: '👥',
     children: [

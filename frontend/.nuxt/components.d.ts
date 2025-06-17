@@ -28,6 +28,7 @@ interface _GlobalComponents {
     'FormularioUniversal': typeof import("../components/FormularioUniversal.vue")['default']
     'ListaUniversal': typeof import("../components/ListaUniversal.vue")['default']
     'LoginForm': typeof import("../components/LoginForm.vue")['default']
+    'ModuleHeader': typeof import("../components/ModuleHeader.vue")['default']
     'NegocioSwiper': typeof import("../components/NegocioSwiper.vue")['default']
     'PersonaForm': typeof import("../components/PersonaForm.vue")['default']
     'PluginCard': typeof import("../components/PluginCard.vue")['default']
@@ -86,6 +87,7 @@ interface _GlobalComponents {
     'LazyFormularioUniversal': LazyComponent<typeof import("../components/FormularioUniversal.vue")['default']>
     'LazyListaUniversal': LazyComponent<typeof import("../components/ListaUniversal.vue")['default']>
     'LazyLoginForm': LazyComponent<typeof import("../components/LoginForm.vue")['default']>
+    'LazyModuleHeader': LazyComponent<typeof import("../components/ModuleHeader.vue")['default']>
     'LazyNegocioSwiper': LazyComponent<typeof import("../components/NegocioSwiper.vue")['default']>
     'LazyPersonaForm': LazyComponent<typeof import("../components/PersonaForm.vue")['default']>
     'LazyPluginCard': LazyComponent<typeof import("../components/PluginCard.vue")['default']>
@@ -150,6 +152,7 @@ export const FormInput: typeof import("../components/FormInput.vue")['default']
 export const FormularioUniversal: typeof import("../components/FormularioUniversal.vue")['default']
 export const ListaUniversal: typeof import("../components/ListaUniversal.vue")['default']
 export const LoginForm: typeof import("../components/LoginForm.vue")['default']
+export const ModuleHeader: typeof import("../components/ModuleHeader.vue")['default']
 export const NegocioSwiper: typeof import("../components/NegocioSwiper.vue")['default']
 export const PersonaForm: typeof import("../components/PersonaForm.vue")['default']
 export const PluginCard: typeof import("../components/PluginCard.vue")['default']
@@ -208,6 +211,7 @@ export const LazyFormInput: LazyComponent<typeof import("../components/FormInput
 export const LazyFormularioUniversal: LazyComponent<typeof import("../components/FormularioUniversal.vue")['default']>
 export const LazyListaUniversal: LazyComponent<typeof import("../components/ListaUniversal.vue")['default']>
 export const LazyLoginForm: LazyComponent<typeof import("../components/LoginForm.vue")['default']>
+export const LazyModuleHeader: LazyComponent<typeof import("../components/ModuleHeader.vue")['default']>
 export const LazyNegocioSwiper: LazyComponent<typeof import("../components/NegocioSwiper.vue")['default']>
 export const LazyPersonaForm: LazyComponent<typeof import("../components/PersonaForm.vue")['default']>
 export const LazyPluginCard: LazyComponent<typeof import("../components/PluginCard.vue")['default']>

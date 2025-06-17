@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Información de Contacto</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #1a2a6c, #b21f1f, #1a2a6c);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            box-shadow: 0 15px 50px rgba(0, 0, 0, 0.3);
+            overflow: hidden;
+        }
+
+        .contact-header {
+            background: linear-gradient(90deg, #1a2a6c, #2c3e50);
+            color: white;
+            text-align: center;
+            padding: 40px 20px;
+            position: relative;
+        }
+
+        .contact-header h3 {
+            font-size: 2.5rem;
+            margin-bottom: 15px;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .contact-header p {
+            font-size: 1.2rem;
+            max-width: 600px;
+            margin: 0 auto;
+            opacity: 0.9;
+        }
+
+        .contact-content {
+            padding: 50px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+        }
+
+        @media (max-width: 900px) {
+            .contact-content {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .contact-details {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 25px;
+        }
+
+        .contact-item {
+            display: flex;
+            gap: 20px;
+            padding: 25px;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
+            transition: all 0.3s ease;
+            border-left: 4px solid #3498db;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .contact-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.15);
+            border-left: 4px solid #e74c3c;
+        }
+
+        .contact-item::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 0;
+            background: linear-gradient(135deg, #3498db, #2ecc71);
+            z-index: 0;
+            opacity: 0.05;
+            transition: all 0.4s ease;
+        }
+
+        .contact-item:hover::before {
+            height: 100%;
+        }
+
+        .contact-icon {
+            width: 70px;
+            height: 70px;
+            min-width: 70px;
+            background: linear-gradient(135deg, #3498db, #2ecc71);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 28px;
+            z-index: 1;
+        }
+
+        .contact-text {
+            z-index: 1;
+        }
+
+        .contact-text h4 {
+            font-size: 1.5rem;
+            color: #2c3e50;
+            margin-bottom: 10px;
+        }
+
+        .contact-text p {
+            color: #7f8c8d;
+            font-size: 1.1rem;
+            line-height: 1.6;
+            margin-bottom: 10px;
+        }
+
+        .contact-text .phone-numbers {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+
+        .btn-whatsapp {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            background: #25D366;
+            color: white;
+            padding: 12px 25px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: bold;
+            margin-top: 10px;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(37, 211, 102, 0.3);
+        }
+
+        .btn-whatsapp:hover {
+            background: #128C7E;
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(37, 211, 102, 0.4);
+        }
+
+        .schedule-section {
+            background: linear-gradient(135deg, #2c3e50, #1a2a6c);
+            border-radius: 15px;
+            padding: 30px;
+            color: white;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .schedule-section h3 {
+            font-size: 2rem;
+            margin-bottom: 30px;
+            text-align: center;
+            position: relative;
+            padding-bottom: 15px;
+        }
+
+        .schedule-section h3::after {
+            content: "";
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 4px;
+            background: linear-gradient(90deg, #3498db, #2ecc71);
+            border-radius: 2px;
+        }
+
+        .schedule-content {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .schedule-item {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding: 15px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            transition: all 0.3s ease;
+        }
+
+        .schedule-item:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateX(10px);
+        }
+
+        .schedule-icon {
+            width: 50px;
+            height: 50px;
+            min-width: 50px;
+            background: rgba(255, 255, 255, 0.15);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            color: #3498db;
+        }
+
+        .schedule-text {
+            flex: 1;
+        }
+
+        .schedule-text p {
+            font-size: 1.2rem;
+            margin-bottom: 5px;
+        }
+
+        .schedule-text span {
+            font-size: 1rem;
+            opacity: 0.9;
+        }
+
+        .footer {
+            text-align: center;
+            padding: 20px;
+            background: #2c3e50;
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 1rem;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="contact-header">
+            <h3>Información de Contacto</h3>
+            <p>Estamos aquí para ayudarte. Contáctanos a través de cualquiera de nuestros canales disponibles.</p>
+        </div>
+
+        <div class="contact-content">
+            <div class="contact-details">
+                <div class="contact-item">
+                    <div class="contact-icon">
+                        <i class="fas fa-phone-alt"></i>
+                    </div>
+                    <div class="contact-text">
+                        <h4>Teléfonos</h4>
+                        <div class="phone-numbers">
+                            <p><i class="fas fa-phone"></i> +51 999 383 440</p>
+                            <p><i class="fas fa-phone"></i> +51 974 203 998</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="contact-item">
+                    <div class="contact-icon">
+                        <i class="fas fa-map-marker-alt"></i>
+                    </div>
+                    <div class="contact-text">
+                        <h4>Área de Servicio</h4>
+                        <p>Lima Metropolitana</p>
+                    </div>
+                </div>
+
+                <div class="contact-item">
+                    <div class="contact-icon">
+                        <i class="fab fa-whatsapp"></i>
+                    </div>
+                    <div class="contact-text">
+                        <h4>WhatsApp</h4>
+                        <p>Respuesta inmediata</p>
+                        <a href="https://wa.me/51999383440" class="btn-whatsapp">
+                            <i class="fab fa-whatsapp"></i> Enviar Mensaje
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="schedule-section">
+                <h3>Horario de Atención</h3>
+                <div class="schedule-content">
+                    <div class="schedule-item">
+                        <div class="schedule-icon">
+                            <i class="far fa-calendar-check"></i>
+                        </div>
+                        <div class="schedule-text">
+                            <p>Lunes a Viernes</p>
+                            <span>8:00 am - 6:00 pm</span>
+                        </div>
+                    </div>
+
+                    <div class="schedule-item">
+                        <div class="schedule-icon">
+                            <i class="far fa-calendar-check"></i>
+                        </div>
+                        <div class="schedule-text">
+                            <p>Sábados</p>
+                            <span>9:00 am - 1:00 pm</span>
+                        </div>
+                    </div>
+
+                    <div class="schedule-item">
+                        <div class="schedule-icon">
+                            <i class="fas fa-calendar-times"></i>
+                        </div>
+                        <div class="schedule-text">
+                            <p>Domingos y Feriados</p>
+                            <span>Cerrado</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="footer">
+            <p>© 2023 Todos los derechos reservados | Diseñado con <i class="fas fa-heart" style="color:#e74c3c"></i>
+            </p>
+        </div>
+    </div>
+</body>
+
+</html>

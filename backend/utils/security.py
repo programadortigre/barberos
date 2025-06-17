@@ -5,7 +5,7 @@ from passlib.context import CryptContext
 # Claves y configuración
 SECRET_KEY = "tu_clave_secreta_super_segura"  # ¡Guárdala en un .env!
 ALGORITHM = "HS256"
-ACCESS_TOKEN_EXPIRE_MINUTES = 60  # Duración del token
+ACCESS_TOKEN_EXPIRE_MINUTES = 60 * 24 * 365  # 1 año
 
 # Contexto para hashing de contraseñas
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
