@@ -4,3 +4,7 @@ __pycache__/
 
 # Nuxt
 .nuxt/
+# .gitignore
+backend/__pycache__/
+frontend/.nuxt/
+frontend/node_modules/
