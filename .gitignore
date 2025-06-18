@@ -1,7 +1,6 @@
 # Python
 __pycache__/
-*.pyc
+*.py[cod]
 
-# Nuxt / Vue
+# Nuxt
 .nuxt/
-dist/
