@@ -1,0 +1,7 @@
+# Python
+__pycache__/
+*.pyc
+
+# Nuxt / Vue
+.nuxt/
+dist/
