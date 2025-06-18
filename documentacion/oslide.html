@@ -1,0 +1,649 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chirapa | Diseño Estratégico de Marcas</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
+        rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body,
+        html {
+            font-family: 'Inter', sans-serif;
+            background: #ffffff;
+            color: #333;
+            overflow-x: hidden;
+            min-height: 100vh;
+        }
+
+        .slider-container {
+            position: relative;
+            width: 100%;
+            height: 100vh;
+            overflow: hidden;
+            background: linear-gradient(to bottom, #ffffff 0%, #f8f9ff 100%);
+        }
+
+        /* Pista del slider */
+        .slider-track {
+            display: flex;
+            transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+            height: 100%;
+        }
+
+        /* Slides individuales */
+        .slide {
+            min-width: 100%;
+            height: 100%;
+            display: flex;
+            padding: 0 10%;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Contenedor de contenido */
+        .content-container {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding-right: 5%;
+            position: relative;
+            z-index: 3;
+        }
+
+        .slide-number {
+            position: absolute;
+            top: 40px;
+            right: 0;
+            font-size: 120px;
+            font-weight: 900;
+            color: #f0f3ff;
+            z-index: -1;
+        }
+
+        .slide-title {
+            font-size: 3.8rem;
+            font-weight: 800;
+            margin-bottom: 2rem;
+            line-height: 1.1;
+            position: relative;
+            color: #1a1a3a;
+        }
+
+        /* Estilos para resaltar frases clave */
+        .highlight {
+            position: relative;
+            z-index: 1;
+            display: inline-block;
+        }
+
+        /* Subrayado decorativo */
+        .highlight-underline {
+            position: relative;
+            display: inline-block;
+        }
+
+        .highlight-underline::after {
+            content: "";
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 100%;
+            height: 8px;
+            background: linear-gradient(to right, #1bd0d7, #06a3a8);
+            border-radius: 4px;
+            z-index: -1;
+            transition: height 0.3s ease;
+        }
+
+        .highlight-underline:hover::after {
+            height: 12px;
+        }
+
+        /* Fondo resaltado */
+        .highlight-bg {
+            background: linear-gradient(to right, #1bd0d7, #06a3a8);
+            color: white;
+            padding: 0 10px;
+            border-radius: 6px;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 10px rgba(27, 208, 215, 0.3);
+        }
+
+        .highlight-bg:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 15px rgba(27, 208, 215, 0.4);
+        }
+
+        /* Degradado de texto */
+        .highlight-gradient {
+            background: linear-gradient(135deg, #e53268, #ea9700);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            position: relative;
+            transition: all 0.3s ease;
+        }
+
+        .highlight-gradient:hover {
+            text-shadow: 0 5px 15px rgba(229, 50, 104, 0.2);
+        }
+
+        /* Contorno animado */
+        .highlight-outline {
+            position: relative;
+            display: inline-block;
+            padding: 0 5px;
+        }
+
+        .highlight-outline::before {
+            content: "";
+            position: absolute;
+            top: -3px;
+            left: -5px;
+            right: -5px;
+            bottom: -3px;
+            border: 2px solid #e53268;
+            border-radius: 8px;
+            z-index: -1;
+            opacity: 0;
+            transition: all 0.3s ease;
+        }
+
+        .highlight-outline:hover::before {
+            opacity: 1;
+            transform: scale(1.05);
+        }
+
+        .slide-text {
+            font-size: 1.4rem;
+            font-weight: 400;
+            line-height: 1.7;
+            margin-bottom: 3rem;
+            max-width: 600px;
+            color: #555;
+        }
+
+        .cta-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 15px;
+            padding: 1.2rem 2.8rem;
+            font-size: 1.2rem;
+            font-weight: 600;
+            border-radius: 50px;
+            background: linear-gradient(135deg, #1bd0d7 0%, #06a3a8 100%);
+            color: white;
+            text-decoration: none;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            box-shadow: 0 10px 30px rgba(27, 208, 215, 0.3);
+            position: relative;
+            overflow: hidden;
+            z-index: 2;
+            max-width: fit-content;
+        }
+
+        .cta-btn::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #e53268 0%, #ea9700 100%);
+            opacity: 0;
+            transition: opacity 0.4s ease;
+            z-index: -1;
+        }
+
+        .cta-btn:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(27, 208, 215, 0.4);
+        }
+
+        .cta-btn:hover::before {
+            opacity: 1;
+        }
+
+        .cta-btn i {
+            transition: transform 0.3s ease;
+        }
+
+        .cta-btn:hover i {
+            transform: translateX(5px);
+        }
+
+        /* Contenedor de imagen */
+        .image-container {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+
+        .slide-image {
+            width: 100%;
+            max-width: 600px;
+            filter: drop-shadow(0 20px 40px rgba(27, 208, 215, 0.15));
+            transition: transform 0.5s ease;
+        }
+
+        .slide-image:hover {
+            transform: translateY(-10px);
+        }
+
+        /* Logo */
+        .logo {
+            position: absolute;
+            top: 40px;
+            left: 40px;
+            font-size: 1.8rem;
+            font-weight: 800;
+            z-index: 10;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: #1a1a3a;
+        }
+
+        .logo-circle {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: #1bd0d7;
+            display: inline-block;
+        }
+
+        /* Botones de navegación */
+        .slider-nav {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 60px;
+            height: 60px;
+            background: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            z-index: 10;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .slider-nav:hover {
+            background: #1bd0d7;
+            transform: translateY(-50%) scale(1.15);
+        }
+
+        .slider-nav:hover i {
+            color: white;
+        }
+
+        .slider-nav i {
+            color: #1bd0d7;
+            font-size: 1.5rem;
+            transition: color 0.3s ease;
+        }
+
+        .slider-prev {
+            left: 40px;
+        }
+
+        .slider-next {
+            right: 40px;
+        }
+
+        /* Indicadores */
+        .slider-indicators {
+            position: absolute;
+            bottom: 40px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 15px;
+            z-index: 10;
+        }
+
+        .indicator {
+            width: 14px;
+            height: 14px;
+            border-radius: 50%;
+            background: rgba(27, 208, 215, 0.2);
+            cursor: pointer;
+            transition: all 0.4s ease;
+        }
+
+        .indicator.active {
+            background: #1bd0d7;
+            transform: scale(1.3);
+        }
+
+        /* Elementos decorativos */
+        .floating-element {
+            position: absolute;
+            z-index: 1;
+            opacity: 0.05;
+            pointer-events: none;
+        }
+
+        .floating-element.circle {
+            width: 300px;
+            height: 300px;
+            border-radius: 50%;
+            border: 2px solid #1bd0d7;
+            animation: float 15s infinite ease-in-out;
+        }
+
+        .floating-element.square {
+            width: 200px;
+            height: 200px;
+            border: 2px solid #1bd0d7;
+            animation: float 12s infinite ease-in-out reverse;
+        }
+
+        @keyframes float {
+            0% {
+                transform: translate(0, 0) rotate(0deg);
+            }
+
+            33% {
+                transform: translate(20px, -40px) rotate(120deg);
+            }
+
+            66% {
+                transform: translate(-30px, 30px) rotate(240deg);
+            }
+
+            100% {
+                transform: translate(0, 0) rotate(360deg);
+            }
+        }
+
+        /* Responsive */
+        @media (max-width: 1200px) {
+            .slide {
+                flex-direction: column;
+                padding: 0 5%;
+                justify-content: center;
+            }
+
+            .content-container {
+                padding-right: 0;
+                padding-bottom: 40px;
+                text-align: center;
+                align-items: center;
+            }
+
+            .slide-title {
+                font-size: 3rem;
+            }
+
+            .slide-text {
+                font-size: 1.2rem;
+            }
+
+            .slide-number {
+                top: 20px;
+                right: 20px;
+                font-size: 100px;
+            }
+
+            .image-container {
+                padding-top: 40px;
+            }
+
+            .slide-image {
+                max-width: 400px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .slide-title {
+                font-size: 2.5rem;
+            }
+
+            .slide-text {
+                font-size: 1.1rem;
+            }
+
+            .cta-btn {
+                padding: 1rem 2.2rem;
+                font-size: 1.1rem;
+            }
+
+            .slider-nav {
+                width: 50px;
+                height: 50px;
+            }
+
+            .logo {
+                top: 20px;
+                left: 20px;
+                font-size: 1.5rem;
+            }
+
+            .slide-number {
+                font-size: 80px;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .slide-title {
+                font-size: 2rem;
+            }
+
+            .slide-text {
+                font-size: 1rem;
+            }
+
+            .slider-nav {
+                width: 40px;
+                height: 40px;
+            }
+
+            .slider-prev {
+                left: 15px;
+            }
+
+            .slider-next {
+                right: 15px;
+            }
+
+            .slide-number {
+                font-size: 60px;
+            }
+
+            /* Ajustes para móviles en los efectos de resaltado */
+            .highlight-underline::after {
+                height: 6px;
+                bottom: -3px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="slider-container">
+        <!-- Elementos decorativos -->
+        <div class="floating-element circle" style="top: 10%; left: 10%;"></div>
+        <div class="floating-element square" style="bottom: 15%; right: 15%;"></div>
+
+        <!-- Logo -->
+        <div class="logo">
+            <div class="logo-circle"></div>
+            CHIRAPA
+        </div>
+
+        <!-- Pista del slider -->
+        <div class="slider-track">
+            <!-- Slide 1 -->
+            <div class="slide">
+                <div class="content-container">
+                    <div class="slide-number">01</div>
+                    <h1 class="slide-title">Diseño con <span class="highlight highlight-underline">propósito</span>,
+                        marcas que <span class="highlight highlight-gradient">trascienden</span></h1>
+                    <p class="slide-text">En CHIRAPA convertimos ideas en identidades visuales que conectan con el
+                        corazón de tu público.</p>
+                    <a href="#enfoque" class="cta-btn">
+                        Explora nuestro enfoque estratégico <i class="fas fa-arrow-right"></i>
+                    </a>
+                </div>
+                <div class="image-container">
+                    <img src="data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 800 600'%3e%3cg fill='none' stroke='%231bd0d7' stroke-width='2'%3e%3ccircle cx='400' cy='300' r='200' stroke-dasharray='10,10'/%3e%3cpath d='M200,300 Q400,150 600,300 T400,450 T200,300' stroke-opacity='0.7'/%3e%3cpath d='M250,250 L550,350' stroke-opacity='0.5'/%3e%3cpath d='M350,200 L450,400' stroke-opacity='0.5'/%3e%3c/g%3e%3c/svg%3e"
+                        alt="Diseño estratégico" class="slide-image">
+                </div>
+            </div>
+
+            <!-- Slide 2 -->
+            <div class="slide">
+                <div class="content-container">
+                    <div class="slide-number">02</div>
+                    <h1 class="slide-title"><span class="highlight highlight-bg">Tu visión</span>, nuestra <span
+                            class="highlight highlight-outline">creatividad</span></h1>
+                    <p class="slide-text">Más que diseño gráfico, construimos marcas memorables con alma, estrategia y
+                        coherencia visual.</p>
+                    <a href="#proceso" class="cta-btn">
+                        Descubre cómo lo hacemos <i class="fas fa-arrow-right"></i>
+                    </a>
+                </div>
+                <div class="image-container">
+                    <img src="data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 800 600'%3e%3cg fill='none' stroke='%231bd0d7' stroke-width='2'%3e%3cpath d='M250,200 L550,200 L550,400 L250,400 Z' stroke-dasharray='10,10'/%3e%3ccircle cx='400' cy='300' r='80' fill='rgba(27,208,215,0.1)'/%3e%3cpath d='M300,300 L500,300 M400,200 L400,400' stroke-opacity='0.7'/%3e%3cpath d='M350,250 L450,350 M450,250 L350,350' stroke-opacity='0.5'/%3e%3c/g%3e%3c/svg%3e"
+                        alt="Creatividad" class="slide-image">
+                </div>
+            </div>
+
+            <!-- Slide 3 -->
+            <div class="slide">
+                <div class="content-container">
+                    <div class="slide-number">03</div>
+                    <h1 class="slide-title">No necesitas un logo. Necesitas una <span
+                            class="highlight highlight-bg">marca sólida</span></h1>
+                    <p class="slide-text">Del naming al packaging, diseñamos experiencias que posicionan y fidelizan.
+                    </p>
+                    <a href="#contacto" class="cta-btn">
+                        Solicita una asesoría <i class="fas fa-arrow-right"></i>
+                    </a>
+                </div>
+                <div class="image-container">
+                    <img src="data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 800 600'%3e%3cg fill='none' stroke='%231bd0d7' stroke-width='2'%3e%3crect x='200' y='200' width='400' height='200' rx='20' stroke-dasharray='10,10'/%3e%3cpath d='M300,250 L500,250 M300,300 L500,300 M300,350 L500,350' stroke-opacity='0.7'/%3e%3cpath d='M250,220 L250,380 M550,220 L550,380' stroke-opacity='0.5'/%3e%3c/g%3e%3c/svg%3e"
+                        alt="Marca sólida" class="slide-image">
+                </div>
+            </div>
+        </div>
+
+        <!-- Botones de navegación -->
+        <div class="slider-nav slider-prev">
+            <i class="fas fa-chevron-left"></i>
+        </div>
+        <div class="slider-nav slider-next">
+            <i class="fas fa-chevron-right"></i>
+        </div>
+
+        <!-- Indicadores -->
+        <div class="slider-indicators">
+            <div class="indicator active" data-slide="0"></div>
+            <div class="indicator" data-slide="1"></div>
+            <div class="indicator" data-slide="2"></div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            // Elementos del slider
+            const sliderTrack = document.querySelector('.slider-track');
+            const slides = document.querySelectorAll('.slide');
+            const indicators = document.querySelectorAll('.indicator');
+            const prevBtn = document.querySelector('.slider-prev');
+            const nextBtn = document.querySelector('.slider-next');
+            const slideImages = document.querySelectorAll('.slide-image');
+
+            // Configuración
+            let currentIndex = 0;
+            const slideCount = slides.length;
+            const slideWidth = 100; // Porcentaje
+
+            // Función para actualizar el slider
+            function goToSlide(index) {
+                // Ajustar índice si está fuera de rango
+                if (index < 0) index = slideCount - 1;
+                else if (index >= slideCount) index = 0;
+
+                // Actualizar posición
+                sliderTrack.style.transform = `translateX(-${index * slideWidth}%)`;
+                currentIndex = index;
+
+                // Actualizar indicadores
+                indicators.forEach((indicator, i) => {
+                    indicator.classList.toggle('active', i === index);
+                });
+
+                // Efecto de animación en la imagen
+                slideImages.forEach(img => img.style.transform = 'translateY(0)');
+                slideImages[index].style.transform = 'translateY(-10px)';
+            }
+
+            // Eventos para botones
+            prevBtn.addEventListener('click', () => goToSlide(currentIndex - 1));
+            nextBtn.addEventListener('click', () => goToSlide(currentIndex + 1));
+
+            // Eventos para indicadores
+            indicators.forEach((indicator, index) => {
+                indicator.addEventListener('click', () => goToSlide(index));
+            });
+
+            // Auto-avance
+            let slideInterval = setInterval(() => {
+                goToSlide(currentIndex + 1);
+            }, 6000);
+
+            // Pausar auto-avance al interactuar
+            sliderTrack.addEventListener('mouseenter', () => clearInterval(slideInterval));
+            sliderTrack.addEventListener('mouseleave', () => {
+                slideInterval = setInterval(() => {
+                    goToSlide(currentIndex + 1);
+                }, 6000);
+            });
+
+            // Soporte para dispositivos táctiles (swipe)
+            let touchStartX = 0;
+            let touchEndX = 0;
+
+            sliderTrack.addEventListener('touchstart', e => {
+                touchStartX = e.changedTouches[0].screenX;
+                clearInterval(slideInterval);
+            });
+
+            sliderTrack.addEventListener('touchend', e => {
+                touchEndX = e.changedTouches[0].screenX;
+                handleSwipe();
+                slideInterval = setInterval(() => {
+                    goToSlide(currentIndex + 1);
+                }, 6000);
+            });
+
+            function handleSwipe() {
+                const diff = touchStartX - touchEndX;
+                // Sensibilidad de swipe
+                if (diff > 50) goToSlide(currentIndex + 1); // Swipe izquierdo
+                if (diff < -50) goToSlide(currentIndex - 1); // Swipe derecho
+            }
+
+            // Iniciar con animación en la primera imagen
+            goToSlide(0);
+        });
+    </script>
+</body>
+
+</html>
