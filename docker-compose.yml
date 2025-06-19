@@ -55,8 +55,8 @@ services:
     environment:
       NUXT_PORT: 3000
       NUXT_HOST: 0.0.0.0
-      CHOKIDAR_USEPOLLING: "true"  # Usar comillas para valor booleano
-      API_BASE: "localhost:8000"  # Usar nombre del servicio Docker
+      CHOKIDAR_USEPOLLING: "true"
+      NUXT_PUBLIC_API_BASE_URL: "http://192.168.0.104:8000"
 
 volumes:
   mysql_data:

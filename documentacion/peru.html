@@ -1,0 +1,1183 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inca Expression - Artesanías y Servicios</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Poppins:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+    <style>
+        :root {
+            --gold-primary: #D4AF37;
+            --gold-secondary: #B8860B;
+            --gold-light: #F5DEB3;
+            --dark-brown: #3E2723;
+            --light-beige: #F8F4E9;
+            --dark-red: #8B0000;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            color: #333;
+            background-color: var(--light-beige);
+            line-height: 1.7;
+        }
+
+        h1,
+        h2,
+        h3,
+        h4 {
+            font-family: 'Playfair Display', serif;
+            color: var(--dark-brown);
+        }
+
+        /* Header Styles */
+        header {
+            background: linear-gradient(135deg, var(--dark-brown) 0%, #000 100%);
+            color: white;
+            padding: 15px 0;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        .header-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 5%;
+            border-bottom: 1px solid var(--gold-primary);
+            padding-bottom: 10px;
+        }
+
+        .contact-info {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .contact-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.9rem;
+        }
+
+        .logo h1 {
+            font-size: 1.8rem;
+            color: var(--gold-primary);
+            text-shadow: 0 0 5px rgba(212, 175, 55, 0.5);
+        }
+
+        .logo span {
+            font-size: 0.9rem;
+            display: block;
+            text-align: center;
+            color: var(--gold-light);
+            letter-spacing: 2px;
+        }
+
+        .social a {
+            color: var(--gold-light);
+            margin-left: 15px;
+            font-size: 1.3rem;
+            transition: color 0.3s;
+        }
+
+        .social a:hover {
+            color: var(--gold-primary);
+        }
+
+        .header-bottom {
+            padding: 10px 5%;
+            display: flex;
+            justify-content: center;
+            background-color: rgba(62, 39, 35, 0.95);
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 30px;
+        }
+
+        nav a {
+            color: var(--gold-light);
+            text-decoration: none;
+            text-transform: uppercase;
+            font-size: 0.9rem;
+            letter-spacing: 1px;
+            padding: 5px 0;
+            position: relative;
+            transition: color 0.3s;
+        }
+
+        nav a:hover {
+            color: var(--gold-primary);
+        }
+
+        nav a::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--gold-primary);
+            transition: width 0.3s;
+        }
+
+        nav a:hover::after {
+            width: 100%;
+        }
+
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(rgba(62, 39, 35, 0.85), rgba(62, 39, 35, 0.9)), url('https://images.unsplash.com/photo-1529059997568-3d847b1154f0?ixlib=rb-4.0.3&auto=format&fit=crop&w=1950&q=80');
+            background-size: cover;
+            background-position: center;
+            height: 500px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            position: relative;
+        }
+
+        .hero-content {
+            max-width: 800px;
+            padding: 0 20px;
+        }
+
+        .hero h1 {
+            font-size: 3.5rem;
+            color: var(--gold-primary);
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+        }
+
+        .hero p {
+            font-size: 1.4rem;
+            color: white;
+            margin-bottom: 30px;
+            font-weight: 300;
+        }
+
+        .hero-countries {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-top: 30px;
+        }
+
+        .country-tag {
+            background-color: rgba(212, 175, 55, 0.8);
+            color: var(--dark-brown);
+            padding: 8px 15px;
+            border-radius: 30px;
+            font-weight: 500;
+            font-size: 0.9rem;
+        }
+
+        /* Main Sections */
+        .section {
+            padding: 100px 5%;
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 70px;
+            position: relative;
+        }
+
+        .section-title h2 {
+            font-size: 2.5rem;
+            display: inline-block;
+            padding-bottom: 15px;
+            position: relative;
+        }
+
+        .section-title h2::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 120px;
+            height: 4px;
+            background: var(--gold-primary);
+        }
+
+        .section-title .subtitle {
+            font-size: 1.2rem;
+            color: var(--gold-secondary);
+            margin-top: 15px;
+            max-width: 700px;
+            margin: 20px auto 0;
+        }
+
+        /* Service Sections */
+        .service-section {
+            margin-bottom: 100px;
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.08);
+        }
+
+        .service-header {
+            background: linear-gradient(to right, var(--dark-brown), #1a120b);
+            color: white;
+            padding: 50px 7%;
+            display: flex;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 40px;
+        }
+
+        .service-header-content {
+            flex: 1;
+            min-width: 300px;
+        }
+
+        .service-header h2 {
+            color: var(--gold-primary);
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+        }
+
+        .service-header p {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            max-width: 600px;
+        }
+
+        .service-header-image {
+            flex: 1;
+            min-width: 300px;
+            height: 350px;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        .service-header-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .service-body {
+            padding: 60px 7%;
+        }
+
+        .service-features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 40px;
+            margin-bottom: 60px;
+        }
+
+        .feature-card {
+            background: var(--light-beige);
+            border-radius: 10px;
+            padding: 30px;
+            border-left: 4px solid var(--gold-primary);
+            transition: transform 0.3s;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-10px);
+        }
+
+        .feature-icon {
+            font-size: 2.5rem;
+            color: var(--gold-primary);
+            margin-bottom: 20px;
+        }
+
+        .feature-card h3 {
+            font-size: 1.4rem;
+            margin-bottom: 15px;
+        }
+
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 25px;
+            margin-top: 40px;
+        }
+
+        .gallery-item {
+            border-radius: 8px;
+            overflow: hidden;
+            height: 250px;
+            position: relative;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
+        }
+
+        .gallery-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s;
+        }
+
+        .gallery-item:hover img {
+            transform: scale(1.1);
+        }
+
+        .gallery-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(62, 39, 35, 0.7);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .gallery-item:hover .gallery-overlay {
+            opacity: 1;
+        }
+
+        .gallery-overlay i {
+            color: var(--gold-primary);
+            font-size: 2.5rem;
+        }
+
+        /* Destinations Section */
+        .destinations {
+            background: linear-gradient(to bottom, var(--dark-brown) 0%, #1a120b 100%);
+            color: white;
+        }
+
+        .destinations .section-title h2 {
+            color: var(--gold-primary);
+        }
+
+        .destinations-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+        }
+
+        .destination-group {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 8px;
+            padding: 30px;
+            border: 1px solid rgba(212, 175, 55, 0.3);
+        }
+
+        .destination-group h3 {
+            color: var(--gold-primary);
+            margin-bottom: 20px;
+            text-align: center;
+            font-size: 1.5rem;
+            position: relative;
+            padding-bottom: 15px;
+        }
+
+        .destination-group h3::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 60px;
+            height: 3px;
+            background: var(--gold-primary);
+        }
+
+        .destination-list {
+            list-style-type: none;
+        }
+
+        .destination-list li {
+            padding: 12px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            display: flex;
+            align-items: center;
+            font-size: 1.1rem;
+        }
+
+        .destination-list li:last-child {
+            border-bottom: none;
+        }
+
+        .destination-list li i {
+            color: var(--gold-primary);
+            margin-right: 15px;
+            font-size: 1.2rem;
+        }
+
+        /* Location Section */
+        .location {
+            background-color: white;
+        }
+
+        .location-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 60px;
+            align-items: center;
+        }
+
+        .location-map {
+            flex: 1;
+            min-width: 300px;
+            height: 450px;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
+            background-color: #eee;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-image: url('https://images.unsplash.com/photo-1571902943202-507ec2618e8f?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80');
+            background-size: cover;
+            background-position: center;
+            position: relative;
+        }
+
+        .location-map::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(212, 175, 55, 0.2) 0%, rgba(62, 39, 35, 0.4) 100%);
+        }
+
+        .location-info {
+            flex: 1;
+            min-width: 300px;
+        }
+
+        .location-info h3 {
+            font-size: 2rem;
+            color: var(--dark-brown);
+            margin-bottom: 25px;
+        }
+
+        .address {
+            background: var(--light-beige);
+            padding: 30px;
+            border-radius: 12px;
+            margin-bottom: 30px;
+            border-left: 4px solid var(--gold-primary);
+        }
+
+        .address p {
+            margin: 15px 0;
+            display: flex;
+            align-items: center;
+            font-size: 1.1rem;
+        }
+
+        .address i {
+            color: var(--gold-primary);
+            width: 30px;
+            margin-right: 15px;
+            font-size: 1.3rem;
+        }
+
+        /* Footer */
+        footer {
+            background: linear-gradient(to bottom, #1a120b 0%, #000 100%);
+            color: var(--gold-light);
+            padding: 80px 5% 40px;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 50px;
+            margin-bottom: 50px;
+        }
+
+        .footer-logo h2 {
+            color: var(--gold-primary);
+            font-size: 2.2rem;
+            margin-bottom: 20px;
+        }
+
+        .footer-logo p {
+            font-size: 1rem;
+            opacity: 0.8;
+            line-height: 1.8;
+        }
+
+        .footer-title {
+            color: var(--gold-primary);
+            font-size: 1.5rem;
+            margin-bottom: 25px;
+            position: relative;
+            padding-bottom: 12px;
+        }
+
+        .footer-title::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 50px;
+            height: 3px;
+            background: var(--gold-primary);
+        }
+
+        .footer-links ul {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 15px;
+        }
+
+        .footer-links a {
+            color: var(--gold-light);
+            text-decoration: none;
+            transition: color 0.3s;
+            display: flex;
+            align-items: center;
+            font-size: 1.1rem;
+        }
+
+        .footer-links a:hover {
+            color: var(--gold-primary);
+        }
+
+        .footer-links i {
+            margin-right: 12px;
+            color: var(--gold-primary);
+        }
+
+        .copyright {
+            text-align: center;
+            padding-top: 40px;
+            border-top: 1px solid rgba(212, 175, 55, 0.2);
+            font-size: 1rem;
+            opacity: 0.7;
+        }
+
+        /* Back to Top Button */
+        .back-to-top {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 50px;
+            height: 50px;
+            background: var(--gold-primary);
+            color: var(--dark-brown);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            cursor: pointer;
+            z-index: 999;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        .back-to-top.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .back-to-top:hover {
+            background: var(--gold-secondary);
+            transform: translateY(-5px);
+        }
+
+        /* Responsive */
+        @media (max-width: 1200px) {
+            .service-header {
+                padding: 40px 5%;
+            }
+
+            .service-body {
+                padding: 40px 5%;
+            }
+        }
+
+        @media (max-width: 992px) {
+            .header-top {
+                flex-wrap: wrap;
+                justify-content: center;
+                gap: 20px;
+            }
+
+            nav ul {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+
+            .hero h1 {
+                font-size: 2.8rem;
+            }
+
+            .hero p {
+                font-size: 1.2rem;
+            }
+
+            .section {
+                padding: 80px 5%;
+            }
+
+            .service-header-image {
+                height: 300px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .contact-info {
+                flex-direction: column;
+                gap: 10px;
+            }
+
+            .hero {
+                height: 400px;
+            }
+
+            .hero h1 {
+                font-size: 2.3rem;
+            }
+
+            .service-header {
+                flex-direction: column;
+            }
+
+            .service-header-content,
+            .service-header-image {
+                min-width: 100%;
+            }
+
+            .location-container {
+                flex-direction: column;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .hero {
+                height: 350px;
+            }
+
+            .hero h1 {
+                font-size: 1.8rem;
+            }
+
+            .hero p {
+                font-size: 1rem;
+            }
+
+            .section-title h2 {
+                font-size: 2rem;
+            }
+
+            .feature-card {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Header -->
+    <header>
+        <div class="header-top">
+            <div class="logo">
+                <h1>INCA EXPRESSION</h1>
+                <span>CULTURE & TRADITION</span>
+            </div>
+            <div class="contact-info">
+                <div class="contact-item">
+                    <i class="fas fa-phone"></i>
+                    <span>949 521 9335</span>
+                </div>
+                <div class="contact-item">
+                    <i class="fas fa-envelope"></i>
+                    <span>leciboksung@yahoo.es</span>
+                </div>
+            </div>
+            <div class="social">
+                <a href="#"><i class="fab fa-facebook-f"></i></a>
+                <a href="#"><i class="fab fa-instagram"></i></a>
+            </div>
+        </div>
+        <div class="header-bottom">
+            <nav>
+                <ul>
+                    <li><a href="#jewelry">Joyería</a></li>
+                    <li><a href="#crafts">Artesanías</a></li>
+                    <li><a href="#financial">Servicios</a></li>
+                    <li><a href="#destinations">Destinos</a></li>
+                    <li><a href="#location">Ubicación</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-content">
+            <h1>WE HAVE A WIDE VARIETY IN CRAFTS</h1>
+            <p>Descubre la rica herencia cultural de Latinoamérica en cada pieza</p>
+            <div class="hero-countries">
+                <div class="country-tag">MÉXICO</div>
+                <div class="country-tag">GUATEMALA</div>
+                <div class="country-tag">PERÚ</div>
+                <div class="country-tag">ECUADOR</div>
+                <div class="country-tag">LATIN AMERICA</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Jewelry Services Section -->
+    <section id="jewelry" class="service-section">
+        <div class="service-header">
+            <div class="service-header-content">
+                <h2>Servicios de Joyería</h2>
+                <p>En Inca Expression ofrecemos servicios de joyería de alta calidad realizados por artesanos expertos
+                    con años de experiencia. Trabajamos con materiales preciosos para restaurar, reparar y transformar
+                    tus piezas más queridas.</p>
+                <p>Nuestros servicios incluyen desde reparaciones básicas hasta trabajos personalizados complejos.
+                    Utilizamos técnicas tradicionales combinadas con tecnología moderna para garantizar resultados
+                    excepcionales.</p>
+            </div>
+            <div class="service-header-image">
+                <img src="https://images.unsplash.com/photo-1600721391689-2564bb8055de?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+                    alt="Servicios de Joyería">
+            </div>
+        </div>
+        <div class="service-body">
+            <div class="service-features">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-wrench"></i>
+                    </div>
+                    <h3>Reparación de Oro y Plata</h3>
+                    <p>Restauramos joyas dañadas, reparamos cierres rotos, soldamos piezas y reemplazamos piedras
+                        perdidas. Nuestros artesanos trabajan con precisión para devolver la vida a tus piezas más
+                        preciadas.</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-gem"></i>
+                    </div>
+                    <h3>Mantenimiento Profesional</h3>
+                    <p>Ofrecemos servicios de limpieza profunda, pulido y revisión completa para mantener tus joyas en
+                        perfecto estado. Utilizamos técnicas seguras que preservan la integridad de las piedras y
+                        metales.</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-edit"></i>
+                    </div>
+                    <h3>Grabado Láser</h3>
+                    <p>Personaliza tus joyas con grabados precisos de nombres, fechas especiales o mensajes
+                        significativos. Nuestra tecnología láser permite grabados nítidos y duraderos en diversos
+                        metales.</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-paint-roller"></i>
+                    </div>
+                    <h3>Enchapado en Rodio</h3>
+                    <p>Protegemos y embellecemos tus piezas de plata con un acabado en rodio que previene el deslustre y
+                        añade un brillo excepcional. También aplicamos rodio sobre oro blanco para realzar su blancura.
+                    </p>
+                </div>
+            </div>
+
+            <h3 style="margin: 50px 0 20px; text-align: center; font-size: 1.8rem; color: var(--dark-brown);">Galería de
+                Trabajos</h3>
+            <div class="gallery-grid">
+                <div class="gallery-item">
+                    <img src="https://images.unsplash.com/photo-1535632066927-ab7c9ab60908?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+                        alt="Reparación de anillo">
+                    <div class="gallery-overlay">
+                        <i class="fas fa-search-plus"></i>
+                    </div>
+                </div>
+                <div class="gallery-item">
+                    <img src="https://images.unsplash.com/photo-1602173574767-37ac01994b2a?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+                        alt="Grabado láser">
+                    <div class="gallery-overlay">
+                        <i class="fas fa-search-plus"></i>
+                    </div>
+                </div>
+                <div class="gallery-item">
+                    <img src="https://images.unsplash.com/photo-1605100804763-247f67b3557e?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+                        alt="Enchapado en rodio">
+                    <div class="gallery-overlay">
+                        <i class="fas fa-search-plus"></i>
+                    </div>
+                </div>
+                <div class="gallery-item">
+                    <img src="https://images.unsplash.com/photo-1599643478518-a784e5dc4c8f?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+                        alt="Mantenimiento de joyas">
+                    <div class="gallery-overlay">
+                        <i class="fas fa-search-plus"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Crafts Section -->
+    <section id="crafts" class="service-section">
+        <div class="service-header">
+            <div class="service-header-image">
+                <img src="https://images.unsplash.com/photo-1590779033100-9f60a05a013d?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+                    alt="Productos Artesanales">
+            </div>
+            <div class="service-header-content">
+                <h2>Artesanías y Productos Culturales</h2>
+                <p>Descubre nuestra exquisita colección de artesanías auténticas de toda América Latina. Cada pieza
+                    cuenta una historia y representa la rica herencia cultural de su región de origen.</p>
+                <p>Desde textiles tradicionales hasta instrumentos musicales folklóricos, nuestras artesanías son
+                    cuidadosamente seleccionadas de comunidades indígenas y artesanos locales para apoyar la
+                    preservación de técnicas ancestrales.</p>
+            </div>
+        </div>
+        <div class="service-body">
+            <div class="service-features">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-ring"></i>
+                    </div>
+                    <h3>Bijouterie Artesanal</h3>
+                    <p>Joyería única hecha a mano con materiales naturales como semillas, piedras y metales trabajados
+                        con técnicas tradicionales. Cada pieza es una obra de arte única.</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-hands"></i>
+                    </div>
+                    <h3>Artesanías Tradicionales</h3>
+                    <p>Cerámica, tallados en madera, tejidos y otras expresiones artísticas que reflejan la identidad
+                        cultural de comunidades indígenas de México, Guatemala, Perú y más.</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-palette"></i>
+                    </div>
+                    <h3>Réplicas de Pinturas</h3>
+                    <p>Reproducciones de alta calidad de obras maestras del arte latinoamericano, realizadas por
+                        talentosos artistas que preservan técnicas pictóricas tradicionales.</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-tshirt"></i>
+                    </div>
+                    <h3>Textiles y Vestimenta</h3>
+                    <p>Ropa tradicional, tejidos y accesorios elaborados con técnicas ancestrales. Huipiles, ponchos,
+                        bufandas y más, cada pieza con diseños únicos y significado cultural.</p>
+                </div>
+            </div>
+
+            <h3 style="margin: 50px 0 20px; text-align: center; font-size: 1.8rem; color: var(--dark-brown);">Nuestra
+                Colección</h3>
+            <div class="gallery-grid">
+                <div class="gallery-item">
+                    <img src="https://images.unsplash.com/photo-1605000797499-95a51c5269ae?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+                        alt="Artesanía Mexicana">
+                    <div class="gallery-overlay">
+                        <i class="fas fa-search-plus"></i>
+                    </div>
+                </div>
+                <div class="gallery-item">
+                    <img src="https://images.unsplash.com/photo-1561736778-92e52a7769ef?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+                        alt="Joyas Peruanas">
+                    <div class="gallery-overlay">
+                        <i class="fas fa-search-plus"></i>
+                    </div>
+                </div>
+                <div class="gallery-item">
+                    <img src="https://images.unsplash.com/photo-1547347298-4074fc3086f0?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+                        alt="Instrumentos Folklóricos">
+                    <div class="gallery-overlay">
+                        <i class="fas fa-search-plus"></i>
+                    </div>
+                </div>
+                <div class="gallery-item">
+                    <img src="https://images.unsplash.com/photo-1543946207-39bd91e70ca7?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+                        alt="Textiles Guatemaltecos">
+                    <div class="gallery-overlay">
+                        <i class="fas fa-search-plus"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Financial Services Section -->
+    <section id="financial" class="service-section">
+        <div class="service-header">
+            <div class="service-header-content">
+                <h2>Servicios Financieros</h2>
+                <p>Como agencia autorizada, ofrecemos una amplia gama de servicios financieros para la comunidad latina.
+                    Nuestro objetivo es facilitar tus transacciones financieras con seguridad, rapidez y tarifas
+                    competitivas.</p>
+                <p>Desde envíos de dinero a tus seres queridos en Latinoamérica hasta el pago de servicios básicos,
+                    estamos aquí para ayudarte con soluciones confiables y accesibles.</p>
+            </div>
+            <div class="service-header-image">
+                <img src="https://images.unsplash.com/photo-1579621970563-ebec7560ff3e?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+                    alt="Servicios Financieros">
+            </div>
+        </div>
+        <div class="service-body">
+            <div class="service-features">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-money-bill-wave"></i>
+                    </div>
+                    <h3>Envíos de Dinero</h3>
+                    <p>Transferencias rápidas y seguras a más de 20 países de Latinoamérica con tarifas competitivas. Tu
+                        dinero llega en minutos a sus destinatarios.</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-file-invoice-dollar"></i>
+                    </div>
+                    <h3>Cheques y Money Orders</h3>
+                    <p>Cambio de cheques, emisión de money orders y otros servicios bancarios sin necesidad de cuenta
+                        bancaria. Soluciones financieras accesibles para todos.</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-ticket-alt"></i>
+                    </div>
+                    <h3>Venta de Boletos</h3>
+                    <p>Compra de boletos para transporte terrestre a diversos destinos en México y Centroamérica.
+                        Salidas diarias con empresas confiables.</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-file-invoice"></i>
+                    </div>
+                    <h3>Pago de Servicios</h3>
+                    <p>Paga tus facturas de servicios públicos, teléfono, televisión por cable y más sin salir de
+                        nuestra tienda. También ofrecemos recargas telefónicas.</p>
+                </div>
+            </div>
+
+            <div
+                style="margin-top: 50px; background: var(--light-beige); padding: 30px; border-radius: 12px; border-left: 4px solid var(--gold-primary);">
+                <h3 style="margin-bottom: 20px; font-size: 1.6rem; color: var(--dark-brown);">Proceso de Envío de Dinero
+                </h3>
+                <ol style="margin-left: 20px; font-size: 1.1rem;">
+                    <li style="margin-bottom: 15px;">Acércate a nuestra tienda con identificación válida y los datos del
+                        destinatario</li>
+                    <li style="margin-bottom: 15px;">Llena el formulario de envío con nuestra ayuda</li>
+                    <li style="margin-bottom: 15px;">Realiza el pago en efectivo</li>
+                    <li style="margin-bottom: 15px;">Recibe tu comprobante con número de seguimiento</li>
+                    <li>Tu destinatario recibe el dinero en minutos en su localidad</li>
+                </ol>
+                <p style="margin-top: 20px; font-weight: 500;">Ofrecemos las mejores tarifas del mercado y atención
+                    personalizada en español.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Destinations Section -->
+    <section id="destinations" class="section destinations">
+        <div class="section-title">
+            <h2>Salidas Diarias</h2>
+            <p class="subtitle">Ofrecemos transporte confiable a múltiples destinos en México y Estados Unidos con
+                salidas diarias</p>
+        </div>
+        <div class="destinations-grid">
+            <div class="destination-group">
+                <h3>Destinos Principales</h3>
+                <ul class="destination-list">
+                    <li><i class="fas fa-bus"></i> Tijuana (Aeropuerto/CBX)</li>
+                    <li><i class="fas fa-bus"></i> San Ysidro</li>
+                    <li><i class="fas fa-bus"></i> Oceandice</li>
+                    <li><i class="fas fa-bus"></i> Santa Ana</li>
+                    <li><i class="fas fa-bus"></i> Anaheim</li>
+                    <li><i class="fas fa-bus"></i> Norwalk</li>
+                </ul>
+            </div>
+
+            <div class="destination-group">
+                <h3>Destinos en México</h3>
+                <ul class="destination-list">
+                    <li><i class="fas fa-bus"></i> Fresnillo</li>
+                    <li><i class="fas fa-bus"></i> Jerez</li>
+                    <li><i class="fas fa-bus"></i> Tlaltenango</li>
+                    <li><i class="fas fa-bus"></i> Guadalajara</li>
+                    <li><i class="fas fa-bus"></i> Ciudad de México</li>
+                    <li><i class="fas fa-bus"></i> Puebla</li>
+                </ul>
+            </div>
+
+            <div class="destination-group">
+                <h3>Destinos en California</h3>
+                <ul class="destination-list">
+                    <li><i class="fas fa-bus"></i> Los Angeles</li>
+                    <li><i class="fas fa-bus"></i> Pacoima</li>
+                    <li><i class="fas fa-bus"></i> Fresno</li>
+                    <li><i class="fas fa-bus"></i> Modesto</li>
+                    <li><i class="fas fa-bus"></i> Turlock</li>
+                    <li><i class="fas fa-bus"></i> Fontana</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <!-- Location Section -->
+    <section id="location" class="section location">
+        <div class="section-title">
+            <h2>Nuestra Ubicación</h2>
+            <p class="subtitle">Visítanos en nuestro local en Santa Ana, California</p>
+        </div>
+        <div class="location-container">
+            <div class="location-map">
+                <i class="fas fa-map-marker-alt" style="font-size: 3rem; color: var(--gold-primary); z-index: 10;"></i>
+            </div>
+            <div class="location-info">
+                <h3>Inca Expression Oficial</h3>
+                <div class="address">
+                    <p><i class="fas fa-map-pin"></i> 602 South Main Street, Santa Ana, CA 92701</p>
+                    <p><i class="fas fa-phone"></i> 949 521 9335</p>
+                    <p><i class="fas fa-envelope"></i> leciboksung@yahoo.es</p>
+                    <p><i class="fas fa-clock"></i> Horario: Lunes a Sábado 9:00 AM - 7:00 PM</p>
+                    <p><i class="fas fa-clock"></i> Domingo: 10:00 AM - 5:00 PM</p>
+                </div>
+                <p style="margin-bottom: 20px;">Somos una agencia autorizada que ofrece una amplia gama de servicios y
+                    productos que celebran la cultura y tradición latinoamericana. En Inca Expression encontrarás:</p>
+                <ul style="margin-left: 25px; margin-bottom: 25px;">
+                    <li style="margin-bottom: 10px;">Artesanías auténticas de toda Latinoamérica</li>
+                    <li style="margin-bottom: 10px;">Servicios profesionales de joyería</li>
+                    <li style="margin-bottom: 10px;">Soluciones financieras para la comunidad</li>
+                    <li>Venta de boletos de transporte a múltiples destinos</li>
+                </ul>
+                <p>Nuestro compromiso es brindarte productos de calidad y servicios confiables mientras preservamos y
+                    compartimos la rica herencia cultural de nuestros pueblos.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-logo">
+                <h2>INCA EXPRESSION</h2>
+                <p>Tu conexión con la rica cultura y tradición de América Latina. Ofrecemos artesanías únicas, servicios
+                    de joyería y soluciones financieras para la comunidad.</p>
+                <div class="social" style="margin-top: 20px;">
+                    <a href="#"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                </div>
+            </div>
+
+            <div class="footer-links">
+                <h3 class="footer-title">Enlaces Rápidos</h3>
+                <ul>
+                    <li><a href="#jewelry"><i class="fas fa-chevron-right"></i> Servicios de Joyería</a></li>
+                    <li><a href="#crafts"><i class="fas fa-chevron-right"></i> Artesanías</a></li>
+                    <li><a href="#financial"><i class="fas fa-chevron-right"></i> Servicios Financieros</a></li>
+                    <li><a href="#destinations"><i class="fas fa-chevron-right"></i> Destinos</a></li>
+                    <li><a href="#location"><i class="fas fa-chevron-right"></i> Ubicación</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-links">
+                <h3 class="footer-title">Servicios</h3>
+                <ul>
+                    <li><a href="#jewelry"><i class="fas fa-chevron-right"></i> Joyería</a></li>
+                    <li><a href="#crafts"><i class="fas fa-chevron-right"></i> Artesanías</a></li>
+                    <li><a href="#financial"><i class="fas fa-chevron-right"></i> Envíos de Dinero</a></li>
+                    <li><a href="#financial"><i class="fas fa-chevron-right"></i> Venta de Boletos</a></li>
+                    <li><a href="#financial"><i class="fas fa-chevron-right"></i> Pago de Facturas</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-links">
+                <h3 class="footer-title">Contacto</h3>
+                <ul>
+                    <li><a href="#location"><i class="fas fa-map-marker-alt"></i> 602 South Main Street, Santa Ana, CA
+                            92701</a></li>
+                    <li><a href="tel:9495219335"><i class="fas fa-phone"></i> 949 521 9335</a></li>
+                    <li><a href="mailto:leciboksung@yahoo.es"><i class="fas fa-envelope"></i> leciboksung@yahoo.es</a>
+                    </li>
+                    <li><a href="https://instagram.com/inca_expression" target="_blank"><i class="fab fa-instagram"></i>
+                            inca_expression</a></li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="copyright">
+            <p>&copy; 2023 Inca Expression Oficial. Todos los derechos reservados.</p>
+        </div>
+    </footer>
+
+    <!-- Back to Top Button -->
+    <div class="back-to-top" id="backToTop">
+        <i class="fas fa-arrow-up"></i>
+    </div>
+
+    <script>
+        // Back to top button functionality
+        const backToTopButton = document.getElementById('backToTop');
+
+        window.addEventListener('scroll', () => {
+            if (window.pageYOffset > 300) {
+                backToTopButton.classList.add('visible');
+            } else {
+                backToTopButton.classList.remove('visible');
+            }
+        });
+
+        backToTopButton.addEventListener('click', () => {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        });
+
+        // Smooth scrolling for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+    </script>
+</body>
+
+</html>
