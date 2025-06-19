@@ -3,7 +3,9 @@ import { useRuntimeConfig } from '#app'
 
 export function useCrud<T extends { id?: number | null }>(endpoint: string) {
     const config = useRuntimeConfig()
-    const baseUrl = config.public.apiBaseUrl + '/' + endpoint
+    const prefix = config.public.apiBaseUrl?.endsWith('/') ? config.public.apiBaseUrl.slice(0, -1) : config.public.apiBaseUrl
+    const baseUrl = `${prefix}/${endpoint}`
+
 
     const items = ref<T[]>([])
     const form = reactive<T>({} as T)
