@@ -1,0 +1,62 @@
+version: '3.9'
+
+services:
+  mysql:
+    image: mysql:8.0
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpassword
+      MYSQL_DATABASE: barberia
+      MYSQL_USER: user
+      MYSQL_PASSWORD: userpassword
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+    healthcheck:  # Agregar healthcheck
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      timeout: 20s
+      interval: 10s
+      retries: 10
+
+  backend:
+    build:
+      context: ./backend
+    container_name: fastapi
+    ports:
+      - "8000:8000"
+    depends_on:
+      mysql:
+        condition: service_healthy  # Esperar hasta que MySQL esté listo
+    volumes:
+      - ./backend:/app
+    working_dir: /app  # Directorio de trabajo
+    command: uvicorn main:app --host 0.0.0.0 --port 8000
+    environment:
+      MYSQL_HOST: mysql
+      MYSQL_PORT: 3306
+      MYSQL_USER: user
+      MYSQL_PASSWORD: userpassword
+      MYSQL_DATABASE: barberia
+      CORS_ORIGINS: https://zymat.lat
+
+
+  frontend:
+    build:
+      context: ./frontend
+    container_name: nuxt
+    ports:
+      - "3000:3000"
+    depends_on:
+      - backend
+    volumes:
+      - ./frontend:/app
+    command: sh -c "npx nuxi build && npx nuxi preview --host 0.0.0.0 --port 3000"
+    environment:
+      NUXT_PORT: 3000
+      NUXT_HOST: 0.0.0.0
+      CHOKIDAR_USEPOLLING: "true"
+      NUXT_PUBLIC_API_BASE_URL: https://zymat.lat
+
+volumes:
+  mysql_data:
