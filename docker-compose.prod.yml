@@ -38,7 +38,7 @@ services:
       MYSQL_USER: user
       MYSQL_PASSWORD: userpassword
       MYSQL_DATABASE: barberia
-      CORS_ORIGINS: https://zymat.lat
+      CORS_ORIGINS: https://zyma.lat
 
 
   frontend:
@@ -54,7 +54,7 @@ services:
       NUXT_PORT: 3000
       NUXT_HOST: 0.0.0.0
       CHOKIDAR_USEPOLLING: "true"
-      NUXT_PUBLIC_API_BASE_URL: https://zymat.lat
+      NUXT_PUBLIC_API_BASE_URL: https://zyma.lat
 
 volumes:
   mysql_data:
