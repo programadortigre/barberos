@@ -38,7 +38,7 @@ services:
       MYSQL_USER: user
       MYSQL_PASSWORD: userpassword
       MYSQL_DATABASE: barberia
-      CORS_ORIGINS: https://zyma.lat
+      CORS_ORIGINS: https://zyma.lat,https://www.zyma.lat,https://zymat.lat,https://www.zymat.lat
 
 
   frontend:
