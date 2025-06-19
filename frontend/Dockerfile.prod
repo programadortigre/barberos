@@ -1,19 +1,19 @@
+# frontend/Dockerfile.prod
+
 FROM node:18-alpine
 
 WORKDIR /app
 
-# Copia dependencias y las instala
+# Copiamos dependencias e instalamos
 COPY package*.json ./
 RUN npm install
 
-# Copia todo el código del frontend
+# Copiamos el resto del código
 COPY . .
 
-# Construye para producción
-RUN npx nuxi build
+# Construimos Nuxt en tiempo de build (¡clave!)
+RUN npm run build
 
-# Expone el puerto de preview
+# Exponemos puerto y lanzamos preview
 EXPOSE 3000
-
-# Corre el servidor de Nuxt en modo preview
-CMD ["npx", "nuxi", "preview", "--host", "0.0.0.0", "--port", "3000"]
+CMD ["npm", "run", "start"]
