@@ -54,7 +54,7 @@ services:
       NUXT_PORT: 3000
       NUXT_HOST: 0.0.0.0
       CHOKIDAR_USEPOLLING: "true"
-      NUXT_PUBLIC_API_BASE_URL: https://zyma.lat
+      NUXT_PUBLIC_API_BASE_URL: /api
 
 volumes:
   mysql_data:

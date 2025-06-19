@@ -178,6 +178,14 @@ docker-compose up -d --build
 # Ver contenedores activos
 docker ps
 
+
+✅ 1. Detener contenedores actuales
+docker compose -f docker-compose.prod.yml down
+
+✅ 2. Reconstruir y levantar todo
+docker compose -f docker-compose.prod.yml up -d --build
+
+
 # para produccion 
 docker compose -f docker-compose.prod.yml up -d --build
 
