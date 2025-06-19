@@ -3,8 +3,10 @@ import { useRuntimeConfig } from '#app'
 
 export function useCrud<T extends { id?: number | null }>(endpoint: string) {
     const config = useRuntimeConfig()
-    const prefix = config.public.apiBaseUrl?.endsWith('/') ? config.public.apiBaseUrl.slice(0, -1) : config.public.apiBaseUrl
-    const baseUrl = `${prefix}/${endpoint}`
+    const apiBase = config.public.apiBaseUrl?.replace(/\/$/, '') || ''
+    const endpointClean = endpoint.replace(/^\//, '')
+    const baseUrl = `${apiBase}/${endpointClean}`
+
 
 
     const items = ref<T[]>([])
