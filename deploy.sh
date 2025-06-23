@@ -129,7 +129,7 @@ docker exec fastapi alembic upgrade head || {
 
 # ⏳ Esperar a MySQL
 echo -e "${CYAN}⏳ Esperando MySQL...${NC}"
-until docker exec barberos-mysql-1 mysqladmin ping -u root -ppassword --silent; do sleep 2; done
+until docker exec mysql mysqladmin ping -u root -prootpassword --silent; do sleep 2; done
 
 # 🔐 Crear usuario admin
 echo -e "${CYAN}🔐 Creación de usuario administrador...${NC}"
@@ -166,7 +166,7 @@ HASHED_PASS=$(docker run --rm python:3-slim python -c "import bcrypt; print(bcry
 [[ -n "$ADMIN_AP_MATERNO" ]] && APELLIDO_MAT="'$ADMIN_AP_MATERNO'" || APELLIDO_MAT=NULL
 
 echo -e "${CYAN}📝 Insertando en MySQL...${NC}"
-docker exec -i barberos-mysql-1 mysql -u root -ppassword barberia <<EOF
+docker exec -i mysql mysql -u root -prootpassword barberia <<EOF
 INSERT INTO personas (
   tipo_documento, dni, nombres, apellido_paterno, apellido_materno,
   fecha_nacimiento, genero, direccion_cifrada, telefono_cifrado, correo_cifrado
