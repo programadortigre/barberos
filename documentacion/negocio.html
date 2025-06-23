@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8" />
+    <title>Configura tu negocio - Ejemplo</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            max-width: 600px;
+        }
+
+        h1,
+        h2 {
+            color: #333;
+        }
+
+        label {
+            display: block;
+            margin: 8px 0 4px;
+            font-weight: bold;
+        }
+
+        input[type="text"],
+        select {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 12px;
+            box-sizing: border-box;
+        }
+
+        .modules label {
+            display: inline-block;
+            margin-right: 10px;
+            cursor: pointer;
+        }
+
+        button {
+            background-color: #0077cc;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            cursor: pointer;
+            font-size: 16px;
+            margin-top: 10px;
+        }
+
+        button:hover {
+            background-color: #005fa3;
+        }
+
+        #dashboard {
+            margin-top: 30px;
+            border-top: 2px solid #ccc;
+            padding-top: 20px;
+        }
+
+        .module-box {
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            padding: 15px;
+            margin-bottom: 12px;
+            background: #f9f9f9;
+        }
+    </style>
+</head>
+
+<body>
+
+    <h1>Configura tu negocio</h1>
+
+    <div id="setup-section">
+        <label for="businessName">Nombre del negocio</label>
+        <input type="text" id="businessName" placeholder="Ej: Mi Negocio" />
+
+        <label for="businessType">Tipo de negocio</label>
+        <select id="businessType">
+            <option value="" disabled selected>Selecciona el rubro</option>
+            <option value="barberia">✂️ Barbería/Peluquería</option>
+            <option value="ropa">👕 Tienda de ropa</option>
+            <option value="bodega">🏪 Bodega/Minimarket</option>
+            <option value="restaurante">🍽️ Restaurante/Menú</option>
+            <option value="ferreteria">🔧 Ferretería</option>
+            <option value="repuestos">🚗 Repuestos</option>
+            <option value="hotel">🏨 Hotel/Hospedaje</option>
+            <option value="otro">❓ Otro</option>
+        </select>
+
+        <label>Módulos (selecciona los que quieres)</label>
+        <div class="modules">
+            <label><input type="checkbox" value="ventas" /> 💰 Ventas</label>
+            <label><input type="checkbox" value="productos" /> 📦 Productos</label>
+            <label><input type="checkbox" value="stock" /> 📊 Stock</label>
+            <label><input type="checkbox" value="compras" /> 🛒 Compras</label>
+            <label><input type="checkbox" value="finanzas" /> 📈 Finanzas</label>
+            <label><input type="checkbox" value="clientes" /> 👥 Clientes</label>
+            <label><input type="checkbox" value="proveedores" /> 🚚 Proveedores</label>
+            <label><input type="checkbox" value="agenda" /> 📅 Agenda</label>
+            <label><input type="checkbox" value="reportes" /> 📄 Reportes</label>
+            <label><input type="checkbox" value="galeria" /> 🖼️ Galería</label>
+            <label><input type="checkbox" value="pedidos" /> 📋 Pedidos</label>
+            <label><input type="checkbox" value="menu" /> 📖 Menú</label>
+            <label><input type="checkbox" value="caja" /> 🏦 Caja diaria</label>
+            <label><input type="checkbox" value="habitaciones" /> 🛏️ Habitaciones</label>
+            <label><input type="checkbox" value="servicios" /> 🔧 Servicios</label>
+        </div>
+
+        <button id="createBusinessBtn">Crear mi negocio</button>
+    </div>
+
+    <div id="dashboard" style="display:none;">
+        <h2>Bienvenido a la administración de <span id="dashBusinessName"></span></h2>
+        <p>Tipo de negocio: <strong><span id="dashBusinessType"></span></strong></p>
+
+        <h3>Módulos activos:</h3>
+        <div id="modulesContainer"></div>
+    </div>
+
+    <script>
+        const createBtn = document.getElementById('createBusinessBtn');
+
+        createBtn.addEventListener('click', () => {
+            const name = document.getElementById('businessName').value.trim();
+            const typeSelect = document.getElementById('businessType');
+            const type = typeSelect.value;
+            const modules = Array.from(document.querySelectorAll('.modules input[type=checkbox]:checked'))
+                .map(cb => cb.value);
+
+            if (!name) {
+                alert('Por favor ingresa el nombre de tu negocio.');
+                return;
+            }
+            if (!type) {
+                alert('Por favor selecciona el tipo de negocio.');
+                return;
+            }
+            if (modules.length === 0) {
+                alert('Selecciona al menos un módulo.');
+                return;
+            }
+
+            // Ocultar sección de configuración
+            document.getElementById('setup-section').style.display = 'none';
+
+            // Mostrar dashboard
+            document.getElementById('dashboard').style.display = 'block';
+            document.getElementById('dashBusinessName').textContent = name;
+            document.getElementById('dashBusinessType').textContent = typeSelect.options[typeSelect.selectedIndex].text;
+
+            // Mostrar módulos activos
+            const modulesContainer = document.getElementById('modulesContainer');
+            modulesContainer.innerHTML = '';
+
+            const moduleDescriptions = {
+                ventas: 'Aquí puedes registrar y consultar tus ventas.',
+                productos: 'Administra tus productos y sus detalles.',
+                stock: 'Controla el inventario disponible.',
+                compras: 'Registra las compras de tu negocio.',
+                finanzas: 'Gestiona ingresos, egresos y balances.',
+                clientes: 'Administra la información de tus clientes.',
+                proveedores: 'Gestiona proveedores y sus datos.',
+                agenda: 'Organiza citas y reservas.',
+                reportes: 'Visualiza informes y estadísticas.',
+                galeria: 'Sube y visualiza fotos de tu negocio.',
+                pedidos: 'Sigue el estado de tus pedidos.',
+                menu: 'Define tu carta o menú (ideal para restaurantes).',
+                caja: 'Control diario de caja y movimientos.',
+                habitaciones: 'Gestiona reservas de habitaciones.',
+                servicios: 'Define los servicios que ofreces.',
+            };
+
+            modules.forEach(mod => {
+                const div = document.createElement('div');
+                div.className = 'module-box';
+                div.innerHTML = `<strong>${mod.charAt(0).toUpperCase() + mod.slice(1)}</strong><p>${moduleDescriptions[mod] || ''}</p>`;
+                modulesContainer.appendChild(div);
+            });
+        });
+    </script>
+
+</body>
+
+</html>

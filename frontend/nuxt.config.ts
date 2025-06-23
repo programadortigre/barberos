@@ -1,4 +1,14 @@
 export default defineNuxtConfig({
+   app: {
+    head: {
+      link: [
+        {
+          rel: 'stylesheet',
+          href: 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css'
+        }
+      ]
+    }
+  },
   css: ['@/assets/styles/main.scss'],
   runtimeConfig: {
     public: {

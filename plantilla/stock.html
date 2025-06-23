@@ -1,0 +1,1145 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Control de Inventario - Mi Negocio</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        :root {
+            --primary: #4361ee;
+            --primary-dark: #3a56d4;
+            --secondary: #7209b7;
+            --success: #06d6a0;
+            --warning: #ffd166;
+            --danger: #ef476f;
+            --light: #f8f9fa;
+            --dark: #212529;
+            --gray: #6c757d;
+            --light-gray: #e9ecef;
+            --border: #dee2e6;
+            --card-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+        }
+
+        body {
+            background: linear-gradient(135deg, #f5f7fa 0%, #e4edf5 100%);
+            color: var(--dark);
+            line-height: 1.6;
+            min-height: 100vh;
+            padding: 0;
+            margin: 0;
+        }
+
+        .container {
+            max-width: 100%;
+            padding: 0 15px;
+            margin: 0 auto;
+            padding-bottom: 80px;
+        }
+
+        header {
+            background: white;
+            padding: 15px 20px;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+        }
+
+        .back-btn {
+            font-size: 20px;
+            color: var(--primary);
+            margin-right: 15px;
+            text-decoration: none;
+        }
+
+        .header-title {
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--dark);
+        }
+
+        .header-actions {
+            display: flex;
+            gap: 15px;
+        }
+
+        .header-action {
+            color: var(--primary);
+            font-size: 18px;
+            text-decoration: none;
+        }
+
+        .summary-cards {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            padding: 20px 15px;
+        }
+
+        @media (min-width: 480px) {
+            .summary-cards {
+                grid-template-columns: repeat(4, 1fr);
+            }
+        }
+
+        .summary-card {
+            background: white;
+            border-radius: 16px;
+            box-shadow: var(--card-shadow);
+            padding: 20px;
+            text-align: center;
+            transition: transform 0.3s ease;
+        }
+
+        .summary-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .summary-card .value {
+            font-size: 24px;
+            font-weight: 700;
+            margin: 10px 0 5px;
+        }
+
+        .summary-card .label {
+            font-size: 14px;
+            color: var(--gray);
+        }
+
+        .summary-card.total .value {
+            color: var(--primary);
+        }
+
+        .summary-card.low .value {
+            color: var(--warning);
+        }
+
+        .summary-card.out .value {
+            color: var(--danger);
+        }
+
+        .summary-card.value .value {
+            color: var(--success);
+        }
+
+        .tabs {
+            display: flex;
+            background: white;
+            margin: 0 15px 20px;
+            border-radius: 50px;
+            padding: 5px;
+            box-shadow: var(--card-shadow);
+        }
+
+        .tab {
+            flex: 1;
+            text-align: center;
+            padding: 12px;
+            border-radius: 50px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .tab.active {
+            background: var(--primary);
+            color: white;
+        }
+
+        .card {
+            background: white;
+            border-radius: 16px;
+            box-shadow: var(--card-shadow);
+            padding: 20px;
+            margin: 0 15px 20px;
+        }
+
+        .card-title {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid var(--light-gray);
+        }
+
+        .card-title i {
+            background: var(--primary);
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 15px;
+            font-size: 18px;
+        }
+
+        .card-title h2 {
+            font-size: 18px;
+            font-weight: 600;
+            color: var(--dark);
+        }
+
+        .alert-list {
+            list-style: none;
+        }
+
+        .alert-item {
+            display: flex;
+            align-items: center;
+            padding: 15px 0;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .alert-item:last-child {
+            border-bottom: none;
+        }
+
+        .alert-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 15px;
+            font-size: 18px;
+        }
+
+        .alert-icon.warning {
+            background: rgba(255, 209, 102, 0.2);
+            color: var(--warning);
+        }
+
+        .alert-icon.danger {
+            background: rgba(239, 71, 111, 0.2);
+            color: var(--danger);
+        }
+
+        .alert-icon.info {
+            background: rgba(67, 97, 238, 0.2);
+            color: var(--primary);
+        }
+
+        .alert-content {
+            flex: 1;
+        }
+
+        .alert-title {
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+
+        .alert-description {
+            font-size: 14px;
+            color: var(--gray);
+        }
+
+        .alert-action {
+            color: var(--primary);
+            font-weight: 500;
+            font-size: 14px;
+        }
+
+        .inventory-list {
+            list-style: none;
+        }
+
+        .inventory-item {
+            display: flex;
+            align-items: center;
+            padding: 15px 0;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .inventory-item:last-child {
+            border-bottom: none;
+        }
+
+        .inventory-img {
+            width: 60px;
+            height: 60px;
+            border-radius: 12px;
+            background: var(--light-gray);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 15px;
+            overflow: hidden;
+        }
+
+        .inventory-img i {
+            color: var(--gray);
+            font-size: 24px;
+        }
+
+        .inventory-details {
+            flex: 1;
+        }
+
+        .inventory-name {
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+
+        .inventory-info {
+            display: flex;
+            font-size: 14px;
+            color: var(--gray);
+            margin-bottom: 5px;
+        }
+
+        .inventory-stock {
+            display: flex;
+            align-items: center;
+        }
+
+        .stock-bar {
+            height: 6px;
+            background: var(--light-gray);
+            border-radius: 3px;
+            margin-top: 8px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .stock-level {
+            height: 100%;
+            border-radius: 3px;
+            position: absolute;
+            left: 0;
+            top: 0;
+        }
+
+        .stock-high {
+            background: var(--success);
+            width: 85%;
+        }
+
+        .stock-medium {
+            background: var(--warning);
+            width: 45%;
+        }
+
+        .stock-low {
+            background: var(--danger);
+            width: 15%;
+        }
+
+        .movements-list {
+            list-style: none;
+        }
+
+        .movement-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 15px 0;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .movement-item:last-child {
+            border-bottom: none;
+        }
+
+        .movement-info h3 {
+            font-size: 16px;
+            margin-bottom: 5px;
+        }
+
+        .movement-info p {
+            font-size: 14px;
+            color: var(--gray);
+        }
+
+        .movement-amount {
+            font-weight: 700;
+            font-size: 18px;
+        }
+
+        .movement-in {
+            color: var(--success);
+        }
+
+        .movement-out {
+            color: var(--danger);
+        }
+
+        .movement-adjust {
+            color: var(--primary);
+        }
+
+        .movement-type {
+            font-size: 12px;
+            padding: 3px 8px;
+            border-radius: 10px;
+            color: white;
+            display: inline-block;
+            margin-top: 5px;
+        }
+
+        .type-in {
+            background: var(--success);
+        }
+
+        .type-out {
+            background: var(--danger);
+        }
+
+        .type-adjust {
+            background: var(--primary);
+        }
+
+        .btn {
+            display: block;
+            width: 100%;
+            padding: 18px;
+            background: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-size: 18px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 4px 10px rgba(67, 97, 238, 0.3);
+            margin-top: 10px;
+        }
+
+        .btn:hover {
+            background: var(--primary-dark);
+            transform: translateY(-3px);
+            box-shadow: 0 6px 15px rgba(67, 97, 238, 0.4);
+        }
+
+        .btn-outline {
+            background: transparent;
+            border: 2px solid var(--primary);
+            color: var(--primary);
+            box-shadow: none;
+        }
+
+        .btn-outline:hover {
+            background: rgba(67, 97, 238, 0.1);
+        }
+
+        .search-bar {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .search-input {
+            flex: 1;
+            padding: 15px;
+            border: 2px solid var(--border);
+            border-radius: 12px;
+            font-size: 16px;
+        }
+
+        .search-btn {
+            width: 50px;
+            background: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+        }
+
+        .filter-bar {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+            overflow-x: auto;
+            padding-bottom: 5px;
+        }
+
+        .filter-bar::-webkit-scrollbar {
+            height: 4px;
+        }
+
+        .filter-bar::-webkit-scrollbar-thumb {
+            background: var(--primary);
+            border-radius: 2px;
+        }
+
+        .filter-btn {
+            padding: 10px 15px;
+            background: white;
+            border: 2px solid var(--border);
+            border-radius: 50px;
+            font-size: 14px;
+            font-weight: 500;
+            white-space: nowrap;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .filter-btn.active {
+            background: var(--primary);
+            color: white;
+            border-color: var(--primary);
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 40px 20px;
+            color: var(--gray);
+        }
+
+        .empty-state i {
+            font-size: 50px;
+            margin-bottom: 15px;
+            opacity: 0.5;
+        }
+
+        .empty-state p {
+            font-size: 16px;
+        }
+
+        .fab-btn {
+            position: fixed;
+            bottom: 30px;
+            right: 20px;
+            width: 60px;
+            height: 60px;
+            background: var(--primary);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            box-shadow: 0 4px 15px rgba(67, 97, 238, 0.5);
+            text-decoration: none;
+            z-index: 100;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s;
+        }
+
+        .modal.show {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .modal-content {
+            background: white;
+            width: 90%;
+            max-width: 500px;
+            border-radius: 16px;
+            overflow: hidden;
+            transform: translateY(20px);
+            transition: transform 0.3s;
+        }
+
+        .modal.show .modal-content {
+            transform: translateY(0);
+        }
+
+        .modal-header {
+            padding: 20px;
+            background: var(--primary);
+            color: white;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .modal-header h2 {
+            font-size: 20px;
+        }
+
+        .modal-close {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 24px;
+            cursor: pointer;
+        }
+
+        .modal-body {
+            padding: 20px;
+            max-height: 70vh;
+            overflow-y: auto;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: var(--dark);
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 15px;
+            border: 2px solid var(--border);
+            border-radius: 12px;
+            font-size: 16px;
+            transition: all 0.3s;
+        }
+
+        .form-control:focus {
+            border-color: var(--primary);
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.2);
+        }
+
+        .select-wrapper {
+            position: relative;
+        }
+
+        .select-wrapper::after {
+            content: "▼";
+            position: absolute;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--gray);
+            pointer-events: none;
+        }
+
+        .select-wrapper select {
+            appearance: none;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            background: white;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+
+        .form-actions {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .btn-cancel {
+            background: var(--light-gray);
+            color: var(--dark);
+        }
+
+        .btn-cancel:hover {
+            background: #dcdde0;
+        }
+
+        @media (min-width: 768px) {
+            .container {
+                max-width: 700px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <header>
+            <div class="header-left">
+                <a href="#" class="back-btn">
+                    <i class="fas fa-arrow-left"></i>
+                </a>
+                <h1 class="header-title">Control de Inventario</h1>
+            </div>
+            <div class="header-actions">
+                <a href="#" class="header-action">
+                    <i class="fas fa-file-export"></i>
+                </a>
+                <a href="#" class="header-action">
+                    <i class="fas fa-bell"></i>
+                </a>
+            </div>
+        </header>
+
+        <div class="summary-cards">
+            <div class="summary-card total">
+                <div class="label">Productos</div>
+                <div class="value">124</div>
+                <div class="label">en inventario</div>
+            </div>
+            <div class="summary-card low">
+                <div class="label">Bajo stock</div>
+                <div class="value">18</div>
+                <div class="label">productos</div>
+            </div>
+            <div class="summary-card out">
+                <div class="label">Agotados</div>
+                <div class="value">5</div>
+                <div class="label">productos</div>
+            </div>
+            <div class="summary-card value">
+                <div class="label">Valor total</div>
+                <div class="value">$8,450</div>
+                <div class="label">de inventario</div>
+            </div>
+        </div>
+
+        <div class="tabs">
+            <div class="tab active" data-tab="inventory">Inventario</div>
+            <div class="tab" data-tab="movements">Movimientos</div>
+            <div class="tab" data-tab="alerts">Alertas</div>
+        </div>
+
+        <!-- Sección de alertas -->
+        <div id="alerts-tab" class="tab-content">
+            <div class="card">
+                <div class="card-title">
+                    <i class="fas fa-exclamation-triangle"></i>
+                    <h2>Alertas de Inventario</h2>
+                </div>
+
+                <ul class="alert-list">
+                    <li class="alert-item">
+                        <div class="alert-icon danger">
+                            <i class="fas fa-times"></i>
+                        </div>
+                        <div class="alert-content">
+                            <div class="alert-title">Productos agotados</div>
+                            <div class="alert-description">5 productos están completamente agotados</div>
+                        </div>
+                        <div class="alert-action">Ver</div>
+                    </li>
+
+                    <li class="alert-item">
+                        <div class="alert-icon warning">
+                            <i class="fas fa-exclamation"></i>
+                        </div>
+                        <div class="alert-content">
+                            <div class="alert-title">Productos con bajo stock</div>
+                            <div class="alert-description">18 productos están por debajo del nivel mínimo</div>
+                        </div>
+                        <div class="alert-action">Ver</div>
+                    </li>
+
+                    <li class="alert-item">
+                        <div class="alert-icon warning">
+                            <i class="fas fa-box-open"></i>
+                        </div>
+                        <div class="alert-content">
+                            <div class="alert-title">Productos próximos a vencer</div>
+                            <div class="alert-description">3 productos vencerán en los próximos 30 días</div>
+                        </div>
+                        <div class="alert-action">Ver</div>
+                    </li>
+
+                    <li class="alert-item">
+                        <div class="alert-icon info">
+                            <i class="fas fa-sync-alt"></i>
+                        </div>
+                        <div class="alert-content">
+                            <div class="alert-title">Ajustes pendientes</div>
+                            <div class="alert-description">2 ajustes de inventario requieren revisión</div>
+                        </div>
+                        <div class="alert-action">Ver</div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Sección de inventario -->
+        <div id="inventory-tab" class="tab-content">
+            <div class="card">
+                <div class="search-bar">
+                    <input type="text" class="search-input" placeholder="Buscar productos...">
+                    <button class="search-btn">
+                        <i class="fas fa-search"></i>
+                    </button>
+                </div>
+
+                <div class="filter-bar">
+                    <div class="filter-btn active">Todos</div>
+                    <div class="filter-btn">Bajo stock</div>
+                    <div class="filter-btn">Agotados</div>
+                    <div class="filter-btn">Próximos a vencer</div>
+                    <div class="filter-btn">Sin movimiento</div>
+                </div>
+
+                <ul class="inventory-list">
+                    <li class="inventory-item">
+                        <div class="inventory-img">
+                            <i class="fas fa-tshirt"></i>
+                        </div>
+                        <div class="inventory-details">
+                            <div class="inventory-name">Camiseta Algodón Premium</div>
+                            <div class="inventory-info">
+                                <span>SKU: CM-001</span>
+                                <span style="margin: 0 10px;">|</span>
+                                <span>Categoría: Ropa</span>
+                            </div>
+                            <div class="inventory-stock">
+                                <span>Stock: 45</span>
+                                <span style="margin: 0 10px;">|</span>
+                                <span>Mínimo: 10</span>
+                            </div>
+                            <div class="stock-bar">
+                                <div class="stock-level stock-high"></div>
+                            </div>
+                        </div>
+                    </li>
+
+                    <li class="inventory-item">
+                        <div class="inventory-img">
+                            <i class="fas fa-blender"></i>
+                        </div>
+                        <div class="inventory-details">
+                            <div class="inventory-name">Licuadora Profesional</div>
+                            <div class="inventory-info">
+                                <span>SKU: LC-450</span>
+                                <span style="margin: 0 10px;">|</span>
+                                <span>Categoría: Hogar</span>
+                            </div>
+                            <div class="inventory-stock">
+                                <span>Stock: 3</span>
+                                <span style="margin: 0 10px;">|</span>
+                                <span>Mínimo: 5</span>
+                            </div>
+                            <div class="stock-bar">
+                                <div class="stock-level stock-low"></div>
+                            </div>
+                        </div>
+                    </li>
+
+                    <li class="inventory-item">
+                        <div class="inventory-img">
+                            <i class="fas fa-wine-bottle"></i>
+                        </div>
+                        <div class="inventory-details">
+                            <div class="inventory-name">Aceite de Oliva Extra Virgen</div>
+                            <div class="inventory-info">
+                                <span>SKU: AL-022</span>
+                                <span style="margin: 0 10px;">|</span>
+                                <span>Categoría: Alimentos</span>
+                            </div>
+                            <div class="inventory-stock">
+                                <span>Stock: 0</span>
+                                <span style="margin: 0 10px;">|</span>
+                                <span>Mínimo: 5</span>
+                            </div>
+                            <div class="stock-bar">
+                                <div class="stock-level stock-low" style="width: 0"></div>
+                            </div>
+                        </div>
+                    </li>
+
+                    <li class="inventory-item">
+                        <div class="inventory-img">
+                            <i class="fas fa-book"></i>
+                        </div>
+                        <div class="inventory-details">
+                            <div class="inventory-name">Libro de Cocina Gourmet</div>
+                            <div class="inventory-info">
+                                <span>SKU: LB-780</span>
+                                <span style="margin: 0 10px;">|</span>
+                                <span>Categoría: Libros</span>
+                            </div>
+                            <div class="inventory-stock">
+                                <span>Stock: 28</span>
+                                <span style="margin: 0 10px;">|</span>
+                                <span>Mínimo: 5</span>
+                            </div>
+                            <div class="stock-bar">
+                                <div class="stock-level stock-high"></div>
+                            </div>
+                        </div>
+                    </li>
+
+                    <li class="inventory-item">
+                        <div class="inventory-img">
+                            <i class="fas fa-headphones"></i>
+                        </div>
+                        <div class="inventory-details">
+                            <div class="inventory-name">Audífonos Bluetooth</div>
+                            <div class="inventory-info">
+                                <span>SKU: AU-205</span>
+                                <span style="margin: 0 10px;">|</span>
+                                <span>Categoría: Electrónica</span>
+                            </div>
+                            <div class="inventory-stock">
+                                <span>Stock: 12</span>
+                                <span style="margin: 0 10px;">|</span>
+                                <span>Mínimo: 8</span>
+                            </div>
+                            <div class="stock-bar">
+                                <div class="stock-level stock-medium"></div>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+
+                <button class="btn btn-outline">
+                    <i class="fas fa-sync-alt"></i> Cargar más productos
+                </button>
+            </div>
+        </div>
+
+        <!-- Sección de movimientos -->
+        <div id="movements-tab" class="tab-content hidden">
+            <div class="card">
+                <div class="search-bar">
+                    <input type="text" class="search-input" placeholder="Buscar movimientos...">
+                    <button class="search-btn">
+                        <i class="fas fa-search"></i>
+                    </button>
+                </div>
+
+                <div class="filter-bar">
+                    <div class="filter-btn active">Todos</div>
+                    <div class="filter-btn">Entradas</div>
+                    <div class="filter-btn">Salidas</div>
+                    <div class="filter-btn">Ajustes</div>
+                    <div class="filter-btn">Hoy</div>
+                    <div class="filter-btn">Esta semana</div>
+                </div>
+
+                <ul class="movements-list">
+                    <li class="movement-item">
+                        <div class="movement-info">
+                            <h3>Entrada de compra #C-1245</h3>
+                            <p>Proveedor: Distribuidora Tech</p>
+                            <p>21 Jun 2025, 10:30 AM</p>
+                            <span class="movement-type type-in">Entrada</span>
+                        </div>
+                        <div class="movement-amount movement-in">+25</div>
+                    </li>
+
+                    <li class="movement-item">
+                        <div class="movement-info">
+                            <h3>Venta #V-00125</h3>
+                            <p>Cliente: Juan Pérez</p>
+                            <p>21 Jun 2025, 09:15 AM</p>
+                            <span class="movement-type type-out">Salida</span>
+                        </div>
+                        <div class="movement-amount movement-out">-3</div>
+                    </li>
+
+                    <li class="movement-item">
+                        <div class="movement-info">
+                            <h3>Ajuste de inventario #A-045</h3>
+                            <p>Motivo: Diferencia en conteo</p>
+                            <p>20 Jun 2025, 04:45 PM</p>
+                            <span class="movement-type type-adjust">Ajuste</span>
+                        </div>
+                        <div class="movement-amount movement-adjust">+2</div>
+                    </li>
+
+                    <li class="movement-item">
+                        <div class="movement-info">
+                            <h3>Entrada de compra #C-1244</h3>
+                            <p>Proveedor: Alimentos S.A.</p>
+                            <p>19 Jun 2025, 02:20 PM</p>
+                            <span class="movement-type type-in">Entrada</span>
+                        </div>
+                        <div class="movement-amount movement-in">+50</div>
+                    </li>
+
+                    <li class="movement-item">
+                        <div class="movement-info">
+                            <h3>Venta #V-00124</h3>
+                            <p>Cliente: María García</p>
+                            <p>19 Jun 2025, 11:10 AM</p>
+                            <span class="movement-type type-out">Salida</span>
+                        </div>
+                        <div class="movement-amount movement-out">-5</div>
+                    </li>
+                </ul>
+
+                <button class="btn btn-outline">
+                    <i class="fas fa-sync-alt"></i> Cargar más movimientos
+                </button>
+            </div>
+        </div>
+
+        <a href="#" class="fab-btn" id="adjust-btn">
+            <i class="fas fa-exchange-alt"></i>
+        </a>
+
+        <!-- Modal para ajuste de inventario -->
+        <div class="modal" id="adjust-modal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h2>Ajuste de Inventario</h2>
+                    <button class="modal-close">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label for="adjust-product">Producto *</label>
+                        <div class="select-wrapper">
+                            <select id="adjust-product" class="form-control">
+                                <option value="">Seleccionar producto</option>
+                                <option value="1">Camiseta Algodón Premium</option>
+                                <option value="2">Licuadora Profesional</option>
+                                <option value="3">Aceite de Oliva Extra Virgen</option>
+                                <option value="4">Libro de Cocina Gourmet</option>
+                                <option value="5">Audífonos Bluetooth</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="adjust-type">Tipo de ajuste *</label>
+                        <div class="select-wrapper">
+                            <select id="adjust-type" class="form-control">
+                                <option value="">Seleccionar tipo</option>
+                                <option value="in">Entrada</option>
+                                <option value="out">Salida</option>
+                                <option value="adjust">Ajuste</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="adjust-quantity">Cantidad *</label>
+                            <input type="number" id="adjust-quantity" class="form-control" placeholder="0" min="1">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="adjust-date">Fecha *</label>
+                            <input type="datetime-local" id="adjust-date" class="form-control" value="2025-06-21T14:30">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="adjust-reason">Motivo *</label>
+                        <div class="select-wrapper">
+                            <select id="adjust-reason" class="form-control">
+                                <option value="">Seleccionar motivo</option>
+                                <option value="damaged">Producto dañado</option>
+                                <option value="lost">Producto perdido</option>
+                                <option value="count">Diferencia en conteo</option>
+                                <option value="donation">Donación</option>
+                                <option value="other">Otro</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="adjust-notes">Notas adicionales</label>
+                        <textarea id="adjust-notes" class="form-control" rows="3"
+                            placeholder="Agregar detalles del ajuste"></textarea>
+                    </div>
+
+                    <div class="form-actions">
+                        <button class="btn btn-cancel">Cancelar</button>
+                        <button class="btn">Registrar Ajuste</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Funcionalidad de pestañas
+        const tabs = document.querySelectorAll('.tab');
+        const tabContents = document.querySelectorAll('.tab-content');
+
+        tabs.forEach(tab => {
+            tab.addEventListener('click', () => {
+                tabs.forEach(t => t.classList.remove('active'));
+                tab.classList.add('active');
+
+                tabContents.forEach(content => content.classList.add('hidden'));
+
+                const tabId = tab.getAttribute('data-tab');
+                document.getElementById(`${tabId}-tab`).classList.remove('hidden');
+            });
+        });
+
+        // Funcionalidad de filtros
+        const filterBtns = document.querySelectorAll('.filter-btn');
+        filterBtns.forEach(btn => {
+            btn.addEventListener('click', function () {
+                filterBtns.forEach(b => b.classList.remove('active'));
+                this.classList.add('active');
+            });
+        });
+
+        // Modal para ajustes de inventario
+        const modal = document.getElementById('adjust-modal');
+        const openModalBtn = document.getElementById('adjust-btn');
+        const closeModalBtn = document.querySelector('.modal-close');
+        const cancelBtn = document.querySelector('.btn-cancel');
+
+        openModalBtn.addEventListener('click', function (e) {
+            e.preventDefault();
+            modal.classList.add('show');
+        });
+
+        closeModalBtn.addEventListener('click', function () {
+            modal.classList.remove('show');
+        });
+
+        cancelBtn.addEventListener('click', function () {
+            modal.classList.remove('show');
+        });
+
+        // Cerrar modal al hacer clic fuera del contenido
+        window.addEventListener('click', function (e) {
+            if (e.target === modal) {
+                modal.classList.remove('show');
+            }
+        });
+
+        // Simulación de búsqueda
+        const searchBtns = document.querySelectorAll('.search-btn');
+        searchBtns.forEach(btn => {
+            btn.addEventListener('click', function () {
+                this.innerHTML = '<i class="fas fa-spinner fa-spin"></i>';
+                setTimeout(() => {
+                    this.innerHTML = '<i class="fas fa-search"></i>';
+                }, 1000);
+            });
+        });
+
+        // Mostrar alertas por defecto
+        document.getElementById('alerts-tab').classList.remove('hidden');
+    </script>
+</body>
+
+</html>

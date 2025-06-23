@@ -1,47 +1,75 @@
+// Variables globales
 :root {
+  // Colores base
   --bg-color: #f9f9f9;
   --text-color: #2d3748;
-  --border-color: #2272da;
+  --border-color: #d1d5db;
+  --input-bg: #f9fafb;
+  
+  // Componentes específicos
   --bg-modal: rgba(253, 253, 253, 0.877);
+  --sidebar-color: #2d3748; // Añadido para consistencia
+  --sidebar-bg-color: #ffffff; // Valor por defecto para light mode
+  
+  // Colores primarios
   --primary-color: #4f46e5;
   --primary-color-hover: #4338ca;
-  --input-bg: #f9fafb;
-  --border-color: #d1d5db;
+  --primary: #4361ee;
+  --primary-dark: #3a56d4;
+  --primary-light: #5a75ff;
+  
+  // Colores de estado
   --accent-color: #10b981;
-  /*side bar*/
-/*tablas*/
-  --color-primary: #4f46e5;
-  --color-primary-dark: #1565c0;
+  --secondary: #7209b7;
+  --accent: #f72585;
+  --accent-light: #ff4da6;
+  --success: #4cc9f0;
   --color-danger: #e53935;
   --color-danger-dark: #c62828;
+  
+  // Colores para tablas
   --color-bg: #ffffff;
   --color-bg-alt: #4f46e5;
   --color-gray: #e0e0e0;
   --color-text: #212121;
   --color-text-light: #ffffff;
+  
+  // Colores de texto
+  --text-light: #8d99ae;
+  
+  // Efectos visuales
+  --bg-glass: rgba(255, 255, 255, 0.85);
+  --shadow: rgba(0, 0, 0, 0.1);
+  
+  // Geometría
+  --radius-lg: 24px;
+  --radius-md: 16px;
+  --radius-sm: 8px;
+  --nav-height: 80px;
+  
+  // Transiciones
+  --transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
 
+// Modo oscuro
 .dark {
   --bg-color: #1a202c;
   --text-color: #edf2f7;
-  --sidebar-color: #2d3748;
   --border-color: #da2287;
-  --bg-modal: rgba(26, 32, 44, 0.8);
   --input-bg: #2d3748;
-  --sidebar-bg-color:#0d1525;
-  /*tablas*/
-  --color-primary: #4f46e5;
-  --color-primary-dark: #1565c0;
-  --color-danger: #e53935;
-  --color-danger-dark: #c62828;
-  --color-bg:#0d1525;
-  --color-bg-alt: #4f46e5;
-  --color-gray: #e0e0e0;
+  --bg-modal: rgba(26, 32, 44, 0.8);
+  
+  // Componentes específicos
+  --sidebar-color: #2d3748;
+  --sidebar-bg-color: #0d1525;
+  
+  // Tablas
+  --color-bg: #0d1525;
   --color-text: #ffffff;
-  --color-text-light: #ffffff;
-
+  
+  // Efectos visuales
+  --bg-glass: rgba(13, 21, 37, 0.85);
 }
-
 html, body {
   margin: 0;
   padding: 0;

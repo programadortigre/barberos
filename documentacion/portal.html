@@ -1,0 +1,523 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Configuración de Negocio - Mi Aplicación</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        :root {
+            --primary: #4361ee;
+            --primary-dark: #3a56d4;
+            --secondary: #7209b7;
+            --success: #06d6a0;
+            --warning: #ffd166;
+            --danger: #ef476f;
+            --light: #f8f9fa;
+            --dark: #212529;
+            --gray: #6c757d;
+            --light-gray: #e9ecef;
+            --border: #dee2e6;
+            --card-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+        }
+
+        body {
+            background: linear-gradient(135deg, #f5f7fa 0%, #e4edf5 100%);
+            color: var(--dark);
+            line-height: 1.6;
+            min-height: 100vh;
+            padding: 0;
+            margin: 0;
+        }
+
+        .container {
+            max-width: 100%;
+            padding: 20px 15px;
+            margin: 0 auto;
+        }
+
+        @media (min-width: 768px) {
+            .container {
+                max-width: 700px;
+            }
+        }
+
+        header {
+            text-align: center;
+            padding: 25px 15px 15px;
+            position: relative;
+        }
+
+        .logo {
+            font-size: 28px;
+            font-weight: 800;
+            color: var(--primary);
+            margin-bottom: 5px;
+        }
+
+        .logo span {
+            color: var(--secondary);
+        }
+
+        .subtitle {
+            color: var(--gray);
+            font-size: 16px;
+        }
+
+        .card {
+            background: white;
+            border-radius: 16px;
+            box-shadow: var(--card-shadow);
+            padding: 25px;
+            margin-bottom: 25px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .card-title {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid var(--light-gray);
+        }
+
+        .card-title i {
+            background: var(--primary);
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 15px;
+            font-size: 18px;
+        }
+
+        .card-title h2 {
+            font-size: 22px;
+            font-weight: 600;
+            color: var(--dark);
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: var(--dark);
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 15px;
+            border: 2px solid var(--border);
+            border-radius: 12px;
+            font-size: 16px;
+            transition: all 0.3s;
+        }
+
+        .form-control:focus {
+            border-color: var(--primary);
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.2);
+        }
+
+        .upload-area {
+            border: 2px dashed var(--border);
+            border-radius: 12px;
+            padding: 30px 20px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+            background: var(--light);
+        }
+
+        .upload-area:hover {
+            border-color: var(--primary);
+            background: rgba(67, 97, 238, 0.05);
+        }
+
+        .upload-area i {
+            font-size: 40px;
+            color: var(--primary);
+            margin-bottom: 15px;
+        }
+
+        .upload-area p {
+            color: var(--gray);
+            font-size: 16px;
+            margin: 0;
+        }
+
+        .business-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            margin-top: 15px;
+        }
+
+        @media (min-width: 480px) {
+            .business-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+
+        .business-type {
+            border: 2px solid var(--border);
+            border-radius: 12px;
+            padding: 20px 10px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+            background: white;
+        }
+
+        .business-type:hover,
+        .business-type.selected {
+            border-color: var(--primary);
+            background: rgba(67, 97, 238, 0.05);
+            transform: translateY(-3px);
+        }
+
+        .business-type i {
+            font-size: 30px;
+            margin-bottom: 10px;
+            display: block;
+        }
+
+        .business-type span {
+            font-size: 14px;
+            color: var(--dark);
+        }
+
+        .modules-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+        }
+
+        @media (min-width: 480px) {
+            .modules-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+
+        .module-item {
+            border: 2px solid var(--border);
+            border-radius: 12px;
+            padding: 20px 10px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+            background: white;
+        }
+
+        .module-item:hover,
+        .module-item.selected {
+            border-color: var(--primary);
+            background: rgba(67, 97, 238, 0.05);
+            transform: translateY(-3px);
+        }
+
+        .module-item i {
+            font-size: 30px;
+            margin-bottom: 10px;
+            display: block;
+            color: var(--primary);
+        }
+
+        .module-item span {
+            font-size: 14px;
+            font-weight: 500;
+            color: var(--dark);
+            display: block;
+        }
+
+        .module-item small {
+            font-size: 12px;
+            color: var(--gray);
+            display: block;
+            margin-top: 5px;
+        }
+
+        .btn {
+            display: block;
+            width: 100%;
+            padding: 18px;
+            background: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-size: 18px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 4px 10px rgba(67, 97, 238, 0.3);
+        }
+
+        .btn:hover {
+            background: var(--primary-dark);
+            transform: translateY(-3px);
+            box-shadow: 0 6px 15px rgba(67, 97, 238, 0.4);
+        }
+
+        footer {
+            text-align: center;
+            padding: 25px 0;
+            color: var(--gray);
+            font-size: 14px;
+        }
+
+        .progress-bar {
+            height: 6px;
+            background: var(--light-gray);
+            border-radius: 3px;
+            margin: 30px 0 25px;
+            overflow: hidden;
+        }
+
+        .progress {
+            height: 100%;
+            background: var(--primary);
+            width: 30%;
+            border-radius: 3px;
+        }
+
+        .step-indicator {
+            text-align: center;
+            color: var(--primary);
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <header>
+            <div class="logo">Mi<span>Negocio</span></div>
+            <p class="subtitle">Configura tu negocio en pocos pasos</p>
+        </header>
+
+        <div class="progress-bar">
+            <div class="progress"></div>
+        </div>
+        <div class="step-indicator">Paso 1 de 3</div>
+
+        <div class="card">
+            <div class="card-title">
+                <i class="fas fa-info-circle"></i>
+                <h2>Información básica</h2>
+            </div>
+
+            <div class="form-group">
+                <label for="businessName">Nombre del negocio</label>
+                <input type="text" id="businessName" class="form-control" placeholder="Ej: Mi Negocio">
+            </div>
+
+            <div class="form-group">
+                <label>Logo (opcional)</label>
+                <div class="upload-area">
+                    <i class="fas fa-cloud-upload-alt"></i>
+                    <p>➕ Subir logo</p>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label>Tipo de negocio</label>
+                <p>Selecciona el que más se ajuste a tu actividad</p>
+
+                <div class="business-grid">
+                    <div class="business-type selected">
+                        <i>✂️</i>
+                        <span>Barbería/Peluquería</span>
+                    </div>
+                    <div class="business-type">
+                        <i>👕</i>
+                        <span>Tienda de ropa</span>
+                    </div>
+                    <div class="business-type">
+                        <i>🏪</i>
+                        <span>Bodega/Minimarket</span>
+                    </div>
+                    <div class="business-type">
+                        <i>🍽️</i>
+                        <span>Restaurante/Menú</span>
+                    </div>
+                    <div class="business-type">
+                        <i>🔧</i>
+                        <span>Ferretería</span>
+                    </div>
+                    <div class="business-type">
+                        <i>🚗</i>
+                        <span>Repuestos</span>
+                    </div>
+                    <div class="business-type">
+                        <i>🏨</i>
+                        <span>Hotel/Hospedaje</span>
+                    </div>
+                    <div class="business-type">
+                        <i>❓</i>
+                        <span>Otro</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-title">
+                <i class="fas fa-cubes"></i>
+                <h2>Módulos</h2>
+            </div>
+
+            <p>Personaliza los módulos que necesitas para administrar tu negocio</p>
+
+            <div class="modules-grid">
+                <div class="module-item selected">
+                    <i>💰</i>
+                    <span>Ventas</span>
+                    <small>Registra y consulta tus ventas</small>
+                </div>
+                <div class="module-item selected">
+                    <i>📦</i>
+                    <span>Productos</span>
+                    <small>Administra tus productos</small>
+                </div>
+                <div class="module-item selected">
+                    <i>📊</i>
+                    <span>Stock</span>
+                    <small>Control de inventario</small>
+                </div>
+                <div class="module-item">
+                    <i>🛒</i>
+                    <span>Compras</span>
+                    <small>Registra compras</small>
+                </div>
+                <div class="module-item selected">
+                    <i>📈</i>
+                    <span>Finanzas</span>
+                    <small>Ingresos, egresos y balances</small>
+                </div>
+                <div class="module-item selected">
+                    <i>👥</i>
+                    <span>Clientes</span>
+                    <small>Gestión de clientes</small>
+                </div>
+                <div class="module-item">
+                    <i>🚚</i>
+                    <span>Proveedores</span>
+                    <small>Gestiona proveedores</small>
+                </div>
+                <div class="module-item selected">
+                    <i>📅</i>
+                    <span>Agenda</span>
+                    <small>Citas y reservas</small>
+                </div>
+                <div class="module-item">
+                    <i>📄</i>
+                    <span>Reportes</span>
+                    <small>Informes de negocio</small>
+                </div>
+                <div class="module-item">
+                    <i>🖼️</i>
+                    <span>Galería</span>
+                    <small>Fotos de tu negocio</small>
+                </div>
+                <div class="module-item">
+                    <i>📋</i>
+                    <span>Pedidos</span>
+                    <small>Seguimiento de pedidos</small>
+                </div>
+                <div class="module-item">
+                    <i>📖</i>
+                    <span>Menú</span>
+                    <small>Define tu carta o menú</small>
+                </div>
+                <div class="module-item">
+                    <i>🏦</i>
+                    <span>Caja diaria</span>
+                    <small>Control diario de caja</small>
+                </div>
+                <div class="module-item">
+                    <i>🛏️</i>
+                    <span>Habitaciones</span>
+                    <small>Gestiona reservas</small>
+                </div>
+                <div class="module-item">
+                    <i>🔧</i>
+                    <span>Servicios</span>
+                    <small>Servicios que ofreces</small>
+                </div>
+            </div>
+        </div>
+
+        <button class="btn">
+            <i class="fas fa-rocket"></i> Crear mi negocio
+        </button>
+
+        <footer>
+            <p>© 2025 Mi Aplicación</p>
+        </footer>
+    </div>
+
+    <script>
+        // Selección de tipo de negocio
+        const businessTypes = document.querySelectorAll('.business-type');
+        businessTypes.forEach(type => {
+            type.addEventListener('click', function () {
+                businessTypes.forEach(t => t.classList.remove('selected'));
+                this.classList.add('selected');
+            });
+        });
+
+        // Selección de módulos
+        const modules = document.querySelectorAll('.module-item');
+        modules.forEach(module => {
+            module.addEventListener('click', function () {
+                this.classList.toggle('selected');
+            });
+        });
+
+        // Efecto para el botón
+        const btn = document.querySelector('.btn');
+        btn.addEventListener('mousedown', function () {
+            this.style.transform = 'translateY(1px)';
+        });
+        btn.addEventListener('mouseup', function () {
+            this.style.transform = 'translateY(0)';
+        });
+        btn.addEventListener('mouseleave', function () {
+            this.style.transform = 'translateY(0)';
+        });
+
+        // Simulación de carga de archivos
+        const uploadArea = document.querySelector('.upload-area');
+        uploadArea.addEventListener('click', function () {
+            this.innerHTML = '<i class="fas fa-spinner fa-spin"></i><p>Subiendo logo...</p>';
+            setTimeout(() => {
+                this.innerHTML = '<i class="fas fa-check-circle" style="color:#06d6a0"></i><p>¡Logo subido correctamente!</p>';
+                this.style.borderColor = '#06d6a0';
+                this.style.backgroundColor = 'rgba(6, 214, 160, 0.05)';
+            }, 1500);
+        });
+    </script>
+</body>
+
+</html>

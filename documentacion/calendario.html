@@ -1,0 +1,1106 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Agenda y Caja - Mi Negocio</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        :root {
+            --primary: #4361ee;
+            --primary-dark: #3a56d4;
+            --agenda: #4361ee;
+            --caja: #06d6a0;
+            --success: #06d6a0;
+            --warning: #ffd166;
+            --danger: #ef476f;
+            --light: #f8f9fa;
+            --dark: #212529;
+            --gray: #6c757d;
+            --light-gray: #e9ecef;
+            --border: #dee2e6;
+            --card-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+        }
+
+        body {
+            background: linear-gradient(135deg, #f5f7fa 0%, #e4edf5 100%);
+            color: var(--dark);
+            line-height: 1.6;
+            min-height: 100vh;
+            padding: 0;
+            margin: 0;
+        }
+
+        .container {
+            max-width: 100%;
+            padding: 0 15px;
+            margin: 0 auto;
+            padding-bottom: 100px;
+        }
+
+        header {
+            background: white;
+            padding: 20px 15px;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+        }
+
+        .back-btn {
+            font-size: 20px;
+            color: var(--primary);
+            margin-right: 15px;
+            text-decoration: none;
+        }
+
+        .header-title {
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--dark);
+        }
+
+        .header-actions {
+            display: flex;
+            gap: 15px;
+        }
+
+        .header-action {
+            color: var(--primary);
+            font-size: 18px;
+            text-decoration: none;
+        }
+
+        .tabs {
+            display: flex;
+            background: white;
+            margin: 20px 15px;
+            border-radius: 50px;
+            padding: 5px;
+            box-shadow: var(--card-shadow);
+        }
+
+        .tab {
+            flex: 1;
+            text-align: center;
+            padding: 12px;
+            border-radius: 50px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .tab.active {
+            background: var(--agenda);
+            color: white;
+        }
+
+        .tab.caja.active {
+            background: var(--caja);
+        }
+
+        .date-display {
+            background: white;
+            padding: 15px;
+            border-radius: 16px;
+            box-shadow: var(--card-shadow);
+            margin: 0 15px 20px;
+            text-align: center;
+            font-weight: 600;
+            font-size: 18px;
+            color: var(--agenda);
+        }
+
+        .date-display.caja {
+            color: var(--caja);
+        }
+
+        .summary-cards {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            padding: 0 15px 20px;
+        }
+
+        .summary-card {
+            background: white;
+            border-radius: 16px;
+            box-shadow: var(--card-shadow);
+            padding: 20px;
+            text-align: center;
+            transition: transform 0.3s ease;
+            position: relative;
+        }
+
+        .summary-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .summary-card .icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 15px;
+            font-size: 22px;
+            color: white;
+        }
+
+        .appointments .icon {
+            background: var(--agenda);
+        }
+
+        .confirmed .icon {
+            background: var(--success);
+        }
+
+        .pending .icon {
+            background: var(--warning);
+        }
+
+        .cancelled .icon {
+            background: var(--danger);
+        }
+
+        .income .icon {
+            background: var(--caja);
+        }
+
+        .expenses .icon {
+            background: var(--danger);
+        }
+
+        .balance .icon {
+            background: var(--primary);
+        }
+
+        .transactions .icon {
+            background: var(--warning);
+        }
+
+        .summary-card .value {
+            font-size: 24px;
+            font-weight: 700;
+            margin: 10px 0 5px;
+        }
+
+        .summary-card .label {
+            font-size: 14px;
+            color: var(--gray);
+        }
+
+        .card {
+            background: white;
+            border-radius: 16px;
+            box-shadow: var(--card-shadow);
+            padding: 20px;
+            margin: 0 15px 20px;
+        }
+
+        .card-title {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid var(--light-gray);
+        }
+
+        .card-title i {
+            background: var(--agenda);
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 15px;
+            font-size: 18px;
+        }
+
+        .caja .card-title i {
+            background: var(--caja);
+        }
+
+        .card-title h2 {
+            font-size: 18px;
+            font-weight: 600;
+            color: var(--dark);
+        }
+
+        .appointment-list,
+        .transaction-list {
+            list-style: none;
+        }
+
+        .appointment-item,
+        .transaction-item {
+            display: flex;
+            padding: 15px 0;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .appointment-item:last-child,
+        .transaction-item:last-child {
+            border-bottom: none;
+        }
+
+        .appointment-time {
+            width: 70px;
+            font-weight: 700;
+            color: var(--agenda);
+            margin-right: 15px;
+        }
+
+        .appointment-details {
+            flex: 1;
+        }
+
+        .appointment-title {
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+
+        .appointment-client {
+            font-size: 14px;
+            color: var(--gray);
+            display: flex;
+            align-items: center;
+        }
+
+        .appointment-client i {
+            margin-right: 5px;
+            color: var(--agenda);
+        }
+
+        .appointment-status {
+            font-size: 12px;
+            padding: 3px 10px;
+            border-radius: 50px;
+            font-weight: 500;
+        }
+
+        .status-confirmed {
+            background: rgba(6, 214, 160, 0.2);
+            color: var(--success);
+        }
+
+        .status-pending {
+            background: rgba(255, 209, 102, 0.2);
+            color: var(--warning);
+        }
+
+        .status-cancelled {
+            background: rgba(239, 71, 111, 0.2);
+            color: var(--danger);
+        }
+
+        .transaction-details {
+            flex: 1;
+        }
+
+        .transaction-title {
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+
+        .transaction-info {
+            font-size: 14px;
+            color: var(--gray);
+        }
+
+        .transaction-amount {
+            font-weight: 700;
+            font-size: 18px;
+        }
+
+        .income-amount {
+            color: var(--caja);
+        }
+
+        .expense-amount {
+            color: var(--danger);
+        }
+
+        .search-bar {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .search-input {
+            flex: 1;
+            padding: 15px;
+            border: 2px solid var(--border);
+            border-radius: 12px;
+            font-size: 16px;
+        }
+
+        .search-btn {
+            width: 50px;
+            background: var(--agenda);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+        }
+
+        .caja .search-btn {
+            background: var(--caja);
+        }
+
+        .filter-bar {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+            overflow-x: auto;
+            padding-bottom: 5px;
+        }
+
+        .filter-bar::-webkit-scrollbar {
+            height: 4px;
+        }
+
+        .filter-bar::-webkit-scrollbar-thumb {
+            background: var(--agenda);
+            border-radius: 2px;
+        }
+
+        .caja .filter-bar::-webkit-scrollbar-thumb {
+            background: var(--caja);
+        }
+
+        .filter-btn {
+            padding: 10px 15px;
+            background: white;
+            border: 2px solid var(--border);
+            border-radius: 50px;
+            font-size: 14px;
+            font-weight: 500;
+            white-space: nowrap;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .filter-btn.active {
+            background: var(--agenda);
+            color: white;
+            border-color: var(--agenda);
+        }
+
+        .caja .filter-btn.active {
+            background: var(--caja);
+            border-color: var(--caja);
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 40px 20px;
+            color: var(--gray);
+        }
+
+        .empty-state i {
+            font-size: 50px;
+            margin-bottom: 15px;
+            opacity: 0.5;
+        }
+
+        .empty-state p {
+            font-size: 16px;
+        }
+
+        .btn {
+            display: block;
+            width: 100%;
+            padding: 18px;
+            background: var(--agenda);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-size: 18px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 4px 10px rgba(67, 97, 238, 0.3);
+            margin-top: 10px;
+        }
+
+        .caja .btn {
+            background: var(--caja);
+            box-shadow: 0 4px 10px rgba(6, 214, 160, 0.3);
+        }
+
+        .btn:hover {
+            background: var(--primary-dark);
+            transform: translateY(-3px);
+            box-shadow: 0 6px 15px rgba(67, 97, 238, 0.4);
+        }
+
+        .caja .btn:hover {
+            background: #05b38a;
+            box-shadow: 0 6px 15px rgba(6, 214, 160, 0.4);
+        }
+
+        .btn-outline {
+            background: transparent;
+            border: 2px solid var(--agenda);
+            color: var(--agenda);
+            box-shadow: none;
+        }
+
+        .caja .btn-outline {
+            border: 2px solid var(--caja);
+            color: var(--caja);
+        }
+
+        .btn-outline:hover {
+            background: rgba(67, 97, 238, 0.1);
+        }
+
+        .caja .btn-outline:hover {
+            background: rgba(6, 214, 160, 0.1);
+        }
+
+        .fab-btn {
+            position: fixed;
+            bottom: 30px;
+            right: 20px;
+            width: 60px;
+            height: 60px;
+            background: var(--agenda);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            box-shadow: 0 4px 15px rgba(67, 97, 238, 0.5);
+            text-decoration: none;
+            z-index: 100;
+            transition: all 0.3s;
+        }
+
+        .caja-fab {
+            background: var(--caja);
+            box-shadow: 0 4px 15px rgba(6, 214, 160, 0.5);
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s;
+        }
+
+        .modal.show {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .modal-content {
+            background: white;
+            width: 90%;
+            max-width: 500px;
+            border-radius: 16px;
+            overflow: hidden;
+            transform: translateY(20px);
+            transition: transform 0.3s;
+        }
+
+        .modal.show .modal-content {
+            transform: translateY(0);
+        }
+
+        .modal-header {
+            padding: 20px;
+            background: var(--agenda);
+            color: white;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .caja .modal-header {
+            background: var(--caja);
+        }
+
+        .modal-header h2 {
+            font-size: 20px;
+        }
+
+        .modal-close {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 24px;
+            cursor: pointer;
+        }
+
+        .modal-body {
+            padding: 20px;
+            max-height: 70vh;
+            overflow-y: auto;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: var(--dark);
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 15px;
+            border: 2px solid var(--border);
+            border-radius: 12px;
+            font-size: 16px;
+            transition: all 0.3s;
+        }
+
+        .form-control:focus {
+            border-color: var(--agenda);
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.2);
+        }
+
+        .caja .form-control:focus {
+            border-color: var(--caja);
+            box-shadow: 0 0 0 3px rgba(6, 214, 160, 0.2);
+        }
+
+        .select-wrapper {
+            position: relative;
+        }
+
+        .select-wrapper::after {
+            content: "▼";
+            position: absolute;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--gray);
+            pointer-events: none;
+        }
+
+        .select-wrapper select {
+            appearance: none;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            background: white;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+
+        .form-actions {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .btn-cancel {
+            background: var(--light-gray);
+            color: var(--dark);
+        }
+
+        .btn-cancel:hover {
+            background: #dcdde0;
+        }
+
+        @media (min-width: 768px) {
+            .container {
+                max-width: 700px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <header>
+            <div class="header-left">
+                <a href="#" class="back-btn">
+                    <i class="fas fa-arrow-left"></i>
+                </a>
+                <h1 class="header-title">Organización y Calendario</h1>
+            </div>
+            <div class="header-actions">
+                <a href="#" class="header-action">
+                    <i class="fas fa-calendar-alt"></i>
+                </a>
+                <a href="#" class="header-action">
+                    <i class="fas fa-cog"></i>
+                </a>
+            </div>
+        </header>
+
+        <div class="tabs">
+            <div class="tab active" data-tab="agenda">📅 Agenda</div>
+            <div class="tab caja" data-tab="caja">🏦 Caja Diaria</div>
+        </div>
+
+        <!-- Sección de Agenda -->
+        <div id="agenda-tab" class="tab-content">
+            <div class="date-display">
+                <i class="fas fa-calendar-day"></i> Viernes, 21 de Junio 2025
+            </div>
+
+            <div class="summary-cards">
+                <div class="summary-card appointments">
+                    <div class="icon">
+                        <i class="fas fa-calendar-check"></i>
+                    </div>
+                    <div class="value">8</div>
+                    <div class="label">Citas hoy</div>
+                </div>
+
+                <div class="summary-card confirmed">
+                    <div class="icon">
+                        <i class="fas fa-check-circle"></i>
+                    </div>
+                    <div class="value">6</div>
+                    <div class="label">Confirmadas</div>
+                </div>
+
+                <div class="summary-card pending">
+                    <div class="icon">
+                        <i class="fas fa-exclamation-circle"></i>
+                    </div>
+                    <div class="value">1</div>
+                    <div class="label">Pendientes</div>
+                </div>
+
+                <div class="summary-card cancelled">
+                    <div class="icon">
+                        <i class="fas fa-times-circle"></i>
+                    </div>
+                    <div class="value">1</div>
+                    <div class="label">Canceladas</div>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-title">
+                    <i class="fas fa-list"></i>
+                    <h2>Citas de Hoy</h2>
+                </div>
+
+                <ul class="appointment-list">
+                    <li class="appointment-item">
+                        <div class="appointment-time">09:00</div>
+                        <div class="appointment-details">
+                            <div class="appointment-title">Corte de cabello</div>
+                            <div class="appointment-client">
+                                <i class="fas fa-user"></i> Juan Pérez
+                            </div>
+                            <span class="appointment-status status-confirmed">Confirmada</span>
+                        </div>
+                    </li>
+
+                    <li class="appointment-item">
+                        <div class="appointment-time">10:30</div>
+                        <div class="appointment-details">
+                            <div class="appointment-title">Coloración</div>
+                            <div class="appointment-client">
+                                <i class="fas fa-user"></i> María García
+                            </div>
+                            <span class="appointment-status status-confirmed">Confirmada</span>
+                        </div>
+                    </li>
+
+                    <li class="appointment-item">
+                        <div class="appointment-time">12:00</div>
+                        <div class="appointment-details">
+                            <div class="appointment-title">Manicure</div>
+                            <div class="appointment-client">
+                                <i class="fas fa-user"></i> Ana Martínez
+                            </div>
+                            <span class="appointment-status status-cancelled">Cancelada</span>
+                        </div>
+                    </li>
+
+                    <li class="appointment-item">
+                        <div class="appointment-time">15:00</div>
+                        <div class="appointment-details">
+                            <div class="appointment-title">Masaje relajante</div>
+                            <div class="appointment-client">
+                                <i class="fas fa-user"></i> Roberto Sánchez
+                            </div>
+                            <span class="appointment-status status-pending">Por confirmar</span>
+                        </div>
+                    </li>
+
+                    <li class="appointment-item">
+                        <div class="appointment-time">17:30</div>
+                        <div class="appointment-details">
+                            <div class="appointment-title">Tratamiento facial</div>
+                            <div class="appointment-client">
+                                <i class="fas fa-user"></i> Laura Fernández
+                            </div>
+                            <span class="appointment-status status-confirmed">Confirmada</span>
+                        </div>
+                    </li>
+                </ul>
+
+                <button class="btn-outline">
+                    <i class="fas fa-calendar-week"></i> Ver agenda completa
+                </button>
+            </div>
+        </div>
+
+        <!-- Sección de Caja Diaria -->
+        <div id="caja-tab" class="tab-content hidden">
+            <div class="date-display caja">
+                <i class="fas fa-cash-register"></i> Caja del Viernes, 21 de Junio 2025
+            </div>
+
+            <div class="summary-cards">
+                <div class="summary-card income">
+                    <div class="icon">
+                        <i class="fas fa-arrow-down"></i>
+                    </div>
+                    <div class="value">$1,250</div>
+                    <div class="label">Ingresos</div>
+                </div>
+
+                <div class="summary-card expenses">
+                    <div class="icon">
+                        <i class="fas fa-arrow-up"></i>
+                    </div>
+                    <div class="value">$350</div>
+                    <div class="label">Egresos</div>
+                </div>
+
+                <div class="summary-card balance">
+                    <div class="icon">
+                        <i class="fas fa-balance-scale"></i>
+                    </div>
+                    <div class="value">$900</div>
+                    <div class="label">Balance</div>
+                </div>
+
+                <div class="summary-card transactions">
+                    <div class="icon">
+                        <i class="fas fa-exchange-alt"></i>
+                    </div>
+                    <div class="value">24</div>
+                    <div class="label">Transacciones</div>
+                </div>
+            </div>
+
+            <div class="card caja">
+                <div class="card-title">
+                    <i class="fas fa-list"></i>
+                    <h2>Últimos Movimientos</h2>
+                </div>
+
+                <ul class="transaction-list">
+                    <li class="transaction-item">
+                        <div class="transaction-details">
+                            <div class="transaction-title">Venta #00125</div>
+                            <div class="transaction-info">Cliente: Juan Pérez - Efectivo</div>
+                        </div>
+                        <div class="transaction-amount income-amount">+$125.00</div>
+                    </li>
+
+                    <li class="transaction-item">
+                        <div class="transaction-details">
+                            <div class="transaction-title">Pago a proveedor</div>
+                            <div class="transaction-info">Distribuidora Tech - Transferencia</div>
+                        </div>
+                        <div class="transaction-amount expense-amount">-$250.00</div>
+                    </li>
+
+                    <li class="transaction-item">
+                        <div class="transaction-details">
+                            <div class="transaction-title">Venta #00126</div>
+                            <div class="transaction-info">Cliente: María García - Tarjeta</div>
+                        </div>
+                        <div class="transaction-amount income-amount">+$89.50</div>
+                    </li>
+
+                    <li class="transaction-item">
+                        <div class="transaction-details">
+                            <div class="transaction-title">Compra de materiales</div>
+                            <div class="transaction-info">Ferretería Central - Efectivo</div>
+                        </div>
+                        <div class="transaction-amount expense-amount">-$75.00</div>
+                    </li>
+
+                    <li class="transaction-item">
+                        <div class="transaction-details">
+                            <div class="transaction-title">Venta #00127</div>
+                            <div class="transaction-info">Cliente: Carlos López - Efectivo</div>
+                        </div>
+                        <div class="transaction-amount income-amount">+$210.00</div>
+                    </li>
+                </ul>
+
+                <button class="btn-outline">
+                    <i class="fas fa-history"></i> Ver historial completo
+                </button>
+            </div>
+        </div>
+
+        <a href="#" class="fab-btn" id="agenda-fab">
+            <i class="fas fa-plus"></i>
+        </a>
+        <a href="#" class="fab-btn caja-fab hidden" id="caja-fab">
+            <i class="fas fa-plus"></i>
+        </a>
+
+        <!-- Modal para nueva cita -->
+        <div class="modal" id="appointment-modal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h2>Nueva Cita</h2>
+                    <button class="modal-close">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label for="appointment-title">Título *</label>
+                        <input type="text" id="appointment-title" class="form-control"
+                            placeholder="Ej: Corte de cabello">
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="appointment-date">Fecha *</label>
+                            <input type="date" id="appointment-date" class="form-control" value="2025-06-21">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="appointment-time">Hora *</label>
+                            <input type="time" id="appointment-time" class="form-control" value="10:00">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="appointment-client">Cliente *</label>
+                        <div class="select-wrapper">
+                            <select id="appointment-client" class="form-control">
+                                <option value="">Seleccionar cliente</option>
+                                <option value="1">Juan Pérez</option>
+                                <option value="2">María García</option>
+                                <option value="3">Carlos López</option>
+                                <option value="4">Ana Martínez</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="appointment-service">Servicio *</label>
+                        <div class="select-wrapper">
+                            <select id="appointment-service" class="form-control">
+                                <option value="">Seleccionar servicio</option>
+                                <option value="1">Corte de cabello</option>
+                                <option value="2">Coloración</option>
+                                <option value="3">Manicure</option>
+                                <option value="4">Pedicure</option>
+                                <option value="5">Masaje</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="appointment-notes">Notas adicionales</label>
+                        <textarea id="appointment-notes" class="form-control" rows="3"
+                            placeholder="Detalles de la cita"></textarea>
+                    </div>
+
+                    <div class="form-actions">
+                        <button class="btn btn-cancel">Cancelar</button>
+                        <button class="btn">Guardar Cita</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Modal para nueva transacción -->
+        <div class="modal caja" id="transaction-modal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h2>Nueva Transacción</h2>
+                    <button class="modal-close">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label for="transaction-type">Tipo *</label>
+                        <div class="select-wrapper">
+                            <select id="transaction-type" class="form-control">
+                                <option value="income">Ingreso</option>
+                                <option value="expense">Egreso</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="transaction-title">Descripción *</label>
+                        <input type="text" id="transaction-title" class="form-control"
+                            placeholder="Ej: Venta de productos">
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="transaction-amount">Monto *</label>
+                            <input type="number" id="transaction-amount" class="form-control" placeholder="0.00"
+                                step="0.01">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="transaction-date">Fecha *</label>
+                            <input type="datetime-local" id="transaction-date" class="form-control"
+                                value="2025-06-21T10:00">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="transaction-method">Método de pago *</label>
+                        <div class="select-wrapper">
+                            <select id="transaction-method" class="form-control">
+                                <option value="cash">Efectivo</option>
+                                <option value="card">Tarjeta</option>
+                                <option value="transfer">Transferencia</option>
+                                <option value="check">Cheque</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="transaction-notes">Notas adicionales</label>
+                        <textarea id="transaction-notes" class="form-control" rows="3"
+                            placeholder="Detalles de la transacción"></textarea>
+                    </div>
+
+                    <div class="form-actions">
+                        <button class="btn btn-cancel">Cancelar</button>
+                        <button class="btn">Guardar Transacción</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Funcionalidad de pestañas
+        const tabs = document.querySelectorAll('.tab');
+        const tabContents = document.querySelectorAll('.tab-content');
+        const agendaFab = document.getElementById('agenda-fab');
+        const cajaFab = document.getElementById('caja-fab');
+
+        tabs.forEach(tab => {
+            tab.addEventListener('click', () => {
+                tabs.forEach(t => t.classList.remove('active'));
+                tab.classList.add('active');
+
+                tabContents.forEach(content => content.classList.add('hidden'));
+
+                const tabId = tab.getAttribute('data-tab');
+                document.getElementById(`${tabId}-tab`).classList.remove('hidden');
+
+                // Cambiar botón flotante según pestaña
+                if (tabId === 'agenda') {
+                    agendaFab.classList.remove('hidden');
+                    cajaFab.classList.add('hidden');
+                } else {
+                    agendaFab.classList.add('hidden');
+                    cajaFab.classList.remove('hidden');
+                }
+            });
+        });
+
+        // Modales
+        const appointmentModal = document.getElementById('appointment-modal');
+        const transactionModal = document.getElementById('transaction-modal');
+        const closeModalBtns = document.querySelectorAll('.modal-close');
+        const cancelBtns = document.querySelectorAll('.btn-cancel');
+
+        // Abrir modal de nueva cita
+        agendaFab.addEventListener('click', function (e) {
+            e.preventDefault();
+            appointmentModal.classList.add('show');
+        });
+
+        // Abrir modal de nueva transacción
+        cajaFab.addEventListener('click', function (e) {
+            e.preventDefault();
+            transactionModal.classList.add('show');
+        });
+
+        // Cerrar modales
+        closeModalBtns.forEach(btn => {
+            btn.addEventListener('click', function () {
+                appointmentModal.classList.remove('show');
+                transactionModal.classList.remove('show');
+            });
+        });
+
+        cancelBtns.forEach(btn => {
+            btn.addEventListener('click', function () {
+                appointmentModal.classList.remove('show');
+                transactionModal.classList.remove('show');
+            });
+        });
+
+        // Cerrar modal al hacer clic fuera del contenido
+        window.addEventListener('click', function (e) {
+            if (e.target === appointmentModal) {
+                appointmentModal.classList.remove('show');
+            }
+            if (e.target === transactionModal) {
+                transactionModal.classList.remove('show');
+            }
+        });
+
+        // Cambiar tipo de transacción
+        const transactionType = document.getElementById('transaction-type');
+        transactionType.addEventListener('change', function () {
+            // Podríamos cambiar estilos o comportamientos aquí si es necesario
+        });
+    </script>
+</body>
+
+</html>

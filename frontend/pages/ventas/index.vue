@@ -73,6 +73,7 @@
 
 <script setup lang="ts">
 import { ref, computed } from 'vue'
+definePageMeta({ layout: 'aplicacion' })
 
 const ventas = ref([
   { id: 1, fecha: '2025-06-01', cliente: 'Juan Pérez', total: 120.5, estado: 'Pagado' },
