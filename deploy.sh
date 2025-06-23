@@ -114,11 +114,11 @@ echo -e "${GREEN}✅ Archivo Nginx generado.${NC}"
 
 # 👉 Eliminar contenedores antiguos
 echo -e "${CYAN}🧹 Limpiando contenedores anteriores...${NC}"
-docker compose -f docker-compose.prod.yml down -v || true
+docker-compose -f docker-compose.prod.yml down -v || true
 
 # 🐳 Levantar contenedores
 echo -e "${CYAN}🐳 Levantando contenedores...${NC}"
-docker compose -f docker-compose.prod.yml up -d --build
+docker-compose -f docker-compose.prod.yml up -d --build
 
 # 🧱 Migraciones Alembic
 echo -e "${CYAN}🧱 Ejecutando migraciones...${NC}"
