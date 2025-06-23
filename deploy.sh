@@ -161,7 +161,8 @@ done
 
 # 🔑 Generar hash
 echo -e "${CYAN}🔐 Generando hash...${NC}"
-HASHED_PASS=$(docker run --rm python:3-slim python -c "import bcrypt; print(bcrypt.hashpw(b'$ADMIN_PASS', bcrypt.gensalt()).decode())")
+
+HASHED_PASS=$(docker run --rm python:3-slim sh -c "pip install bcrypt >/dev/null 2>&1 && python -c \"import bcrypt; print(b'$ADMIN_PASS'); print(bcrypt.hashpw(b'$ADMIN_PASS', bcrypt.gensalt()).decode())\"" | tail -n 1)
 
 # 👨‍💻 SQL seguro
 [[ -n "$ADMIN_AP_MATERNO" ]] && APELLIDO_MAT="'$ADMIN_AP_MATERNO'" || APELLIDO_MAT=NULL
