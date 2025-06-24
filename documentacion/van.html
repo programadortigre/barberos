@@ -1,0 +1,774 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Diseño de Marca y Branding Integral en Lima</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&family=Raleway:wght@800;900&display=swap"
+        rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css">
+    <style>
+        :root {
+            --primary: #1bd0d7;
+            --primary-dark: #16a8ae;
+            --secondary: #2c3e50;
+            --accent: #ff6b6b;
+            --light: #f8f9fa;
+            --dark: #1a1a2e;
+            --gradient: linear-gradient(135deg, var(--primary) 0%, #1a2530 100%);
+            --card-gradient: linear-gradient(to bottom, rgba(27, 208, 215, 0.2), rgba(22, 168, 174, 0.6));
+            --transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #0f2027 0%, #203a43 50%, #2c5364 100%);
+            color: var(--light);
+            line-height: 1.7;
+            overflow-x: hidden;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header con efecto de partículas */
+        header {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+            padding: 40px 0;
+            background: radial-gradient(circle at center, rgba(27, 208, 215, 0.1) 0%, rgba(22, 168, 174, 0.05) 50%, transparent 100%);
+        }
+
+        .particles {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+        }
+
+        .particle {
+            position: absolute;
+            border-radius: 50%;
+            background: var(--primary);
+            opacity: 0.3;
+        }
+
+        .header-content {
+            text-align: center;
+            max-width: 900px;
+            padding: 40px;
+            position: relative;
+            z-index: 10;
+            backdrop-filter: blur(5px);
+            background: rgba(26, 26, 46, 0.6);
+            border-radius: 25px;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+            border: 1px solid rgba(27, 208, 215, 0.2);
+            animation: float 8s ease-in-out infinite;
+        }
+
+        h1 {
+            font-family: 'Raleway', sans-serif;
+            font-size: 4.5rem;
+            font-weight: 900;
+            margin-bottom: 20px;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            background: linear-gradient(45deg, var(--primary) 30%, #ffffff 70%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            line-height: 1.1;
+        }
+
+        .tagline {
+            font-size: 1.8rem;
+            font-weight: 300;
+            margin-bottom: 40px;
+            opacity: 0.9;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .highlight {
+            color: var(--primary);
+            font-weight: 600;
+            position: relative;
+        }
+
+        .highlight::after {
+            content: "";
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: var(--primary);
+            border-radius: 3px;
+            transform: scaleX(0);
+            transform-origin: right;
+            transition: transform 0.5s ease;
+        }
+
+        .highlight:hover::after {
+            transform: scaleX(1);
+            transform-origin: left;
+        }
+
+        /* Sección de servicios con tarjetas 3D */
+        .services-section {
+            padding: 100px 0;
+            position: relative;
+        }
+
+        .section-title {
+            text-align: center;
+            font-family: 'Raleway', sans-serif;
+            font-size: 3.2rem;
+            margin-bottom: 80px;
+            font-weight: 800;
+            position: relative;
+            display: inline-block;
+            left: 50%;
+            transform: translateX(-50%);
+            background: linear-gradient(45deg, var(--primary) 0%, #ffffff 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .section-title::after {
+            content: "";
+            position: absolute;
+            bottom: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 5px;
+            background: var(--primary);
+            border-radius: 5px;
+        }
+
+        .cards-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 40px;
+            margin-top: 60px;
+        }
+
+        .service-card {
+            perspective: 1500px;
+            height: 450px;
+        }
+
+        .card-inner {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            transform-style: preserve-3d;
+            transition: var(--transition);
+            border-radius: 25px;
+            overflow: hidden;
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.4);
+        }
+
+        .service-card:hover .card-inner {
+            transform: rotateY(180deg);
+        }
+
+        .card-front,
+        .card-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding: 40px;
+            border-radius: 25px;
+        }
+
+        .card-front {
+            background-size: cover;
+            background-position: center;
+            background-blend-mode: overlay;
+            display: flex;
+            align-items: flex-end;
+            justify-content: flex-start;
+        }
+
+        .card-back {
+            background: linear-gradient(135deg, var(--secondary) 0%, #1a2530 100%);
+            transform: rotateY(180deg);
+            text-align: center;
+            border: 2px solid var(--primary);
+        }
+
+        .card-content {
+            background: var(--card-gradient);
+            padding: 30px;
+            border-radius: 20px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transform: translateY(20px);
+            transition: var(--transition);
+            width: 100%;
+        }
+
+        .service-card:hover .card-content {
+            transform: translateY(0);
+        }
+
+        .service-title {
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin-bottom: 15px;
+            font-family: 'Raleway', sans-serif;
+            color: white;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+        }
+
+        .service-description {
+            font-size: 1.1rem;
+            margin-bottom: 25px;
+            color: rgba(255, 255, 255, 0.9);
+        }
+
+        .btn-more {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 12px 30px;
+            background: var(--gradient);
+            color: white;
+            border: none;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: var(--transition);
+            box-shadow: 0 10px 20px rgba(27, 208, 215, 0.3);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-size: 0.9rem;
+        }
+
+        .btn-more:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(27, 208, 215, 0.5);
+        }
+
+        .card-back-content {
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .card-back-title {
+            font-size: 2rem;
+            margin-bottom: 20px;
+            color: var(--primary);
+            font-family: 'Raleway', sans-serif;
+        }
+
+        .features-list {
+            list-style: none;
+            margin-bottom: 30px;
+            text-align: left;
+            padding: 0 20px;
+        }
+
+        .features-list li {
+            padding: 10px 0;
+            position: relative;
+            padding-left: 30px;
+            font-size: 1.1rem;
+        }
+
+        .features-list li:before {
+            content: "✓";
+            position: absolute;
+            left: 0;
+            color: var(--primary);
+            font-weight: bold;
+        }
+
+        /* Animaciones y efectos */
+        @keyframes float {
+            0% {
+                transform: translateY(0px);
+            }
+
+            50% {
+                transform: translateY(-20px);
+            }
+
+            100% {
+                transform: translateY(0px);
+            }
+        }
+
+        @keyframes pulse {
+            0% {
+                transform: scale(1);
+            }
+
+            50% {
+                transform: scale(1.05);
+            }
+
+            100% {
+                transform: scale(1);
+            }
+        }
+
+        .pulse {
+            animation: pulse 4s infinite ease-in-out;
+        }
+
+        .fade-in {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.8s ease, transform 0.8s ease;
+        }
+
+        .fade-in.appear {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Footer */
+        footer {
+            background: linear-gradient(to top, rgba(26, 26, 46, 0.9), rgba(44, 62, 80, 0.7));
+            padding: 60px 0 30px;
+            position: relative;
+            overflow: hidden;
+            text-align: center;
+            border-top: 2px solid var(--primary);
+        }
+
+        .footer-content {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 30px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 20px;
+            backdrop-filter: blur(10px);
+        }
+
+        .contact-info {
+            margin-top: 30px;
+            font-size: 1.2rem;
+        }
+
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 25px;
+            margin-top: 30px;
+        }
+
+        .social-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--gradient);
+            color: white;
+            font-size: 1.5rem;
+            transition: var(--transition);
+            box-shadow: 0 5px 15px rgba(27, 208, 215, 0.3);
+        }
+
+        .social-icon:hover {
+            transform: translateY(-8px) rotate(10deg);
+            box-shadow: 0 10px 25px rgba(27, 208, 215, 0.5);
+        }
+
+        .copyright {
+            margin-top: 40px;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            opacity: 0.7;
+        }
+
+        /* Responsive */
+        @media (max-width: 1200px) {
+            h1 {
+                font-size: 3.8rem;
+            }
+        }
+
+        @media (max-width: 992px) {
+            h1 {
+                font-size: 3.2rem;
+            }
+
+            .section-title {
+                font-size: 2.8rem;
+            }
+
+            .tagline {
+                font-size: 1.6rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2.6rem;
+            }
+
+            .section-title {
+                font-size: 2.4rem;
+            }
+
+            .tagline {
+                font-size: 1.4rem;
+            }
+
+            .header-content {
+                padding: 30px;
+            }
+
+            .service-card {
+                height: 400px;
+            }
+
+            .cards-container {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 576px) {
+            h1 {
+                font-size: 2.2rem;
+                letter-spacing: 2px;
+            }
+
+            .section-title {
+                font-size: 2rem;
+            }
+
+            .header-content {
+                padding: 20px;
+            }
+
+            .service-card {
+                height: 380px;
+            }
+
+            .card-front,
+            .card-back {
+                padding: 25px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Header con efecto de partículas -->
+    <header>
+        <div class="particles" id="particles"></div>
+        <div class="container">
+            <div class="header-content pulse">
+                <h1>Diseño de Marca y Branding Integral en Lima</h1>
+                <p class="tagline">Ofrecemos soluciones completas para construir marcas <span
+                        class="highlight">sólidas</span> y <span class="highlight">memorables</span></p>
+                <a href="#services" class="btn-more">
+                    <i class="fas fa-arrow-down"></i> Nuestros Servicios
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Sección de servicios con tarjetas 3D -->
+    <section id="services" class="services-section">
+        <div class="container">
+            <h2 class="section-title">Servicios de Branding</h2>
+
+            <div class="cards-container">
+                <!-- Tarjeta 1: Diseño de Logotipo -->
+                <div class="service-card fade-in">
+                    <div class="card-inner">
+                        <div class="card-front"
+                            style="background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('https://images.unsplash.com/photo-1611162617474-5b21e879e113?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80');">
+                            <div class="card-content">
+                                <h3 class="service-title">Diseño de Logotipo Profesional</h3>
+                                <p class="service-description">Creación de identidad visual única que comunica la
+                                    esencia de tu marca, combinando creatividad y estrategia para un impacto duradero.
+                                </p>
+                                <a href="#" class="btn-more">Ver más <i class="fas fa-arrow-right"></i></a>
+                            </div>
+                        </div>
+                        <div class="card-back">
+                            <div class="card-back-content">
+                                <h3 class="card-back-title">Logotipo Profesional</h3>
+                                <ul class="features-list">
+                                    <li>Investigación de mercado y competencia</li>
+                                    <li>Conceptualización creativa</li>
+                                    <li>Desarrollo de múltiples propuestas</li>
+                                    <li>Presentación en diferentes aplicaciones</li>
+                                    <li>Entrega en todos los formatos necesarios</li>
+                                </ul>
+                                <a href="#" class="btn-more">Solicitar Cotización</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Tarjeta 2: Manual de Identidad -->
+                <div class="service-card fade-in">
+                    <div class="card-inner">
+                        <div class="card-front"
+                            style="background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('https://images.unsplash.com/photo-1589998059171-988d887df646?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80');">
+                            <div class="card-content">
+                                <h3 class="service-title">Manual de Identidad Visual</h3>
+                                <p class="service-description">Guía completa para mantener coherencia en todas las
+                                    aplicaciones de tu marca, asegurando consistencia en cada punto de contacto.</p>
+                                <a href="#" class="btn-more">Ver más <i class="fas fa-arrow-right"></i></a>
+                            </div>
+                        </div>
+                        <div class="card-back">
+                            <div class="card-back-content">
+                                <h3 class="card-back-title">Identidad Visual</h3>
+                                <ul class="features-list">
+                                    <li>Definición de paleta de colores</li>
+                                    <li>Selección tipográfica</li>
+                                    <li>Uso correcto del logotipo</li>
+                                    <li>Directrices para aplicaciones impresas</li>
+                                    <li>Directrices para aplicaciones digitales</li>
+                                </ul>
+                                <a href="#" class="btn-more">Solicitar Cotización</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Tarjeta 3: Diseño Gráfico -->
+                <div class="service-card fade-in">
+                    <div class="card-inner">
+                        <div class="card-front"
+                            style="background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('https://images.unsplash.com/photo-1467232004584-a241de8bcf5d?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80');">
+                            <div class="card-content">
+                                <h3 class="service-title">Diseño Gráfico Publicitario</h3>
+                                <p class="service-description">Materiales impactantes que comunican efectivamente tu
+                                    mensaje, desde folletos hasta vallas publicitarias de alto impacto.</p>
+                                <a href="#" class="btn-more">Ver más <i class="fas fa-arrow-right"></i></a>
+                            </div>
+                        </div>
+                        <div class="card-back">
+                            <div class="card-back-content">
+                                <h3 class="card-back-title">Diseño Publicitario</h3>
+                                <ul class="features-list">
+                                    <li>Diseño de folletos y brochures</li>
+                                    <li>Creación de banners y vallas publicitarias</li>
+                                    <li>Diseño para redes sociales</li>
+                                    <li>Presentaciones corporativas</li>
+                                    <li>Material POP y displays</li>
+                                </ul>
+                                <a href="#" class="btn-more">Solicitar Cotización</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Tarjeta 4: UX/UI y Web -->
+                <div class="service-card fade-in">
+                    <div class="card-inner">
+                        <div class="card-front"
+                            style="background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('https://images.unsplash.com/photo-1555066931-4365d14bab8c?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80');">
+                            <div class="card-content">
+                                <h3 class="service-title">Diseño UX/UI y Web</h3>
+                                <p class="service-description">Experiencias digitales intuitivas y atractivas para tus
+                                    clientes, combinando estética y funcionalidad para conversiones óptimas.</p>
+                                <a href="#" class="btn-more">Ver más <i class="fas fa-arrow-right"></i></a>
+                            </div>
+                        </div>
+                        <div class="card-back">
+                            <div class="card-back-content">
+                                <h3 class="card-back-title">Experiencia Digital</h3>
+                                <ul class="features-list">
+                                    <li>Diseño de experiencia de usuario (UX)</li>
+                                    <li>Interfaces modernas y atractivas (UI)</li>
+                                    <li>Diseño web responsivo</li>
+                                    <li>Prototipado interactivo</li>
+                                    <li>Desarrollo front-end</li>
+                                </ul>
+                                <a href="#" class="btn-more">Solicitar Cotización</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Tarjeta 5: Merchandising -->
+                <div class="service-card fade-in">
+                    <div class="card-inner">
+                        <div class="card-front"
+                            style="background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('https://images.unsplash.com/photo-1605733513597-a8f8341084e6?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80');">
+                            <div class="card-content">
+                                <h3 class="service-title">Merchandising</h3>
+                                <p class="service-description">Productos promocionales que fortalecen la identidad de tu
+                                    marca, creando recordación y conexión emocional con tu audiencia.</p>
+                                <a href="#" class="btn-more">Ver más <i class="fas fa-arrow-right"></i></a>
+                            </div>
+                        </div>
+                        <div class="card-back">
+                            <div class="card-back-content">
+                                <h3 class="card-back-title">Productos Promocionales</h3>
+                                <ul class="features-list">
+                                    <li>Diseño de productos personalizados</li>
+                                    <li>Selección de materiales de calidad</li>
+                                    <li>Producción y gestión de inventario</li>
+                                    <li>Estrategias de distribución</li>
+                                    <li>Kits corporativos</li>
+                                </ul>
+                                <a href="#" class="btn-more">Solicitar Cotización</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Tarjeta 6: Packaging -->
+                <div class="service-card fade-in">
+                    <div class="card-inner">
+                        <div class="card-front"
+                            style="background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('https://images.unsplash.com/photo-1605733513597-a8f8341084e6?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80');">
+                            <div class="card-content">
+                                <h3 class="service-title">Packaging</h3>
+                                <p class="service-description">Diseño de envases que destacan en el punto de venta y
+                                    comunican valor, convirtiendo productos en experiencias memorables.</p>
+                                <a href="#" class="btn-more">Ver más <i class="fas fa-arrow-right"></i></a>
+                            </div>
+                        </div>
+                        <div class="card-back">
+                            <div class="card-back-content">
+                                <h3 class="card-back-title">Diseño de Envases</h3>
+                                <ul class="features-list">
+                                    <li>Diseño estructural innovador</li>
+                                    <li>Soluciones para diferentes materiales</li>
+                                    <li>Enfoque en experiencia de desembalaje</li>
+                                    <li>Prototipado 3D</li>
+                                    <li>Diseño sostenible y ecológico</li>
+                                </ul>
+                                <a href="#" class="btn-more">Solicitar Cotización</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <h3>Transforma tu marca con nosotros</h3>
+                <p>Estamos listos para llevar tu identidad de marca al siguiente nivel con soluciones creativas y
+                    estratégicas.</p>
+
+                <div class="contact-info">
+                    <p><i class="fas fa-envelope"></i> info@brandinglima.com</p>
+                    <p><i class="fas fa-phone"></i> (01) 234-5678</p>
+                    <p><i class="fas fa-map-marker-alt"></i> Av. Paseo de la República 123, Lima</p>
+                </div>
+
+                <div class="social-links">
+                    <a href="#" class="social-icon"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#" class="social-icon"><i class="fab fa-instagram"></i></a>
+                    <a href="#" class="social-icon"><i class="fab fa-linkedin-in"></i></a>
+                    <a href="#" class="social-icon"><i class="fab fa-behance"></i></a>
+                </div>
+
+                <div class="copyright">
+                    <p>&copy; 2023 Branding Integral Lima. Todos los derechos reservados.</p>
+                    <p>Diseño y desarrollo con pasión por la creación de marcas memorables</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Crear efecto de partículas
+        function createParticles() {
+            const particlesContainer = document.getElementById('particles');
+            const particleCount = 50;
+
+            for (let i = 0; i < particleCount; i++) {
+                const particle = document.createElement('div');
+                particle.classList.add('particle');
+
+                // Posición aleatoria
+                const posX = Math.random() * 100;
+                const posY = Math.random() * 100;
+
+                // Tamaño aleatorio
+                const size = Math.random() * 10 + 5;
+
+                // Animación
+                const duration = Math.random() * 20 + 10;
+                const delay = Math.random() * 5;
+
+                particle.style.width = `${size}px`;
+                particle.style.height = `${size}px`;
+                particle.style.left = `${posX}%`;
+                particle.style.top = `${posY}%`;
+                particle.style.animation = `float ${duration}s ease-in-out ${delay}s infinite`;
+                particle.style.opacity = Math.random() * 0.5 + 0.1;
+
+                particlesContainer.appendChild(particle);
+            }
+        }
+
+        // Animación de scroll para elementos
+        function scrollAnimation() {
+            const elements = document.querySelectorAll('.fade-in');
+
+            elements.forEach(element => {
+                const elementPosition = element.getBoundingClientRect().top;
+                const screenPosition = window.innerHeight / 1.3;
+
+                if (elementPosition < screenPosition) {
+                    element.classList.add('appear');
+                }
+            });
+        }
+
+        // Inicializar
+        document.addEventListener('DOMContentLoaded', () => {
+            createParticles();
+
+            // Evento de scroll
+            window.addEventListener('scroll', scrollAnimation);
+            // Ejecutar una vez al cargar
+            scrollAnimation();
+        });
+    </script>
+</body>
+
+</html>

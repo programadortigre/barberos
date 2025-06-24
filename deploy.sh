@@ -7,61 +7,54 @@ GREEN='\033[0;32m'
 CYAN='\033[1;36m'
 NC='\033[0m'
 
-echo -e "${CYAN}🚀 Iniciando despliegue en modo FINAL BOSS...${NC}"
+# Detectar versión de docker compose
+if docker compose version &>/dev/null; then
+    DOCKER_COMPOSE_CMD="docker compose"
+else
+    DOCKER_COMPOSE_CMD="docker-compose"
+fi
 
-# 👉 Preguntar si usará SSL
+echo -e "${CYAN}🚀 Iniciando despliegue FINAL BOSS...${NC}"
+
 while true; do
   read -p "🔐 ¿Quieres usar SSL con Let's Encrypt? (s/n): " USE_SSL
   case $USE_SSL in
-    [Ss]* ) USE_SSL="s"; break;;
-    [Nn]* ) USE_SSL="n"; break;;
-    * ) echo -e "${RED}❌ Por favor responde con 's' o 'n'.${NC}";;
+    [Ss]*) USE_SSL="s"; break ;;
+    [Nn]*) USE_SSL="n"; break ;;
+    *) echo -e "${RED}❌ Por favor responde con 's' o 'n'.${NC}" ;;
   esac
 done
 
-# 👉 Pedir dominios
 while true; do
   read -p "🌍 Dominio principal (Frontend): " DOMAIN
-  [[ "$DOMAIN" != */* ]] && break || echo -e "${RED}❌ No incluyas rutas. Ej: zyma.lat${NC}"
+  if [[ "$DOMAIN" =~ ^[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$ ]]; then
+    break
+  else
+    echo -e "${RED}❌ Formato inválido. Ej: zyma.lat${NC}"
+  fi
 done
 
 while true; do
   read -p "🔗 Subdominio para API (Backend) [puede ser igual al principal]: " API_DOMAIN
-  [[ "$API_DOMAIN" != */* ]] && break || echo -e "${RED}❌ No incluyas /api. Solo el dominio.${NC}"
+  if [[ "$API_DOMAIN" =~ ^[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$ ]]; then
+    break
+  else
+    echo -e "${RED}❌ Formato inválido. Ej: api.zyma.lat${NC}"
+  fi
 done
 
-# 👉 Verificar Docker
 if ! command -v docker >/dev/null 2>&1; then
   echo -e "${RED}❌ Docker no está instalado.${NC}"
   exit 1
 fi
 
-# 👉 Instalar Certbot si falta
-if [[ "$USE_SSL" == "s" ]] && ! command -v certbot >/dev/null 2>&1; then
-  echo -e "${CYAN}🔧 Instalando Certbot...${NC}"
-  sudo apt update && sudo apt install -y certbot
-fi
+echo -e "${CYAN}🧹 Limpiando certificados antiguos...${NC}"
+for domain in "$DOMAIN" "www.$DOMAIN" "$API_DOMAIN"; do
+  sudo rm -rf ./certbot/conf/live/$domain ./certbot/conf/archive/$domain ./certbot/conf/renewal/$domain.conf 2>/dev/null || true
+done
 
-# 👉 Borrar certificados antiguos
-if [[ "$USE_SSL" == "s" ]]; then
-  echo -e "${CYAN}🧨 Eliminando certificados antiguos...${NC}"
-  for domain in "$DOMAIN" "www.$DOMAIN" "$API_DOMAIN"; do
-    sudo rm -rf /etc/letsencrypt/live/$domain /etc/letsencrypt/archive/$domain /etc/letsencrypt/renewal/$domain.conf 2>/dev/null || true
-  done
-fi
+mkdir -p ./nginx ./certbot/www ./certbot/conf
 
-# 👉 Sobrescribir prod.conf
-if [ -f ./nginx/prod.conf ]; then
-  echo -e "${CYAN}⚠️ Ya existe nginx/prod.conf. ¿Sobrescribirlo? (s/n):${NC}"
-  read -r OVERWRITE
-  [[ "$OVERWRITE" != "s" ]] && echo -e "${RED}🛑 Cancelado.${NC}" && exit 1
-fi
-
-# 👉 Crear carpetas necesarias
-mkdir -p ./nginx
-[[ "$USE_SSL" == "s" ]] && mkdir -p ./certbot/www ./certbot/conf
-
-# 👉 Generar configuración Nginx
 echo -e "${CYAN}📝 Generando configuración Nginx...${NC}"
 cat > ./nginx/prod.conf <<EOF
 server {
@@ -75,21 +68,16 @@ server {
     }
 
     location /api/ {
-        rewrite ^/api/?(.*)$ /\$1 break;
+        rewrite ^/api/?(.*)\$ /\$1 break;
         proxy_pass http://backend:8000/;
         proxy_set_header Host \$host;
         proxy_set_header X-Real-IP \$remote_addr;
         proxy_set_header X-Forwarded-For \$proxy_add_x_forwarded_for;
     }
-EOF
 
-[[ "$USE_SSL" == "s" ]] && cat >> ./nginx/prod.conf <<EOF
     location /.well-known/acme-challenge/ {
         root /var/www/certbot;
     }
-EOF
-
-cat >> ./nginx/prod.conf <<EOF
 }
 
 server {
@@ -101,38 +89,75 @@ server {
         proxy_set_header Host \$host;
         proxy_set_header X-Real-IP \$remote_addr;
     }
-EOF
 
-[[ "$USE_SSL" == "s" ]] && cat >> ./nginx/prod.conf <<EOF
     location /.well-known/acme-challenge/ {
         root /var/www/certbot;
     }
+}
 EOF
 
-echo "}" >> ./nginx/prod.conf
-echo -e "${GREEN}✅ Archivo Nginx generado.${NC}"
+if [[ "$USE_SSL" == "s" ]]; then
+cat >> ./nginx/prod.conf <<EOF
 
-# 👉 Eliminar contenedores antiguos
-echo -e "${CYAN}🧹 Limpiando contenedores anteriores...${NC}"
-docker-compose -f docker-compose.prod.yml down -v || true
+server {
+    listen 443 ssl;
+    server_name $DOMAIN www.$DOMAIN;
 
-# 🐳 Levantar contenedores
+    ssl_certificate     /etc/letsencrypt/live/$DOMAIN/fullchain.pem;
+    ssl_certificate_key /etc/letsencrypt/live/$DOMAIN/privkey.pem;
+
+    location / {
+        proxy_pass http://frontend:3000;
+        proxy_set_header Host \$host;
+        proxy_set_header X-Real-IP \$remote_addr;
+    }
+
+    location /api/ {
+        rewrite ^/api/?(.*)\$ /\$1 break;
+        proxy_pass http://backend:8000/;
+        proxy_set_header Host \$host;
+        proxy_set_header X-Real-IP \$remote_addr;
+        proxy_set_header X-Forwarded-For \$proxy_add_x_forwarded_for;
+    }
+}
+
+server {
+    listen 443 ssl;
+    server_name $API_DOMAIN;
+
+    ssl_certificate     /etc/letsencrypt/live/$DOMAIN/fullchain.pem;
+    ssl_certificate_key /etc/letsencrypt/live/$DOMAIN/privkey.pem;
+
+    location / {
+        proxy_pass http://backend:8000;
+        proxy_set_header Host \$host;
+        proxy_set_header X-Real-IP \$remote_addr;
+    }
+}
+EOF
+fi
+
+echo -e "${GREEN}✅ Configuración Nginx generada.${NC}"
+
+echo -e "${CYAN}🧹 Eliminando contenedores anteriores...${NC}"
+$DOCKER_COMPOSE_CMD -f docker-compose.prod.yml down -v || true
+
 echo -e "${CYAN}🐳 Levantando contenedores...${NC}"
-docker-compose -f docker-compose.prod.yml up -d --build
+$DOCKER_COMPOSE_CMD -f docker-compose.prod.yml up -d --build
 
-# 🧱 Migraciones Alembic
-echo -e "${CYAN}🧱 Ejecutando migraciones...${NC}"
-docker exec fastapi alembic upgrade head || {
-  echo -e "${RED}❌ Error en Alembic.${NC}"
+# Reiniciar Nginx para asegurar el tráfico ACME
+$DOCKER_COMPOSE_CMD -f docker-compose.prod.yml restart nginx
+
+echo -e "${CYAN}🧱 Ejecutando migraciones Alembic...${NC}"
+$DOCKER_COMPOSE_CMD -f docker-compose.prod.yml exec backend alembic upgrade head || {
+  echo -e "${RED}❌ Error en migraciones.${NC}"
   exit 1
 }
 
-# ⏳ Esperar a MySQL
 echo -e "${CYAN}⏳ Esperando MySQL...${NC}"
-MYSQL_CONTAINER=$(docker ps --filter "name=_mysql_" --format "{{.Names}}" | head -n 1)
+MYSQL_CONTAINER="$($DOCKER_COMPOSE_CMD -f docker-compose.prod.yml ps -q mysql)"
 until docker exec "$MYSQL_CONTAINER" mysqladmin ping -u root -prootpassword --silent; do sleep 2; done
 
-# 🔐 Crear usuario admin
 echo -e "${CYAN}🔐 Creación de usuario administrador...${NC}"
 read -p "👤 Nombre completo: " ADMIN_NOMBRE
 read -p "🔢 DNI: " ADMIN_DNI
@@ -159,13 +184,18 @@ while true; do
     [[ "$ADMIN_PASS" == "$ADMIN_PASS_CONFIRM" ]] && break || echo -e "${RED}❌ No coinciden.${NC}"
 done
 
-# 🔑 Generar hash
+# Sanitizar entradas para SQL
+ADMIN_NOMBRE="${ADMIN_NOMBRE//\'/\\\'}"
+ADMIN_AP_PATERNO="${ADMIN_AP_PATERNO//\'/\\\'}"
+ADMIN_AP_MATERNO="${ADMIN_AP_MATERNO//\'/\\\'}"
+ADMIN_DIRECCION="${ADMIN_DIRECCION//\'/\\\'}"
+ADMIN_TELEFONO="${ADMIN_TELEFONO//\'/\\\'}"
+ADMIN_EMAIL="${ADMIN_EMAIL//\'/\\\'}"
+
 echo -e "${CYAN}🔐 Generando hash...${NC}"
+HASHED_PASS=$($DOCKER_COMPOSE_CMD -f docker-compose.prod.yml exec backend python -c "import bcrypt; print(bcrypt.hashpw('$ADMIN_PASS'.encode(), bcrypt.gensalt()).decode())")
 
-HASHED_PASS=$(docker run --rm python:3-slim sh -c "pip install bcrypt >/dev/null 2>&1 && python -c \"import bcrypt; print(b'$ADMIN_PASS'); print(bcrypt.hashpw(b'$ADMIN_PASS', bcrypt.gensalt()).decode())\"" | tail -n 1)
-
-# 👨‍💻 SQL seguro
-[[ -n "$ADMIN_AP_MATERNO" ]] && APELLIDO_MAT="'$ADMIN_AP_MATERNO'" || APELLIDO_MAT=NULL
+[[ -n "$ADMIN_AP_MATERNO" ]] && APELLIDO_MAT="'$ADMIN_AP_MATERNO'" || APELLIDO_MAT="NULL"
 
 echo -e "${CYAN}📝 Insertando en MySQL...${NC}"
 docker exec -i "$MYSQL_CONTAINER" mysql -u root -prootpassword barberia <<EOF
@@ -193,14 +223,24 @@ EOF
 
 echo -e "${GREEN}✅ Usuario '$ADMIN_USER' creado correctamente.${NC}"
 
-# 🔐 Certbot final
 if [[ "$USE_SSL" == "s" ]]; then
-  echo -e "${CYAN}🔐 Ejecutando Certbot...${NC}"
-  sudo certbot certonly --webroot \
-    -w ./certbot/www \
-    -d $DOMAIN -d www.$DOMAIN -d $API_DOMAIN \
-    --email admin@$DOMAIN --agree-tos --non-interactive \
-    --deploy-hook "docker compose -f docker-compose.prod.yml exec nginx nginx -s reload"
+  echo -e "${CYAN}🔐 Solicitando certificados SSL...${NC}"
+  if docker run --rm \
+    -v "$(pwd)/certbot/conf:/etc/letsencrypt" \
+    -v "$(pwd)/certbot/www:/var/www/certbot" \
+    certbot/certbot certonly --webroot --webroot-path=/var/www/certbot \
+    --email admin@$DOMAIN --agree-tos --no-eff-email \
+    -d $DOMAIN -d www.$DOMAIN -d $API_DOMAIN; then
+
+    echo -e "${CYAN}🔁 Verificando configuración Nginx...${NC}"
+    $DOCKER_COMPOSE_CMD -f docker-compose.prod.yml exec nginx nginx -t
+
+    echo -e "${CYAN}🔁 Reiniciando Nginx...${NC}"
+    $DOCKER_COMPOSE_CMD -f docker-compose.prod.yml exec nginx nginx -s reload
+  else
+    echo -e "${RED}❌ Falló la obtención de certificados. Continuando sin SSL.${NC}"
+    USE_SSL="n"
+  fi
 fi
 
 PROTO="http"

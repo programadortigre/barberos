@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Valores que nos definen</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #f5f7fa 0%, #e4edf5 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            width: 100%;
+            padding: 40px;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 15px 50px rgba(0, 0, 0, 0.1);
+        }
+
+        h3 {
+            text-align: center;
+            font-size: 2.5rem;
+            color: #2c3e50;
+            margin-bottom: 50px;
+            position: relative;
+        }
+
+        h3::after {
+            content: "";
+            position: absolute;
+            bottom: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 4px;
+            background: linear-gradient(90deg, #3498db, #2ecc71);
+            border-radius: 2px;
+        }
+
+        .about-values {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+        }
+
+        .value-item {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            transition: all 0.4s ease;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+            text-align: center;
+            padding: 35px 25px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .value-item::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 0;
+            background: linear-gradient(135deg, #3498db, #2ecc71);
+            z-index: -1;
+            transition: all 0.4s ease;
+        }
+
+        .value-item:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
+        }
+
+        .value-item:hover::before {
+            height: 100%;
+        }
+
+        .value-item:hover .value-icon {
+            background: white;
+            color: #3498db;
+            transform: scale(1.1);
+        }
+
+        .value-item:hover .value-text h4,
+        .value-item:hover .value-text p {
+            color: white;
+        }
+
+        .value-icon {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, #3498db, #2ecc71);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 0 auto 25px;
+            font-size: 32px;
+            transition: all 0.4s ease;
+        }
+
+        .value-text h4 {
+            font-size: 1.5rem;
+            color: #2c3e50;
+            margin-bottom: 15px;
+            transition: all 0.4s ease;
+        }
+
+        .value-text p {
+            color: #7f8c8d;
+            font-size: 1.1rem;
+            line-height: 1.6;
+            transition: all 0.4s ease;
+        }
+
+        @media (max-width: 768px) {
+            .about-values {
+                grid-template-columns: 1fr;
+            }
+
+            h3 {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h3>Valores que nos definen</h3>
+
+        <div class="about-values">
+            <div class="value-item">
+                <div class="value-icon">
+                    <i class="fas fa-shield-alt"></i>
+                </div>
+                <div class="value-text">
+                    <h4>Seguridad</h4>
+                    <p>En cada instalación</p>
+                </div>
+            </div>
+
+            <div class="value-item">
+                <div class="value-icon">
+                    <i class="fas fa-hands-helping"></i>
+                </div>
+                <div class="value-text">
+                    <h4>Empatía</h4>
+                    <p>Con las necesidades de cada familia</p>
+                </div>
+            </div>
+
+            <div class="value-item">
+                <div class="value-icon">
+                    <i class="fas fa-check-double"></i>
+                </div>
+                <div class="value-text">
+                    <h4>Responsabilidad</h4>
+                    <p>En cada proyecto</p>
+                </div>
+            </div>
+
+            <div class="value-item">
+                <div class="value-icon">
+                    <i class="fas fa-medal"></i>
+                </div>
+                <div class="value-text">
+                    <h4>Calidad</h4>
+                    <p>Certificada en materiales</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

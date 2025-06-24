@@ -1,0 +1,1277 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CHIRAPA - Branding & Diseño Visual</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Montserrat:wght@700;800;900&display=swap"
+        rel="stylesheet">
+    <style>
+        :root {
+            --primary: #1a1a1a;
+            --secondary: #ffffff;
+            --accent: #ff6b6b;
+            --accent-dark: #e55a5a;
+            --light-bg: #f9f9f9;
+            --dark-bg: #1a1a1a;
+            --text: #333333;
+            --text-light: #666666;
+            --border: #eaeaea;
+            --shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+            --transition: all 0.3s ease;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            color: var(--text);
+            line-height: 1.6;
+            overflow-x: hidden;
+            background-color: var(--light-bg);
+        }
+
+        h1,
+        h2,
+        h3,
+        h4,
+        h5 {
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            color: var(--primary);
+        }
+
+        h2 {
+            font-size: 2.5rem;
+            position: relative;
+            display: inline-block;
+            margin-bottom: 2.5rem;
+        }
+
+        h2:after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 0;
+            width: 70px;
+            height: 4px;
+            background: var(--accent);
+        }
+
+        p {
+            margin-bottom: 1.2rem;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 12px 28px;
+            background: var(--accent);
+            color: var(--secondary);
+            text-decoration: none;
+            border-radius: 30px;
+            font-weight: 600;
+            transition: var(--transition);
+            border: none;
+            cursor: pointer;
+            font-size: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            box-shadow: 0 4px 10px rgba(255, 107, 107, 0.3);
+        }
+
+        .btn:hover {
+            background: var(--accent-dark);
+            transform: translateY(-3px);
+            box-shadow: 0 6px 15px rgba(255, 107, 107, 0.4);
+        }
+
+        .btn-outline {
+            background: transparent;
+            border: 2px solid var(--secondary);
+            color: var(--secondary);
+            box-shadow: none;
+        }
+
+        .btn-outline:hover {
+            background: var(--secondary);
+            color: var(--primary);
+        }
+
+        section {
+            padding: 100px 0;
+        }
+
+        .text-center {
+            text-align: center;
+        }
+
+        .text-center h2:after {
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        /* Header */
+        header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 1000;
+            background: rgba(255, 255, 255, 0.95);
+            box-shadow: var(--shadow);
+            padding: 15px 0;
+            transition: var(--transition);
+        }
+
+        .header-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 900;
+            font-size: 1.8rem;
+            color: var(--primary);
+            text-decoration: none;
+        }
+
+        .logo span {
+            color: var(--accent);
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+        }
+
+        nav li {
+            margin-left: 30px;
+        }
+
+        nav a {
+            text-decoration: none;
+            color: var(--text);
+            font-weight: 500;
+            transition: var(--transition);
+            position: relative;
+        }
+
+        nav a:after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--accent);
+            transition: var(--transition);
+        }
+
+        nav a:hover:after {
+            width: 100%;
+        }
+
+        nav a:hover {
+            color: var(--accent);
+        }
+
+        .mobile-toggle {
+            display: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        /* Hero Slider */
+        .hero {
+            height: 100vh;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .slider {
+            height: 100%;
+            position: relative;
+        }
+
+        .slide {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-size: cover;
+            background-position: center;
+            opacity: 0;
+            transition: opacity 1s ease-in-out;
+        }
+
+        .slide.active {
+            opacity: 1;
+        }
+
+        .slide:before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.4);
+        }
+
+        .slide:nth-child(1) {
+            background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('https://images.unsplash.com/photo-1497366754035-f200968a6e72?ixlib=rb-4.0.3&auto=format&fit=crop&w=1950&q=80');
+        }
+
+        .slide:nth-child(2) {
+            background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('https://images.unsplash.com/photo-1547658719-da2b51169166?ixlib=rb-4.0.3&auto=format&fit=crop&w=1950&q=80');
+        }
+
+        .slide:nth-child(3) {
+            background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d?ixlib=rb-4.0.3&auto=format&fit=crop&w=1952&q=80');
+        }
+
+        .slide-content {
+            position: relative;
+            z-index: 2;
+            text-align: center;
+            color: var(--secondary);
+            max-width: 800px;
+            padding: 0 20px;
+        }
+
+        .slide-content h1 {
+            font-size: 3.5rem;
+            margin-bottom: 1.5rem;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+            color: white;
+        }
+
+        .slide-content p {
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+            text-shadow: 0 1px 5px rgba(0, 0, 0, 0.3);
+        }
+
+        .slider-nav {
+            position: absolute;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            z-index: 10;
+        }
+
+        .slider-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.5);
+            margin: 0 8px;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .slider-dot.active {
+            background: var(--secondary);
+            transform: scale(1.3);
+        }
+
+        /* About Section */
+        .about {
+            background: var(--secondary);
+        }
+
+        .about-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 40px;
+            margin-top: 40px;
+        }
+
+        .about-card {
+            background: var(--light-bg);
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+        }
+
+        .about-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .about-card h3 {
+            color: var(--accent);
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+        }
+
+        .about-card ul {
+            list-style: none;
+            margin-top: 20px;
+        }
+
+        .about-card ul li {
+            margin-bottom: 10px;
+            padding-left: 25px;
+            position: relative;
+        }
+
+        .about-card ul li:before {
+            content: '\f00c';
+            font-family: 'Font Awesome 5 Free';
+            font-weight: 900;
+            position: absolute;
+            left: 0;
+            top: 3px;
+            color: var(--accent);
+        }
+
+        /* Services Section */
+        .services {
+            background: var(--light-bg);
+        }
+
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+            margin-top: 40px;
+        }
+
+        .service-card {
+            background: var(--secondary);
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+        }
+
+        .service-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .service-icon {
+            height: 150px;
+            background: var(--accent);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+            color: var(--secondary);
+        }
+
+        .service-content {
+            padding: 25px;
+        }
+
+        .service-content h3 {
+            margin-bottom: 15px;
+            color: var(--primary);
+        }
+
+        /* Portfolio Section */
+        .portfolio {
+            background: var(--secondary);
+        }
+
+        .portfolio-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 40px;
+        }
+
+        .portfolio-item {
+            border-radius: 10px;
+            overflow: hidden;
+            position: relative;
+            height: 300px;
+            box-shadow: var(--shadow);
+        }
+
+        .portfolio-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: var(--transition);
+        }
+
+        .portfolio-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(26, 26, 26, 0.8);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            transition: var(--transition);
+            padding: 20px;
+            text-align: center;
+            color: white;
+        }
+
+        .portfolio-item:hover .portfolio-overlay {
+            opacity: 1;
+        }
+
+        .portfolio-item:hover .portfolio-img {
+            transform: scale(1.1);
+        }
+
+        .portfolio-overlay h3 {
+            color: var(--secondary);
+            margin-bottom: 10px;
+        }
+
+        /* Store Section */
+        .store {
+            background: var(--light-bg);
+        }
+
+        .store-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+            margin-top: 40px;
+        }
+
+        .product-card {
+            background: var(--secondary);
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+        }
+
+        .product-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .product-img {
+            height: 200px;
+            width: 100%;
+            object-fit: cover;
+        }
+
+        .product-content {
+            padding: 20px;
+        }
+
+        .product-content h3 {
+            margin-bottom: 10px;
+            font-size: 1.3rem;
+        }
+
+        .product-price {
+            font-weight: 600;
+            color: var(--accent);
+            font-size: 1.2rem;
+            margin: 10px 0;
+        }
+
+        /* Contact Section */
+        .contact {
+            background: linear-gradient(rgba(26, 26, 26, 0.9), rgba(26, 26, 26, 0.9)), url('https://images.unsplash.com/photo-1557804506-669a67965ba0?ixlib=rb-4.0.3&auto=format&fit=crop&w=1932&q=80');
+            background-size: cover;
+            background-position: center;
+            color: var(--secondary);
+        }
+
+        .contact h2 {
+            color: var(--secondary);
+        }
+
+        .contact h2:after {
+            background: var(--accent);
+        }
+
+        .contact-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 40px;
+        }
+
+        .contact-info h3 {
+            color: var(--accent);
+            margin-bottom: 20px;
+        }
+
+        .contact-detail {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 20px;
+        }
+
+        .contact-icon {
+            font-size: 1.5rem;
+            color: var(--accent);
+            margin-right: 15px;
+            min-width: 30px;
+        }
+
+        .social-links {
+            display: flex;
+            margin-top: 30px;
+        }
+
+        .social-links a {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.1);
+            margin-right: 15px;
+            transition: var(--transition);
+            color: var(--secondary);
+            text-decoration: none;
+            font-size: 1.2rem;
+        }
+
+        .social-links a:hover {
+            background: var(--accent);
+            transform: translateY(-5px);
+        }
+
+        /* Blog Section */
+        .blog {
+            background: var(--secondary);
+        }
+
+        .blog-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 40px;
+        }
+
+        .blog-card {
+            background: var(--light-bg);
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+        }
+
+        .blog-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .blog-img {
+            height: 200px;
+            width: 100%;
+            object-fit: cover;
+        }
+
+        .blog-content {
+            padding: 25px;
+        }
+
+        .blog-content h3 {
+            margin-bottom: 15px;
+            font-size: 1.4rem;
+        }
+
+        .blog-meta {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+            font-size: 0.9rem;
+            color: var(--text-light);
+        }
+
+        .blog-meta i {
+            margin-right: 5px;
+            color: var(--accent);
+        }
+
+        /* Footer */
+        footer {
+            background: var(--dark-bg);
+            color: var(--secondary);
+            padding: 60px 0 30px;
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+
+        .footer-col h4 {
+            color: var(--accent);
+            margin-bottom: 20px;
+            position: relative;
+            padding-bottom: 10px;
+        }
+
+        .footer-col h4:after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 50px;
+            height: 2px;
+            background: var(--accent);
+        }
+
+        .footer-links {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 10px;
+        }
+
+        .footer-links a {
+            color: rgba(255, 255, 255, 0.7);
+            text-decoration: none;
+            transition: var(--transition);
+        }
+
+        .footer-links a:hover {
+            color: var(--accent);
+            padding-left: 5px;
+        }
+
+        .copyright {
+            text-align: center;
+            padding-top: 30px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            color: rgba(255, 255, 255, 0.5);
+            font-size: 0.9rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 992px) {
+            h2 {
+                font-size: 2.2rem;
+            }
+
+            .slide-content h1 {
+                font-size: 3rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .mobile-toggle {
+                display: block;
+            }
+
+            nav {
+                position: fixed;
+                top: 70px;
+                left: -100%;
+                width: 80%;
+                height: calc(100vh - 70px);
+                background: var(--secondary);
+                transition: var(--transition);
+                box-shadow: 5px 0 15px rgba(0, 0, 0, 0.1);
+                z-index: 999;
+            }
+
+            nav.active {
+                left: 0;
+            }
+
+            nav ul {
+                flex-direction: column;
+                padding: 30px;
+            }
+
+            nav li {
+                margin: 0 0 20px 0;
+            }
+
+            .slide-content h1 {
+                font-size: 2.5rem;
+            }
+
+            section {
+                padding: 70px 0;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .slide-content h1 {
+                font-size: 2rem;
+            }
+
+            .slide-content p {
+                font-size: 1rem;
+            }
+
+            .btn {
+                padding: 10px 20px;
+                font-size: 0.9rem;
+            }
+
+            h2 {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Header -->
+    <header>
+        <div class="container header-container">
+            <a href="#" class="logo">CHIRA<span>PA</span></a>
+            <div class="mobile-toggle">
+                <i class="fas fa-bars"></i>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="#inicio">Inicio</a></li>
+                    <li><a href="#nosotros">Nosotros</a></li>
+                    <li><a href="#servicios">Servicios</a></li>
+                    <li><a href="#tienda">Tienda</a></li>
+                    <li><a href="#portafolio">Portafolio</a></li>
+                    <li><a href="#contacto">Contacto</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Hero Slider -->
+    <section class="hero" id="inicio">
+        <div class="slider">
+            <div class="slide active">
+                <div class="slide-content">
+                    <h1>Diseño con propósito, marcas que trascienden</h1>
+                    <p>En CHIRAPA convertimos ideas en identidades visuales que conectan con el corazón de tu público.
+                    </p>
+                    <a href="#servicios" class="btn">Explora nuestro enfoque estratégico</a>
+                </div>
+            </div>
+            <div class="slide">
+                <div class="slide-content">
+                    <h1>Tu visión, nuestra creatividad</h1>
+                    <p>Más que diseño gráfico, construimos marcas memorables con alma, estrategia y coherencia visual.
+                    </p>
+                    <a href="#nosotros" class="btn">Descubre cómo lo hacemos</a>
+                </div>
+            </div>
+            <div class="slide">
+                <div class="slide-content">
+                    <h1>No necesitas un logo. Necesitas una marca sólida</h1>
+                    <p>Del naming al packaging, diseñamos experiencias que posicionan y fidelizan.</p>
+                    <a href="#contacto" class="btn">Solicita una asesoría</a>
+                </div>
+            </div>
+        </div>
+        <div class="slider-nav">
+            <div class="slider-dot active"></div>
+            <div class="slider-dot"></div>
+            <div class="slider-dot"></div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section class="about" id="nosotros">
+        <div class="container">
+            <div class="text-center">
+                <h2>Agencia de Branding Estratégico y Diseño Visual en Lima</h2>
+            </div>
+
+            <h3>¿Quiénes somos?</h3>
+            <p>CHIRAPA es una firma creativa con sede en Lima especializada en branding estratégico y diseño visual
+                integral. Acompañamos a marcas visionarias que desean diferenciarse con una identidad sólida, auténtica
+                y coherente.</p>
+
+            <div class="about-grid">
+                <div class="about-card">
+                    <h3>Misión</h3>
+                    <p>Impulsar el crecimiento de marcas con propósito, a través de soluciones visuales creativas,
+                        funcionales y emocionalmente conectadas con su audiencia.</p>
+                </div>
+                <div class="about-card">
+                    <h3>Visión</h3>
+                    <p>Ser la agencia líder en branding y diseño integral en Perú, reconocida por transformar ideas en
+                        marcas memorables y sostenibles.</p>
+                </div>
+                <div class="about-card">
+                    <h3>Valores</h3>
+                    <ul>
+                        <li>Creatividad aplicada con estrategia</li>
+                        <li>Cercanía y compromiso</li>
+                        <li>Excelencia visual</li>
+                        <li>Sostenibilidad</li>
+                        <li>Profesionalismo</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="about-card" style="margin-top: 40px;">
+                <h3>¿Por qué elegirnos?</h3>
+                <p>Más de una década creando marcas que trascienden. Acompañamiento estratégico desde la
+                    conceptualización hasta la ejecución. Servicios de diseño gráfico, branding 360°, diseño web UX/UI y
+                    producción de merchandising.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Services Section -->
+    <section class="services" id="servicios">
+        <div class="container">
+            <div class="text-center">
+                <h2>Diseño de Marca y Branding Integral en Lima</h2>
+                <p>Ofrecemos soluciones completas para construir marcas sólidas y memorables</p>
+            </div>
+
+            <div class="services-grid">
+                <div class="service-card">
+                    <div class="service-icon">
+                        <i class="fas fa-pen-nib"></i>
+                    </div>
+                    <div class="service-content">
+                        <h3>Diseño de Logotipo Profesional</h3>
+                        <p>Creación de identidad visual única que comunica la esencia de tu marca.</p>
+                    </div>
+                </div>
+                <div class="service-card">
+                    <div class="service-icon">
+                        <i class="fas fa-book"></i>
+                    </div>
+                    <div class="service-content">
+                        <h3>Manual de Identidad Visual</h3>
+                        <p>Guía completa para mantener coherencia en todas las aplicaciones de tu marca.</p>
+                    </div>
+                </div>
+                <div class="service-card">
+                    <div class="service-icon">
+                        <i class="fas fa-bullhorn"></i>
+                    </div>
+                    <div class="service-content">
+                        <h3>Diseño Gráfico Publicitario</h3>
+                        <p>Materiales impactantes que comunican efectivamente tu mensaje.</p>
+                    </div>
+                </div>
+                <div class="service-card">
+                    <div class="service-icon">
+                        <i class="fas fa-laptop-code"></i>
+                    </div>
+                    <div class="service-content">
+                        <h3>Diseño UX/UI y Web</h3>
+                        <p>Experiencias digitales intuitivas y atractivas para tus clientes.</p>
+                    </div>
+                </div>
+                <div class="service-card">
+                    <div class="service-icon">
+                        <i class="fas fa-tshirt"></i>
+                    </div>
+                    <div class="service-content">
+                        <h3>Merchandising</h3>
+                        <p>Productos promocionales que fortalecen la identidad de tu marca.</p>
+                    </div>
+                </div>
+                <div class="service-card">
+                    <div class="service-icon">
+                        <i class="fas fa-box-open"></i>
+                    </div>
+                    <div class="service-content">
+                        <h3>Packaging</h3>
+                        <p>Diseño de envases que destacan en el punto de venta y comunican valor.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Store Section -->
+    <section class="store" id="tienda">
+        <div class="container">
+            <div class="text-center">
+                <h2>Tienda de Merchandising para Marcas y Emprendedores</h2>
+                <p>Compra fácil y segura | Envíos a todo el Perú | Personalización disponible</p>
+            </div>
+
+            <div class="store-grid">
+                <div class="product-card">
+                    <img src="https://images.unsplash.com/photo-1523381294911-8d3cead13475?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80"
+                        alt="Polos" class="product-img">
+                    <div class="product-content">
+                        <h3>Polos Personalizados</h3>
+                        <p>Calidad premium con diseño de tu marca</p>
+                        <div class="product-price">S/ 45.00</div>
+                        <a href="#" class="btn">Comprar ahora</a>
+                    </div>
+                </div>
+                <div class="product-card">
+                    <img src="https://images.unsplash.com/photo-1591195853828-11db59a44f6b?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80"
+                        alt="Tote bags" class="product-img">
+                    <div class="product-content">
+                        <h3>Tote Bags Ecológicas</h3>
+                        <p>Resistentes y con diseño personalizado</p>
+                        <div class="product-price">S/ 35.00</div>
+                        <a href="#" class="btn">Comprar ahora</a>
+                    </div>
+                </div>
+                <div class="product-card">
+                    <img src="https://images.unsplash.com/photo-1579783902614-a3fb3927b6a5?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80"
+                        alt="Tazas" class="product-img">
+                    <div class="product-content">
+                        <h3>Tazas Personalizadas</h3>
+                        <p>Ideales para regalos corporativos</p>
+                        <div class="product-price">S/ 25.00</div>
+                        <a href="#" class="btn">Comprar ahora</a>
+                    </div>
+                </div>
+                <div class="product-card">
+                    <img src="https://images.unsplash.com/photo-1600857544200-b2f666a9a2ec?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80"
+                        alt="Kits" class="product-img">
+                    <div class="product-content">
+                        <h3>Kits para Emprendedores</h3>
+                        <p>Todo lo necesario para empezar con tu marca</p>
+                        <div class="product-price">S/ 120.00</div>
+                        <a href="#" class="btn">Comprar ahora</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Portfolio Section -->
+    <section class="portfolio" id="portafolio">
+        <div class="container">
+            <div class="text-center">
+                <h2>Proyectos Reales. Resultados Reales.</h2>
+                <p>Algunos de nuestros trabajos más destacados</p>
+            </div>
+
+            <div class="portfolio-grid">
+                <div class="portfolio-item">
+                    <img src="https://images.unsplash.com/photo-1551836022-d5d88e9218df?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80"
+                        alt="Rediseño de tienda online" class="portfolio-img">
+                    <div class="portfolio-overlay">
+                        <h3>Rediseño de tienda online</h3>
+                        <p>E-commerce para marca de moda sostenible</p>
+                    </div>
+                </div>
+                <div class="portfolio-item">
+                    <img src="https://images.unsplash.com/photo-1556228720-195a672e8a03?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80"
+                        alt="Branding para productos naturales" class="portfolio-img">
+                    <div class="portfolio-overlay">
+                        <h3>Branding para productos naturales</h3>
+                        <p>Identidad completa para línea de alimentos orgánicos</p>
+                    </div>
+                </div>
+                <div class="portfolio-item">
+                    <img src="https://images.unsplash.com/photo-1467232004584-a241de8bcf5d?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80"
+                        alt="Web profesional" class="portfolio-img">
+                    <div class="portfolio-overlay">
+                        <h3>Web profesional</h3>
+                        <p>Sitio corporativo para estudio de arquitectura</p>
+                    </div>
+                </div>
+                <div class="portfolio-item">
+                    <img src="https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80"
+                        alt="Merchandising para eventos" class="portfolio-img">
+                    <div class="portfolio-overlay">
+                        <h3>Merchandising para eventos</h3>
+                        <p>Diseño y producción para conferencia internacional</p>
+                    </div>
+                </div>
+                <div class="portfolio-item">
+                    <img src="https://images.unsplash.com/photo-1600857062241-98e1d616747d?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80"
+                        alt="Packaging ecológico" class="portfolio-img">
+                    <div class="portfolio-overlay">
+                        <h3>Packaging ecológico</h3>
+                        <p>Diseño sostenible para productos de belleza</p>
+                    </div>
+                </div>
+                <div class="portfolio-item">
+                    <img src="https://images.unsplash.com/photo-1560343090-f0409e92791a?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80"
+                        alt="Identidad corporativa" class="portfolio-img">
+                    <div class="portfolio-overlay">
+                        <h3>Identidad corporativa</h3>
+                        <p>Rediseño de marca para empresa de tecnología</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section class="contact" id="contacto">
+        <div class="container">
+            <div class="text-center">
+                <h2>¿Listo para llevar tu marca al siguiente nivel?</h2>
+                <p>Contáctanos y comienza a transformar tu visión en realidad</p>
+            </div>
+
+            <div class="contact-container">
+                <div class="contact-info">
+                    <h3>Información de Contacto</h3>
+
+                    <div class="contact-detail">
+                        <div class="contact-icon">
+                            <i class="fas fa-map-marker-alt"></i>
+                        </div>
+                        <p>Av. Principal 123, Miraflores, Lima, Perú</p>
+                    </div>
+
+                    <div class="contact-detail">
+                        <div class="contact-icon">
+                            <i class="fas fa-envelope"></i>
+                        </div>
+                        <p>contacto@chirapa.pe</p>
+                    </div>
+
+                    <div class="contact-detail">
+                        <div class="contact-icon">
+                            <i class="fas fa-phone-alt"></i>
+                        </div>
+                        <p>+51 999 888 777</p>
+                    </div>
+
+                    <div class="contact-detail">
+                        <div class="contact-icon">
+                            <i class="fas fa-clock"></i>
+                        </div>
+                        <p>Atención: Lunes a viernes de 9:00 a.m. a 6:00 p.m.</p>
+                    </div>
+
+                    <h3 style="margin-top: 30px;">Síguenos</h3>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-tiktok"></i></a>
+                        <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                    </div>
+                </div>
+
+                <div class="contact-form">
+                    <form>
+                        <div style="margin-bottom: 20px;">
+                            <input type="text" placeholder="Nombre completo"
+                                style="width: 100%; padding: 12px; border-radius: 5px; border: none;">
+                        </div>
+                        <div style="margin-bottom: 20px;">
+                            <input type="email" placeholder="Correo electrónico"
+                                style="width: 100%; padding: 12px; border-radius: 5px; border: none;">
+                        </div>
+                        <div style="margin-bottom: 20px;">
+                            <input type="tel" placeholder="Teléfono"
+                                style="width: 100%; padding: 12px; border-radius: 5px; border: none;">
+                        </div>
+                        <div style="margin-bottom: 20px;">
+                            <select style="width: 100%; padding: 12px; border-radius: 5px; border: none;">
+                                <option>Servicio de interés</option>
+                                <option>Diseño de Logotipo</option>
+                                <option>Branding Integral</option>
+                                <option>Diseño Web</option>
+                                <option>Merchandising</option>
+                                <option>Packaging</option>
+                                <option>Asesoría</option>
+                            </select>
+                        </div>
+                        <div style="margin-bottom: 20px;">
+                            <textarea placeholder="Mensaje" rows="5"
+                                style="width: 100%; padding: 12px; border-radius: 5px; border: none;"></textarea>
+                        </div>
+                        <button type="submit" class="btn">Enviar mensaje</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Blog Section -->
+    <section class="blog">
+        <div class="container">
+            <div class="text-center">
+                <h2>Tips y estrategias de branding para emprendedores</h2>
+                <p>Conoce nuestras publicaciones más recientes</p>
+            </div>
+
+            <div class="blog-grid">
+                <div class="blog-card">
+                    <img src="https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80"
+                        alt="Branding estratégico" class="blog-img">
+                    <div class="blog-content">
+                        <div class="blog-meta">
+                            <i class="far fa-calendar-alt"></i> 15 Junio, 2025
+                        </div>
+                        <h3>¿Qué es branding estratégico?</h3>
+                        <p>Descubre cómo una estrategia de marca bien definida puede transformar tu negocio y conectar
+                            con tu audiencia.</p>
+                        <a href="#" class="btn">Leer más</a>
+                    </div>
+                </div>
+                <div class="blog-card">
+                    <img src="https://images.unsplash.com/photo-1588200908342-23b585c03e26?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80"
+                        alt="Errores en logos" class="blog-img">
+                    <div class="blog-content">
+                        <div class="blog-meta">
+                            <i class="far fa-calendar-alt"></i> 5 Junio, 2025
+                        </div>
+                        <h3>Errores comunes en diseño de logo</h3>
+                        <p>Evita estos 7 errores frecuentes que podrían estar perjudicando la imagen de tu marca.</p>
+                        <a href="#" class="btn">Leer más</a>
+                    </div>
+                </div>
+                <div class="blog-card">
+                    <img src="https://images.unsplash.com/photo-1545235617-9465d2a55698?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80"
+                        alt="Marca memorable" class="blog-img">
+                    <div class="blog-content">
+                        <div class="blog-meta">
+                            <i class="far fa-calendar-alt"></i> 28 Mayo, 2025
+                        </div>
+                        <h3>Guía para crear una marca memorable</h3>
+                        <p>Sigue estos pasos para construir una identidad que perdure en la mente de tus clientes.</p>
+                        <a href="#" class="btn">Leer más</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-col">
+                    <h4>CHIRAPA</h4>
+                    <p>Especialistas en branding estratégico y diseño visual en Lima. Transformamos ideas en marcas
+                        memorables que conectan con su audiencia.</p>
+                </div>
+                <div class="footer-col">
+                    <h4>Enlaces Rápidos</h4>
+                    <ul class="footer-links">
+                        <li><a href="#inicio">Inicio</a></li>
+                        <li><a href="#nosotros">Nosotros</a></li>
+                        <li><a href="#servicios">Servicios</a></li>
+                        <li><a href="#tienda">Tienda</a></li>
+                        <li><a href="#portafolio">Portafolio</a></li>
+                        <li><a href="#contacto">Contacto</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Servicios</h4>
+                    <ul class="footer-links">
+                        <li><a href="#">Diseño de Logotipo</a></li>
+                        <li><a href="#">Branding Integral</a></li>
+                        <li><a href="#">Diseño Web UX/UI</a></li>
+                        <li><a href="#">Merchandising</a></li>
+                        <li><a href="#">Packaging</a></li>
+                        <li><a href="#">Asesorías</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Contacto</h4>
+                    <ul class="footer-links">
+                        <li><i class="fas fa-map-marker-alt"></i> Av. Principal 123, Lima</li>
+                        <li><i class="fas fa-phone-alt"></i> +51 999 888 777</li>
+                        <li><i class="fas fa-envelope"></i> contacto@chirapa.pe</li>
+                        <li><i class="fas fa-clock"></i> Lun-Vie: 9:00am - 6:00pm</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="copyright">
+                <p>&copy; 2025 CHIRAPA - Branding & Diseño Visual. Todos los derechos reservados.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Mobile Navigation
+        const mobileToggle = document.querySelector('.mobile-toggle');
+        const nav = document.querySelector('nav');
+
+        mobileToggle.addEventListener('click', () => {
+            nav.classList.toggle('active');
+        });
+
+        // Close mobile menu when clicking a link
+        const navLinks = document.querySelectorAll('nav a');
+        navLinks.forEach(link => {
+            link.addEventListener('click', () => {
+                nav.classList.remove('active');
+            });
+        });
+
+        // Slider functionality
+        const slides = document.querySelectorAll('.slide');
+        const dots = document.querySelectorAll('.slider-dot');
+        let currentSlide = 0;
+
+        function showSlide(index) {
+            // Hide all slides
+            slides.forEach(slide => {
+                slide.classList.remove('active');
+            });
+
+            // Remove active class from all dots
+            dots.forEach(dot => {
+                dot.classList.remove('active');
+            });
+
+            // Show current slide
+            slides[index].classList.add('active');
+            dots[index].classList.add('active');
+
+            currentSlide = index;
+        }
+
+        // Add click events to dots
+        dots.forEach((dot, index) => {
+            dot.addEventListener('click', () => {
+                showSlide(index);
+            });
+        });
+
+        // Auto slide change
+        setInterval(() => {
+            let nextSlide = (currentSlide + 1) % slides.length;
+            showSlide(nextSlide);
+        }, 5000);
+
+        // Header scroll effect
+        window.addEventListener('scroll', () => {
+            const header = document.querySelector('header');
+            if (window.scrollY > 100) {
+                header.style.padding = '10px 0';
+                header.style.boxShadow = '0 5px 15px rgba(0,0,0,0.1)';
+            } else {
+                header.style.padding = '15px 0';
+                header.style.boxShadow = '0 5px 15px rgba(0,0,0,0.08)';
+            }
+        });
+    </script>
+</body>
+
+</html>

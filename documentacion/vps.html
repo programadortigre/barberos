@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Guía de Despliegue en VPS - Barberos App</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            line-height: 1.6;
+            background-color: #f7f7f7;
+            color: #333;
+        }
+
+        h1,
+        h2,
+        h3 {
+            color: #1e90ff;
+        }
+
+        code {
+            background-color: #eee;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-size: 0.95em;
+        }
+
+        pre {
+            background-color: #eee;
+            padding: 10px;
+            border-radius: 4px;
+            overflow-x: auto;
+        }
+
+        .box {
+            background: #fff;
+            border: 1px solid #ccc;
+            padding: 15px;
+            border-radius: 6px;
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>✅ Guía de Despliegue en VPS - Barberos App</h1>
+
+    <div class="box">
+        <h2>🚀 VPS - Datos de Acceso</h2>
+        <ul>
+            <li><strong>IP:</strong> 161.132.48.94</li>
+            <li><strong>Hostname:</strong> sv-VQ7UMvNoc6JI15rELxYC.cloud.elastika.pe</li>
+            <li><strong>Usuario (Linux):</strong> <code>root</code></li>
+            <li><strong>Password:</strong> 38nX7$%Gma2O</li>
+        </ul>
+    </div>
+
+    <div class="box">
+        <h2>✨ Paso 1: Conectarte por SSH</h2>
+        <p>Desde tu terminal local:</p>
+        <pre><code>ssh root@161.132.48.94</code></pre>
+        <p>Ingresa la contraseña cuando se solicite: <code>38nX7$%Gma2O</code></p>
+    </div>
+
+    <div class="box">
+        <h2>📦 Paso 2: Subir tu proyecto</h2>
+        <p>Desde tu computadora local, usa <code>scp</code> para subir tu proyecto:</p>
+        <pre><code>scp -r ./barberos root@161.132.48.94:~/</code></pre>
+    </div>
+
+    <div class="box">
+        <h2>⚙️ Paso 3: Ejecutar el script de despliegue</h2>
+        <p>Una vez conectado al VPS:</p>
+        <pre><code>cd ~/barberos
+chmod +x deploy.sh
+./deploy.sh</code></pre>
+        <p>Sigue los pasos interactivos que aparecerán en consola:</p>
+        <ul>
+            <li>Indica si usarás SSL (responde "s")</li>
+            <li>Ingresa el dominio principal: <code>zyma.lat</code></li>
+            <li>Subdominio para API: <code>api.zyma.lat</code></li>
+            <li>Rellena datos del usuario administrador</li>
+        </ul>
+    </div>
+
+    <div class="box">
+        <h2>🌐 Paso 4: Acceder a tu aplicación</h2>
+        <p>Si todo fue exitoso, accede a tu app en:</p>
+        <ul>
+            <li><a href="https://zyma.lat" target="_blank">https://zyma.lat</a> (frontend)</li>
+            <li><a href="https://api.zyma.lat/docs" target="_blank">https://api.zyma.lat/docs</a> (documentación del
+                backend)</li>
+        </ul>
+    </div>
+
+    <div class="box">
+        <h2>🎉 ¡Listo!</h2>
+        <p>Tu app está en línea. Si ves errores, revisa los logs de tus servicios:</p>
+        <pre><code>docker ps
+
+# Ver logs de nginx
+docker logs nginx
+
+# Ver logs de FastAPI
+docker logs fastapi
+
+# Ver logs de Nuxt
+docker logs nuxt</code></pre>
+    </div>
+</body>
+
+</html>

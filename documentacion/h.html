@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nuestros Valores</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            /* background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%); */
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 40px 20px;
+            color: #f1f5f9;
+        }
+
+        .section-container {
+            max-width: 1200px;
+            width: 100%;
+            margin: 0 auto;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+
+        .section-header h2 {
+            font-size: 3.5rem;
+            font-weight: 700;
+            background: linear-gradient(to right, #1bd0d7, #0d989d, #1bd0d7);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            margin-bottom: 20px;
+            position: relative;
+            display: inline-block;
+        }
+
+        .section-header h2::after {
+            content: "";
+            position: absolute;
+            bottom: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 120px;
+            height: 5px;
+            background: linear-gradient(90deg, #38bdf8, #c084fc);
+            border-radius: 10px;
+        }
+
+        .section-header p {
+            font-size: 1.2rem;
+            max-width: 600px;
+            margin: 30px auto 0;
+            color: #73797f;
+            line-height: 1.7;
+        }
+
+        .values-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        .value-card {
+            background: #1bd0d721;
+            border-radius: 20px;
+            padding: 40px 30px;
+            display: flex;
+            flex-direction: column;
+            transition: all 0.4s ease;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(56, 189, 248, 0.1);
+        }
+
+        .value-card::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 0;
+            background: linear-gradient(135deg, #1bd0d7, rgb(129 140 248 / 57%));
+            z-index: -1;
+            transition: all 0.6s ease;
+        }
+
+        .value-card:hover {
+            transform: translateY(-15px);
+            box-shadow: 0 15px 40px rgb(0 0 0 / 37%);
+            /* border-color: rgba(56, 189, 248, 0.3); */
+        }
+
+        .value-card:hover::before {
+            height: 100%;
+        }
+
+
+        .card-icon {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, #1bd0d7, #1bd0d7);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 30px;
+            font-size: 34px;
+            color: white;
+            box-shadow: 0 5px 15px rgba(56, 189, 248, 0.4);
+            transition: all 0.4s ease;
+        }
+
+        .value-card:hover .card-icon {
+            transform: scale(1.1) rotate(5deg);
+            box-shadow: 0 8px 25px rgba(56, 189, 248, 0.6);
+        }
+
+        .card-content h3 {
+            font-size: 1.8rem;
+            font-weight: 600;
+            margin-bottom: 15px;
+            background: linear-gradient(to right, #1bd0d7, #c084fc);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .value-card:hover .card-content h3 {
+            color: #ffff;
+        }
+
+        .card-content p {
+            font-size: 1.1rem;
+            line-height: 1.7;
+            color: #126a6d;
+            transition: all 0.4s ease;
+        }
+
+        .value-card:hover .card-content p {
+            color: #f8fafc;
+        }
+
+        /* Animación para el efecto de aparición */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .value-card:nth-child(1) {
+            animation: fadeInUp 0.6s ease 0.1s forwards;
+            opacity: 0;
+        }
+
+        .value-card:nth-child(2) {
+            animation: fadeInUp 0.6s ease 0.3s forwards;
+            opacity: 0;
+        }
+
+        .value-card:nth-child(3) {
+            animation: fadeInUp 0.6s ease 0.5s forwards;
+            opacity: 0;
+        }
+
+        .value-card:nth-child(4) {
+            animation: fadeInUp 0.6s ease 0.7s forwards;
+            opacity: 0;
+        }
+
+        .value-card:nth-child(5) {
+            animation: fadeInUp 0.6s ease 0.9s forwards;
+            opacity: 0;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .section-header h2 {
+                font-size: 2.8rem;
+            }
+
+            .values-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="section-container">
+        <div class="section-header">
+            <h2>Nuestros Valores</h2>
+            <p>Los principios fundamentales que guían cada proyecto y cada decisión que tomamos</p>
+        </div>
+
+        <div class="values-grid">
+            <!-- Valor 1: Creatividad Estratégica -->
+            <div class="value-card">
+                <div class="card-icon">
+                    <i class="fas fa-brain"></i>
+                </div>
+                <div class="card-content">
+                    <h3>Creatividad Estratégica</h3>
+                    <p>Soluciones innovadoras con enfoque en resultados. Transformamos ideas en estrategias efectivas
+                        que generan impacto.</p>
+                </div>
+            </div>
+
+            <!-- Valor 2: Cercanía -->
+            <div class="value-card">
+                <div class="card-icon">
+                    <i class="fas fa-handshake"></i>
+                </div>
+                <div class="card-content">
+                    <h3>Cercanía</h3>
+                    <p>Relaciones cercanas y compromiso genuino. Construimos vínculos duraderos basados en la confianza
+                        y el entendimiento mutuo.</p>
+                </div>
+            </div>
+
+            <!-- Valor 3: Excelencia -->
+            <div class="value-card">
+                <div class="card-icon">
+                    <i class="fas fa-star"></i>
+                </div>
+                <div class="card-content">
+                    <h3>Excelencia</h3>
+                    <p>Calidad superior en cada detalle visual. Buscamos la perfección en cada aspecto de nuestro
+                        trabajo, sin compromisos.</p>
+                </div>
+            </div>
+
+            <!-- Valor 4: Sostenibilidad -->
+            <div class="value-card">
+                <div class="card-icon">
+                    <i class="fas fa-leaf"></i>
+                </div>
+                <div class="card-content">
+                    <h3>Sostenibilidad</h3>
+                    <p>Diseño responsable y estrategias perdurables. Creamos soluciones que perduran en el tiempo y
+                        respetan nuestro entorno.</p>
+                </div>
+            </div>
+
+            <!-- Valor 5: Profesionalismo -->
+            <div class="value-card">
+                <div class="card-icon">
+                    <i class="fas fa-user-tie"></i>
+                </div>
+                <div class="card-content">
+                    <h3>Profesionalismo</h3>
+                    <p>Ética y dedicación en cada proyecto. Actuamos con integridad y responsabilidad en todo lo que
+                        hacemos.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

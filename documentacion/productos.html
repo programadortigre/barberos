@@ -1,0 +1,1078 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Administración de Productos - Mi Negocio</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        :root {
+            --primary: #4361ee;
+            --primary-dark: #3a56d4;
+            --secondary: #7209b7;
+            --success: #06d6a0;
+            --warning: #ffd166;
+            --danger: #ef476f;
+            --light: #f8f9fa;
+            --dark: #212529;
+            --gray: #6c757d;
+            --light-gray: #e9ecef;
+            --border: #dee2e6;
+            --card-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+        }
+
+        body {
+            background: linear-gradient(135deg, #f5f7fa 0%, #e4edf5 100%);
+            color: var(--dark);
+            line-height: 1.6;
+            min-height: 100vh;
+            padding: 0;
+            margin: 0;
+        }
+
+        .container {
+            max-width: 100%;
+            padding: 0 15px;
+            margin: 0 auto;
+            padding-bottom: 80px;
+        }
+
+        header {
+            background: white;
+            padding: 15px 20px;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+        }
+
+        .back-btn {
+            font-size: 20px;
+            color: var(--primary);
+            margin-right: 15px;
+            text-decoration: none;
+        }
+
+        .header-title {
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--dark);
+        }
+
+        .header-actions {
+            display: flex;
+            gap: 15px;
+        }
+
+        .header-action {
+            color: var(--primary);
+            font-size: 18px;
+            text-decoration: none;
+        }
+
+        .summary-cards {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            padding: 20px 15px;
+        }
+
+        .summary-card {
+            background: white;
+            border-radius: 16px;
+            box-shadow: var(--card-shadow);
+            padding: 20px;
+            text-align: center;
+            transition: transform 0.3s ease;
+        }
+
+        .summary-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .summary-card .value {
+            font-size: 24px;
+            font-weight: 700;
+            margin: 10px 0 5px;
+        }
+
+        .summary-card .label {
+            font-size: 14px;
+            color: var(--gray);
+        }
+
+        .summary-card.total .value {
+            color: var(--primary);
+        }
+
+        .summary-card.low-stock .value {
+            color: var(--warning);
+        }
+
+        .summary-card.out-stock .value {
+            color: var(--danger);
+        }
+
+        .summary-card.categories .value {
+            color: var(--secondary);
+        }
+
+        .tabs {
+            display: flex;
+            background: white;
+            margin: 0 15px 20px;
+            border-radius: 50px;
+            padding: 5px;
+            box-shadow: var(--card-shadow);
+        }
+
+        .tab {
+            flex: 1;
+            text-align: center;
+            padding: 12px;
+            border-radius: 50px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .tab.active {
+            background: var(--primary);
+            color: white;
+        }
+
+        .card {
+            background: white;
+            border-radius: 16px;
+            box-shadow: var(--card-shadow);
+            padding: 20px;
+            margin: 0 15px 20px;
+        }
+
+        .card-title {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid var(--light-gray);
+        }
+
+        .card-title i {
+            background: var(--primary);
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 15px;
+            font-size: 18px;
+        }
+
+        .card-title h2 {
+            font-size: 18px;
+            font-weight: 600;
+            color: var(--dark);
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: var(--dark);
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 15px;
+            border: 2px solid var(--border);
+            border-radius: 12px;
+            font-size: 16px;
+            transition: all 0.3s;
+        }
+
+        .form-control:focus {
+            border-color: var(--primary);
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.2);
+        }
+
+        .select-wrapper {
+            position: relative;
+        }
+
+        .select-wrapper::after {
+            content: "▼";
+            position: absolute;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--gray);
+            pointer-events: none;
+        }
+
+        .select-wrapper select {
+            appearance: none;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            background: white;
+        }
+
+        .product-list {
+            list-style: none;
+        }
+
+        .product-item {
+            display: flex;
+            align-items: center;
+            padding: 15px 0;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .product-item:last-child {
+            border-bottom: none;
+        }
+
+        .product-img {
+            width: 70px;
+            height: 70px;
+            border-radius: 12px;
+            background: var(--light-gray);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 15px;
+            overflow: hidden;
+        }
+
+        .product-img img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .product-img i {
+            color: var(--gray);
+            font-size: 30px;
+        }
+
+        .product-details {
+            flex: 1;
+        }
+
+        .product-name {
+            font-weight: 600;
+            margin-bottom: 5px;
+            display: flex;
+            align-items: center;
+        }
+
+        .product-sku {
+            font-size: 12px;
+            background: var(--light-gray);
+            padding: 2px 8px;
+            border-radius: 4px;
+            margin-left: 8px;
+            color: var(--gray);
+        }
+
+        .product-info {
+            display: flex;
+            font-size: 14px;
+            color: var(--gray);
+            margin-bottom: 5px;
+        }
+
+        .product-price {
+            font-weight: 700;
+            color: var(--primary);
+            margin-right: 15px;
+        }
+
+        .product-stock {
+            display: flex;
+            align-items: center;
+        }
+
+        .stock-indicator {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            margin-right: 5px;
+        }
+
+        .stock-high {
+            background: var(--success);
+        }
+
+        .stock-medium {
+            background: var(--warning);
+        }
+
+        .stock-low {
+            background: var(--danger);
+        }
+
+        .product-actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        .action-btn {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--light-gray);
+            color: var(--dark);
+            text-decoration: none;
+            transition: all 0.3s;
+        }
+
+        .action-btn.edit:hover {
+            background: var(--primary);
+            color: white;
+        }
+
+        .action-btn.delete:hover {
+            background: var(--danger);
+            color: white;
+        }
+
+        .btn {
+            display: block;
+            width: 100%;
+            padding: 18px;
+            background: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-size: 18px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 4px 10px rgba(67, 97, 238, 0.3);
+            margin-top: 10px;
+        }
+
+        .btn:hover {
+            background: var(--primary-dark);
+            transform: translateY(-3px);
+            box-shadow: 0 6px 15px rgba(67, 97, 238, 0.4);
+        }
+
+        .btn-outline {
+            background: transparent;
+            border: 2px solid var(--primary);
+            color: var(--primary);
+            box-shadow: none;
+        }
+
+        .btn-outline:hover {
+            background: rgba(67, 97, 238, 0.1);
+        }
+
+        .search-bar {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .search-input {
+            flex: 1;
+            padding: 15px;
+            border: 2px solid var(--border);
+            border-radius: 12px;
+            font-size: 16px;
+        }
+
+        .search-btn {
+            width: 50px;
+            background: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+        }
+
+        .filter-bar {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+            overflow-x: auto;
+            padding-bottom: 5px;
+        }
+
+        .filter-bar::-webkit-scrollbar {
+            height: 4px;
+        }
+
+        .filter-bar::-webkit-scrollbar-thumb {
+            background: var(--primary);
+            border-radius: 2px;
+        }
+
+        .filter-btn {
+            padding: 10px 15px;
+            background: white;
+            border: 2px solid var(--border);
+            border-radius: 50px;
+            font-size: 14px;
+            font-weight: 500;
+            white-space: nowrap;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .filter-btn.active {
+            background: var(--primary);
+            color: white;
+            border-color: var(--primary);
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 40px 20px;
+            color: var(--gray);
+        }
+
+        .empty-state i {
+            font-size: 50px;
+            margin-bottom: 15px;
+            opacity: 0.5;
+        }
+
+        .empty-state p {
+            font-size: 16px;
+        }
+
+        .form-section {
+            margin-bottom: 25px;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+
+        .form-actions {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .btn-cancel {
+            background: var(--light-gray);
+            color: var(--dark);
+        }
+
+        .btn-cancel:hover {
+            background: #dcdde0;
+        }
+
+        .fab-btn {
+            position: fixed;
+            bottom: 30px;
+            right: 20px;
+            width: 60px;
+            height: 60px;
+            background: var(--primary);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            box-shadow: 0 4px 15px rgba(67, 97, 238, 0.5);
+            text-decoration: none;
+            z-index: 100;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s;
+        }
+
+        .modal.show {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .modal-content {
+            background: white;
+            width: 90%;
+            max-width: 500px;
+            border-radius: 16px;
+            overflow: hidden;
+            transform: translateY(20px);
+            transition: transform 0.3s;
+        }
+
+        .modal.show .modal-content {
+            transform: translateY(0);
+        }
+
+        .modal-header {
+            padding: 20px;
+            background: var(--primary);
+            color: white;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .modal-header h2 {
+            font-size: 20px;
+        }
+
+        .modal-close {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 24px;
+            cursor: pointer;
+        }
+
+        .modal-body {
+            padding: 20px;
+            max-height: 70vh;
+            overflow-y: auto;
+        }
+
+        @media (min-width: 768px) {
+            .container {
+                max-width: 700px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <header>
+            <div class="header-left">
+                <a href="#" class="back-btn">
+                    <i class="fas fa-arrow-left"></i>
+                </a>
+                <h1 class="header-title">Productos</h1>
+            </div>
+            <div class="header-actions">
+                <a href="#" class="header-action">
+                    <i class="fas fa-file-export"></i>
+                </a>
+                <a href="#" class="header-action">
+                    <i class="fas fa-cog"></i>
+                </a>
+            </div>
+        </header>
+
+        <div class="summary-cards">
+            <div class="summary-card total">
+                <div class="label">Total productos</div>
+                <div class="value">124</div>
+                <div class="label">en inventario</div>
+            </div>
+            <div class="summary-card low-stock">
+                <div class="label">Bajo stock</div>
+                <div class="value">18</div>
+                <div class="label">productos</div>
+            </div>
+            <div class="summary-card out-stock">
+                <div class="label">Agotados</div>
+                <div class="value">5</div>
+                <div class="label">productos</div>
+            </div>
+            <div class="summary-card categories">
+                <div class="label">Categorías</div>
+                <div class="value">12</div>
+                <div class="label">activas</div>
+            </div>
+        </div>
+
+        <div class="tabs">
+            <div class="tab active" data-tab="list">Lista de productos</div>
+            <div class="tab" data-tab="categories">Categorías</div>
+        </div>
+
+        <!-- Sección de lista de productos -->
+        <div id="list-tab" class="tab-content">
+            <div class="card">
+                <div class="search-bar">
+                    <input type="text" class="search-input" placeholder="Buscar productos...">
+                    <button class="search-btn">
+                        <i class="fas fa-search"></i>
+                    </button>
+                </div>
+
+                <div class="filter-bar">
+                    <div class="filter-btn active">Todos</div>
+                    <div class="filter-btn">Bajo stock</div>
+                    <div class="filter-btn">Agotados</div>
+                    <div class="filter-btn">Destacados</div>
+                    <div class="filter-btn">Ofertas</div>
+                    <div class="filter-btn">Nuevos</div>
+                </div>
+
+                <ul class="product-list">
+                    <li class="product-item">
+                        <div class="product-img">
+                            <i class="fas fa-tshirt"></i>
+                        </div>
+                        <div class="product-details">
+                            <div class="product-name">
+                                Camiseta Algodón Premium
+                                <span class="product-sku">SKU: CM-001</span>
+                            </div>
+                            <div class="product-info">
+                                <span class="product-price">$24.99</span>
+                                <span class="product-stock">
+                                    <span class="stock-indicator stock-high"></span>
+                                    45 unidades
+                                </span>
+                            </div>
+                            <div class="product-category">Ropa / Camisetas</div>
+                        </div>
+                        <div class="product-actions">
+                            <a href="#" class="action-btn edit">
+                                <i class="fas fa-edit"></i>
+                            </a>
+                            <a href="#" class="action-btn delete">
+                                <i class="fas fa-trash"></i>
+                            </a>
+                        </div>
+                    </li>
+
+                    <li class="product-item">
+                        <div class="product-img">
+                            <i class="fas fa-headphones"></i>
+                        </div>
+                        <div class="product-details">
+                            <div class="product-name">
+                                Audífonos Bluetooth
+                                <span class="product-sku">SKU: AU-205</span>
+                            </div>
+                            <div class="product-info">
+                                <span class="product-price">$59.99</span>
+                                <span class="product-stock">
+                                    <span class="stock-indicator stock-medium"></span>
+                                    12 unidades
+                                </span>
+                            </div>
+                            <div class="product-category">Electrónica / Audio</div>
+                        </div>
+                        <div class="product-actions">
+                            <a href="#" class="action-btn edit">
+                                <i class="fas fa-edit"></i>
+                            </a>
+                            <a href="#" class="action-btn delete">
+                                <i class="fas fa-trash"></i>
+                            </a>
+                        </div>
+                    </li>
+
+                    <li class="product-item">
+                        <div class="product-img">
+                            <i class="fas fa-blender"></i>
+                        </div>
+                        <div class="product-details">
+                            <div class="product-name">
+                                Licuadora Profesional
+                                <span class="product-sku">SKU: LC-450</span>
+                            </div>
+                            <div class="product-info">
+                                <span class="product-price">$89.99</span>
+                                <span class="product-stock">
+                                    <span class="stock-indicator stock-low"></span>
+                                    3 unidades
+                                </span>
+                            </div>
+                            <div class="product-category">Hogar / Electrodomésticos</div>
+                        </div>
+                        <div class="product-actions">
+                            <a href="#" class="action-btn edit">
+                                <i class="fas fa-edit"></i>
+                            </a>
+                            <a href="#" class="action-btn delete">
+                                <i class="fas fa-trash"></i>
+                            </a>
+                        </div>
+                    </li>
+
+                    <li class="product-item">
+                        <div class="product-img">
+                            <i class="fas fa-book"></i>
+                        </div>
+                        <div class="product-details">
+                            <div class="product-name">
+                                Libro de Cocina Gourmet
+                                <span class="product-sku">SKU: LB-780</span>
+                            </div>
+                            <div class="product-info">
+                                <span class="product-price">$29.50</span>
+                                <span class="product-stock">
+                                    <span class="stock-indicator stock-high"></span>
+                                    28 unidades
+                                </span>
+                            </div>
+                            <div class="product-category">Libros / Cocina</div>
+                        </div>
+                        <div class="product-actions">
+                            <a href="#" class="action-btn edit">
+                                <i class="fas fa-edit"></i>
+                            </a>
+                            <a href="#" class="action-btn delete">
+                                <i class="fas fa-trash"></i>
+                            </a>
+                        </div>
+                    </li>
+
+                    <li class="product-item">
+                        <div class="product-img">
+                            <i class="fas fa-wine-bottle"></i>
+                        </div>
+                        <div class="product-details">
+                            <div class="product-name">
+                                Aceite de Oliva Extra Virgen
+                                <span class="product-sku">SKU: AL-022</span>
+                            </div>
+                            <div class="product-info">
+                                <span class="product-price">$15.75</span>
+                                <span class="product-stock">
+                                    <span class="stock-indicator stock-out"></span>
+                                    0 unidades
+                                </span>
+                            </div>
+                            <div class="product-category">Alimentos / Aceites</div>
+                        </div>
+                        <div class="product-actions">
+                            <a href="#" class="action-btn edit">
+                                <i class="fas fa-edit"></i>
+                            </a>
+                            <a href="#" class="action-btn delete">
+                                <i class="fas fa-trash"></i>
+                            </a>
+                        </div>
+                    </li>
+                </ul>
+
+                <button class="btn btn-outline">
+                    <i class="fas fa-sync-alt"></i> Cargar más productos
+                </button>
+            </div>
+        </div>
+
+        <!-- Sección de categorías -->
+        <div id="categories-tab" class="tab-content hidden">
+            <div class="card">
+                <div class="card-title">
+                    <i class="fas fa-layer-group"></i>
+                    <h2>Categorías de productos</h2>
+                </div>
+
+                <div class="search-bar">
+                    <input type="text" class="search-input" placeholder="Buscar categorías...">
+                    <button class="search-btn">
+                        <i class="fas fa-search"></i>
+                    </button>
+                </div>
+
+                <ul class="product-list">
+                    <li class="product-item">
+                        <div class="product-img" style="background: #e3f2fd;">
+                            <i class="fas fa-tshirt" style="color: #2196f3;"></i>
+                        </div>
+                        <div class="product-details">
+                            <div class="product-name">
+                                Ropa
+                            </div>
+                            <div class="product-info">
+                                <span>32 productos</span>
+                            </div>
+                        </div>
+                    </li>
+
+                    <li class="product-item">
+                        <div class="product-img" style="background: #e8f5e9;">
+                            <i class="fas fa-utensils" style="color: #4caf50;"></i>
+                        </div>
+                        <div class="product-details">
+                            <div class="product-name">
+                                Alimentos
+                            </div>
+                            <div class="product-info">
+                                <span>28 productos</span>
+                            </div>
+                        </div>
+                    </li>
+
+                    <li class="product-item">
+                        <div class="product-img" style="background: #fff3e0;">
+                            <i class="fas fa-laptop" style="color: #ff9800;"></i>
+                        </div>
+                        <div class="product-details">
+                            <div class="product-name">
+                                Electrónica
+                            </div>
+                            <div class="product-info">
+                                <span>24 productos</span>
+                            </div>
+                        </div>
+                    </li>
+
+                    <li class="product-item">
+                        <div class="product-img" style="background: #f3e5f5;">
+                            <i class="fas fa-home" style="color: #9c27b0;"></i>
+                        </div>
+                        <div class="product-details">
+                            <div class="product-name">
+                                Hogar
+                            </div>
+                            <div class="product-info">
+                                <span>18 productos</span>
+                            </div>
+                        </div>
+                    </li>
+
+                    <li class="product-item">
+                        <div class="product-img" style="background: #ffebee;">
+                            <i class="fas fa-book" style="color: #f44336;"></i>
+                        </div>
+                        <div class="product-details">
+                            <div class="product-name">
+                                Libros
+                            </div>
+                            <div class="product-info">
+                                <span>15 productos</span>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+
+                <button class="btn">
+                    <i class="fas fa-plus"></i> Nueva categoría
+                </button>
+            </div>
+        </div>
+
+        <a href="#" class="fab-btn" id="add-product-btn">
+            <i class="fas fa-plus"></i>
+        </a>
+
+        <!-- Modal para agregar/editar producto -->
+        <div class="modal" id="product-modal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h2>Nuevo Producto</h2>
+                    <button class="modal-close">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-section">
+                        <div class="form-group">
+                            <label for="product-name">Nombre del producto *</label>
+                            <input type="text" id="product-name" class="form-control"
+                                placeholder="Ej: Camiseta de algodón">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="product-sku">SKU o Código</label>
+                            <input type="text" id="product-sku" class="form-control" placeholder="Ej: CM-001">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="product-description">Descripción</label>
+                            <textarea id="product-description" class="form-control" rows="3"
+                                placeholder="Describe el producto"></textarea>
+                        </div>
+                    </div>
+
+                    <div class="form-section">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="product-price">Precio de venta *</label>
+                                <input type="number" id="product-price" class="form-control" placeholder="0.00"
+                                    step="0.01">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="product-cost">Costo</label>
+                                <input type="number" id="product-cost" class="form-control" placeholder="0.00"
+                                    step="0.01">
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="product-stock">Stock actual</label>
+                                <input type="number" id="product-stock" class="form-control" placeholder="0">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="product-minstock">Stock mínimo</label>
+                                <input type="number" id="product-minstock" class="form-control" placeholder="5">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-section">
+                        <div class="form-group">
+                            <label for="product-category">Categoría</label>
+                            <div class="select-wrapper">
+                                <select id="product-category" class="form-control">
+                                    <option value="">Seleccionar categoría</option>
+                                    <option value="1">Ropa</option>
+                                    <option value="2">Electrónica</option>
+                                    <option value="3">Hogar</option>
+                                    <option value="4">Alimentos</option>
+                                    <option value="5">Libros</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="product-brand">Marca</label>
+                            <input type="text" id="product-brand" class="form-control" placeholder="Marca del producto">
+                        </div>
+
+                        <div class="form-group">
+                            <label>Imágenes del producto</label>
+                            <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+                                <div
+                                    style="width: 80px; height: 80px; border: 2px dashed var(--border); border-radius: 12px; display: flex; align-items: center; justify-content: center;">
+                                    <i class="fas fa-plus" style="color: var(--gray);"></i>
+                                </div>
+                                <div
+                                    style="width: 80px; height: 80px; border-radius: 12px; background: var(--light-gray); display: flex; align-items: center; justify-content: center;">
+                                    <i class="fas fa-image" style="color: var(--gray); font-size: 24px;"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-actions">
+                        <button class="btn btn-cancel">Cancelar</button>
+                        <button class="btn">Guardar Producto</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Funcionalidad de pestañas
+        const tabs = document.querySelectorAll('.tab');
+        const tabContents = document.querySelectorAll('.tab-content');
+
+        tabs.forEach(tab => {
+            tab.addEventListener('click', () => {
+                tabs.forEach(t => t.classList.remove('active'));
+                tab.classList.add('active');
+
+                tabContents.forEach(content => content.classList.add('hidden'));
+
+                const tabId = tab.getAttribute('data-tab');
+                document.getElementById(`${tabId}-tab`).classList.remove('hidden');
+            });
+        });
+
+        // Funcionalidad de filtros
+        const filterBtns = document.querySelectorAll('.filter-btn');
+        filterBtns.forEach(btn => {
+            btn.addEventListener('click', function () {
+                filterBtns.forEach(b => b.classList.remove('active'));
+                this.classList.add('active');
+            });
+        });
+
+        // Modal para productos
+        const modal = document.getElementById('product-modal');
+        const openModalBtn = document.getElementById('add-product-btn');
+        const closeModalBtn = document.querySelector('.modal-close');
+        const cancelBtn = document.querySelector('.btn-cancel');
+
+        openModalBtn.addEventListener('click', function (e) {
+            e.preventDefault();
+            modal.classList.add('show');
+        });
+
+        closeModalBtn.addEventListener('click', function () {
+            modal.classList.remove('show');
+        });
+
+        cancelBtn.addEventListener('click', function () {
+            modal.classList.remove('show');
+        });
+
+        // Cerrar modal al hacer clic fuera del contenido
+        window.addEventListener('click', function (e) {
+            if (e.target === modal) {
+                modal.classList.remove('show');
+            }
+        });
+
+        // Simulación de búsqueda
+        const searchBtn = document.querySelector('.search-btn');
+        if (searchBtn) {
+            searchBtn.addEventListener('click', function () {
+                this.innerHTML = '<i class="fas fa-spinner fa-spin"></i>';
+                setTimeout(() => {
+                    this.innerHTML = '<i class="fas fa-search"></i>';
+                }, 1000);
+            });
+        }
+
+        // Botones de acción de productos
+        const editBtns = document.querySelectorAll('.action-btn.edit');
+        editBtns.forEach(btn => {
+            btn.addEventListener('click', function (e) {
+                e.preventDefault();
+                document.querySelector('.modal-header h2').textContent = 'Editar Producto';
+                modal.classList.add('show');
+            });
+        });
+    </script>
+</body>
+
+</html>

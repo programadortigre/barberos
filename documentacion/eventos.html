@@ -1,0 +1,1158 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MEGA EVENTOS | Producción de Eventos Premium</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800&family=Raleway:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"/>
+    <style>
+        :root {
+            --primary: #ff0055;
+            --secondary: #ffcc00;
+            --dark: #0a0a1a;
+            --light: #f8f9ff;
+            --accent: #00c3ff;
+            --transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background: linear-gradient(135deg, var(--dark) 0%, #1a1a2e 100%);
+            color: var(--light);
+            overflow-x: hidden;
+            line-height: 1.6;
+        }
+        
+        /* Particles Background */
+        #particles-js {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            z-index: -1;
+        }
+        
+        /* Header Styles */
+        header {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            padding: 20px 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 1000;
+            transition: var(--transition);
+            backdrop-filter: blur(10px);
+            background: rgba(10, 10, 26, 0.8);
+        }
+        
+        header.scrolled {
+            padding: 15px 5%;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
+        }
+        
+        .logo {
+            font-family: 'Raleway', sans-serif;
+            font-size: 2.2rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            background: linear-gradient(45deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            letter-spacing: 1px;
+        }
+        
+        .nav-links {
+            display: flex;
+            gap: 30px;
+        }
+        
+        .nav-links a {
+            color: var(--light);
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 1.1rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            position: relative;
+            transition: var(--transition);
+        }
+        
+        .nav-links a:hover {
+            color: var(--secondary);
+        }
+        
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--secondary);
+            transition: var(--transition);
+        }
+        
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+        
+        /* Hero Section */
+        .hero {
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+            text-align: center;
+            padding: 0 5%;
+        }
+        
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle, rgba(255,0,85,0.1) 0%, rgba(10,10,26,0.8) 70%);
+            z-index: -1;
+        }
+        
+        .hero-content {
+            max-width: 1200px;
+            z-index: 2;
+            position: relative;
+        }
+        
+        .hero h1 {
+            font-family: 'Raleway', sans-serif;
+            font-size: 5rem;
+            font-weight: 800;
+            margin-bottom: 20px;
+            text-transform: uppercase;
+            background: linear-gradient(45deg, var(--light), var(--accent));
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 0 20px rgba(0, 195, 255, 0.3);
+            line-height: 1.2;
+        }
+        
+        .hero p {
+            font-size: 1.5rem;
+            max-width: 800px;
+            margin: 0 auto 40px;
+            color: #e0e0ff;
+        }
+        
+        .cta-button {
+            display: inline-block;
+            padding: 15px 40px;
+            background: linear-gradient(45deg, var(--primary), var(--secondary));
+            color: var(--dark);
+            text-decoration: none;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            border-radius: 50px;
+            transition: var(--transition);
+            box-shadow: 0 10px 30px rgba(255, 0, 85, 0.4);
+            border: none;
+            cursor: pointer;
+            font-size: 1.1rem;
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
+        }
+        
+        .cta-button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, var(--secondary), var(--primary));
+            z-index: -1;
+            opacity: 0;
+            transition: var(--transition);
+        }
+        
+        .cta-button:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(255, 0, 85, 0.6);
+        }
+        
+        .cta-button:hover::before {
+            opacity: 1;
+        }
+        
+        /* Section Styles */
+        section {
+            padding: 100px 5%;
+        }
+        
+        .section-title {
+            text-align: center;
+            margin-bottom: 70px;
+        }
+        
+        .section-title h2 {
+            font-family: 'Raleway', sans-serif;
+            font-size: 3rem;
+            text-transform: uppercase;
+            margin-bottom: 20px;
+            background: linear-gradient(45deg, var(--secondary), var(--accent));
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            position: relative;
+            display: inline-block;
+        }
+        
+        .section-title h2::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 3px;
+            background: var(--accent);
+        }
+        
+        .section-title p {
+            font-size: 1.2rem;
+            max-width: 700px;
+            margin: 0 auto;
+            color: #ccccee;
+        }
+        
+        /* Services Grid */
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 40px;
+            margin-top: 50px;
+        }
+        
+        .service-card {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 20px;
+            overflow: hidden;
+            transition: var(--transition);
+            transform-style: preserve-3d;
+            perspective: 1000px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transform: perspective(1000px);
+        }
+        
+        .service-card:hover {
+            transform: translateY(-20px) rotateY(5deg);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4), 0 0 30px rgba(255, 204, 0, 0.2);
+            border-color: rgba(255, 204, 0, 0.3);
+        }
+        
+        .service-icon {
+            height: 200px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(45deg, rgba(255,0,85,0.1), rgba(0,195,255,0.1));
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .service-icon::before {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+        }
+        
+        .service-icon i {
+            font-size: 5rem;
+            background: linear-gradient(45deg, var(--secondary), var(--accent));
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            position: relative;
+            z-index: 2;
+        }
+        
+        .service-content {
+            padding: 30px;
+        }
+        
+        .service-content h3 {
+            font-size: 1.8rem;
+            margin-bottom: 15px;
+            color: var(--light);
+        }
+        
+        .service-content p {
+            color: #bbbbdd;
+            margin-bottom: 20px;
+        }
+        
+        /* Swiper Container */
+        .swiper-container {
+            width: 100%;
+            height: 500px;
+            padding: 50px 0;
+            margin: 0 auto;
+        }
+        
+        .swiper-slide {
+            background-position: center;
+            background-size: cover;
+            width: 450px;
+            height: 450px;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+            position: relative;
+            transform-style: preserve-3d;
+            perspective: 1000px;
+            transition: var(--transition);
+        }
+        
+        .swiper-slide::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(to bottom, transparent 50%, rgba(0,0,0,0.8) 100%);
+            z-index: 1;
+        }
+        
+        .swiper-slide-content {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            padding: 30px;
+            z-index: 2;
+            text-align: center;
+        }
+        
+        .swiper-slide h3 {
+            font-size: 2rem;
+            margin-bottom: 10px;
+            color: var(--light);
+        }
+        
+        .swiper-slide p {
+            color: var(--accent);
+            font-weight: 500;
+            font-size: 1.2rem;
+        }
+        
+        /* Artists Section */
+        .artists-section {
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .artists-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('https://i.ibb.co/6sNvj2h/light-pattern.png') center/cover;
+            opacity: 0.05;
+            z-index: 0;
+        }
+        
+        /* Expo Section */
+        .expo-section {
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .expo-content {
+            display: flex;
+            align-items: center;
+            gap: 50px;
+        }
+        
+        .expo-image {
+            flex: 1;
+            height: 500px;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+            position: relative;
+            transform: perspective(1000px);
+        }
+        
+        .expo-image::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, rgba(255,0,85,0.2), rgba(0,195,255,0.2));
+            z-index: 1;
+        }
+        
+        .expo-image::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('https://images.unsplash.com/photo-1531058020387-3be344556be6?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80') center/cover;
+            z-index: 0;
+        }
+        
+        .expo-details {
+            flex: 1;
+        }
+        
+        .expo-details h3 {
+            font-size: 2.2rem;
+            margin-bottom: 20px;
+            color: var(--light);
+        }
+        
+        .expo-details ul {
+            list-style: none;
+            margin: 30px 0;
+        }
+        
+        .expo-details li {
+            margin-bottom: 15px;
+            display: flex;
+            align-items: flex-start;
+            position: relative;
+            padding-left: 30px;
+        }
+        
+        .expo-details li::before {
+            content: '\f00c';
+            font-family: 'Font Awesome 5 Free';
+            font-weight: 900;
+            position: absolute;
+            left: 0;
+            top: 5px;
+            color: var(--secondary);
+            font-size: 1.2rem;
+        }
+        
+        /* Media Section */
+        .media-section {
+            background: linear-gradient(135deg, #16213e 0%, #0f3460 100%);
+        }
+        
+        .media-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+        
+        .media-card {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 15px;
+            overflow: hidden;
+            transition: var(--transition);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transform: perspective(1000px);
+        }
+        
+        .media-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4), 0 0 30px rgba(0, 195, 255, 0.2);
+            border-color: rgba(0, 195, 255, 0.3);
+        }
+        
+        .media-icon {
+            height: 150px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(45deg, rgba(0,195,255,0.1), rgba(255,204,0,0.1));
+        }
+        
+        .media-icon i {
+            font-size: 4rem;
+            background: linear-gradient(45deg, var(--accent), var(--secondary));
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .media-content {
+            padding: 25px;
+            text-align: center;
+        }
+        
+        .media-content h3 {
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+        }
+        
+        /* Contact Section */
+        .contact-section {
+            background: linear-gradient(135deg, #0a0a1a 0%, #1a1a2e 100%);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .contact-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('https://i.ibb.co/0j8K4g5/contact-pattern.png') center/cover;
+            opacity: 0.05;
+            z-index: 0;
+        }
+        
+        .contact-container {
+            display: flex;
+            gap: 50px;
+        }
+        
+        .contact-info {
+            flex: 1;
+        }
+        
+        .contact-info h3 {
+            font-size: 2rem;
+            margin-bottom: 30px;
+            color: var(--light);
+        }
+        
+        .contact-details {
+            margin-bottom: 40px;
+        }
+        
+        .contact-item {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 20px;
+        }
+        
+        .contact-item i {
+            color: var(--accent);
+            font-size: 1.5rem;
+            margin-right: 15px;
+            min-width: 30px;
+        }
+        
+        .contact-text h4 {
+            font-size: 1.2rem;
+            margin-bottom: 5px;
+        }
+        
+        .social-links {
+            display: flex;
+            gap: 15px;
+            margin-top: 30px;
+        }
+        
+        .social-links a {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.1);
+            color: var(--light);
+            font-size: 1.5rem;
+            transition: var(--transition);
+        }
+        
+        .social-links a:hover {
+            background: var(--primary);
+            transform: translateY(-5px);
+        }
+        
+        .contact-form {
+            flex: 1;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transform: perspective(1000px);
+        }
+        
+        .form-group {
+            margin-bottom: 25px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+        }
+        
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 15px;
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            color: var(--light);
+            font-family: 'Montserrat', sans-serif;
+            transition: var(--transition);
+        }
+        
+        .form-group input:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: var(--accent);
+            background: rgba(0, 195, 255, 0.05);
+        }
+        
+        .form-group textarea {
+            height: 150px;
+            resize: none;
+        }
+        
+        /* Footer */
+        footer {
+            background: #0a0a1a;
+            padding: 50px 5% 20px;
+            text-align: center;
+        }
+        
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .footer-logo {
+            font-family: 'Raleway', sans-serif;
+            font-size: 2.5rem;
+            font-weight: 800;
+            margin-bottom: 20px;
+            background: linear-gradient(45deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 30px;
+            margin: 30px 0;
+        }
+        
+        .footer-links a {
+            color: #bbbbdd;
+            text-decoration: none;
+            transition: var(--transition);
+        }
+        
+        .footer-links a:hover {
+            color: var(--accent);
+        }
+        
+        .copyright {
+            margin-top: 40px;
+            color: #8888aa;
+            font-size: 0.9rem;
+        }
+        
+        /* Responsive Design */
+        @media (max-width: 992px) {
+            .hero h1 {
+                font-size: 4rem;
+            }
+            
+            .expo-content {
+                flex-direction: column;
+            }
+            
+            .contact-container {
+                flex-direction: column;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 3rem;
+            }
+            
+            .hero p {
+                font-size: 1.2rem;
+            }
+            
+            .section-title h2 {
+                font-size: 2.5rem;
+            }
+            
+            .nav-links {
+                display: none;
+            }
+            
+            .swiper-slide {
+                width: 350px;
+                height: 350px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Particles Background -->
+    <div id="particles-js"></div>
+    
+    <!-- Header -->
+    <header>
+        <div class="logo">MEGA EVENTOS</div>
+        <nav class="nav-links">
+            <a href="#inicio">Inicio</a>
+            <a href="#servicios">Servicios</a>
+            <a href="#artistas">Artistas</a>
+            <a href="#expo">Expoferias</a>
+            <a href="#contacto">Contacto</a>
+        </nav>
+    </header>
+    
+    <!-- Hero Section -->
+    <section class="hero" id="inicio">
+        <div class="hero-content">
+            <h1>CREAMOS EXPERIENCIAS <span style="display:block">INOLVIDABLES</span></h1>
+            <p>Transformamos tus ideas en eventos extraordinarios con producción de clase mundial, artistas internacionales y tecnología de vanguardia.</p>
+            <a href="#contacto" class="cta-button">CONTÁCTANOS AHORA</a>
+        </div>
+    </section>
+    
+    <!-- Services Section -->
+    <section class="services-section" id="servicios">
+        <div class="section-title">
+            <h2>NUESTROS SERVICIOS</h2>
+            <p>Ofrecemos soluciones completas para todo tipo de eventos con la más alta calidad y profesionalismo.</p>
+        </div>
+        
+        <div class="services-grid">
+            <!-- Eventos Institucionales y Corporativos -->
+            <div class="service-card" data-tilt data-tilt-max="10" data-tilt-speed="400" data-tilt-perspective="1000">
+                <div class="service-icon">
+                    <i class="fas fa-building"></i>
+                </div>
+                <div class="service-content">
+                    <h3>Eventos Institucionales y Corporativos</h3>
+                    <p>Convenciones, lanzamientos de producto, conferencias, reuniones ejecutivas y eventos corporativos con producción profesional y tecnología avanzada.</p>
+                    <a href="#" class="cta-button">Más Información</a>
+                </div>
+            </div>
+            
+            <!-- Eventos Sociales y Culturales -->
+            <div class="service-card" data-tilt data-tilt-max="10" data-tilt-speed="400" data-tilt-perspective="1000">
+                <div class="service-icon">
+                    <i class="fas fa-music"></i>
+                </div>
+                <div class="service-content">
+                    <h3>Eventos Sociales y Culturales</h3>
+                    <p>Conciertos, festivales, galas benéficas, inauguraciones y eventos culturales que crean experiencias memorables para todos los asistentes.</p>
+                    <a href="#" class="cta-button">Más Información</a>
+                </div>
+            </div>
+            
+            <!-- Transmisión en Vivo -->
+            <div class="service-card" data-tilt data-tilt-max="10" data-tilt-speed="400" data-tilt-perspective="1000">
+                <div class="service-icon">
+                    <i class="fas fa-video"></i>
+                </div>
+                <div class="service-content">
+                    <h3>Transmisión en Vivo</h3>
+                    <p>Transmisiones en vivo profesionales para eventos híbridos, con calidad broadcast, múltiples cámaras y producción audiovisual de primer nivel.</p>
+                    <a href="#" class="cta-button">Más Información</a>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Artists Section with Swiper Coverflow -->
+    <section class="artists-section" id="artistas">
+        <div class="section-title">
+            <h2>ARTISTAS NACIONALES E INTERNACIONALES</h2>
+            <p>Conectamos tu evento con los artistas más destacados del panorama musical actual.</p>
+        </div>
+        
+        <div class="swiper-container">
+            <div class="swiper-wrapper">
+                <!-- Slide 1 -->
+                <div class="swiper-slide" style="background-image: url('https://images.unsplash.com/photo-1470225620780-dba8ba36b745?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80')">
+                    <div class="swiper-slide-content">
+                        <h3>SHAKIRA</h3>
+                        <p>Superestrella Internacional</p>
+                    </div>
+                </div>
+                
+                <!-- Slide 2 -->
+                <div class="swiper-slide" style="background-image: url('https://images.unsplash.com/photo-1507838153414-b4b713384a76?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80')">
+                    <div class="swiper-slide-content">
+                        <h3>J BALVIN</h3>
+                        <p>Ícono del Reggaeton</p>
+                    </div>
+                </div>
+                
+                <!-- Slide 3 -->
+                <div class="swiper-slide" style="background-image: url('https://images.unsplash.com/photo-1470229722913-7c0e2dbbafd3?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80')">
+                    <div class="swiper-slide-content">
+                        <h3>MALUMA</h3>
+                        <p>Fenómeno Mundial</p>
+                    </div>
+                </div>
+                
+                <!-- Slide 4 -->
+                <div class="swiper-slide" style="background-image: url('https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80')">
+                    <div class="swiper-slide-content">
+                        <h3>CARLOS VIVES</h3>
+                        <p>Leyenda de la Música Latina</p>
+                    </div>
+                </div>
+                
+                <!-- Slide 5 -->
+                <div class="swiper-slide" style="background-image: url('https://images.unsplash.com/photo-1470229722913-7c0e2dbbafd3?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80')">
+                    <div class="swiper-slide-content">
+                        <h3>JUANES</h3>
+                        <p>Artista Legendario</p>
+                    </div>
+                </div>
+                
+                <!-- Slide 6 -->
+                <div class="swiper-slide" style="background-image: url('https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80')">
+                    <div class="swiper-slide-content">
+                        <h3>ROSALÍA</h3>
+                        <p>Vanguardista Internacional</p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Add Pagination -->
+            <div class="swiper-pagination"></div>
+            
+            <!-- Add Navigation -->
+            <div class="swiper-button-next"></div>
+            <div class="swiper-button-prev"></div>
+        </div>
+    </section>
+    
+    <!-- Expo Section -->
+    <section class="expo-section" id="expo">
+        <div class="section-title">
+            <h2>EXPOFERIAS, CONVENCIONES Y CONFERENCIAS</h2>
+            <p>Producción integral para eventos de negocios, exposiciones y foros de alto nivel.</p>
+        </div>
+        
+        <div class="expo-content">
+            <div class="expo-image" data-tilt data-tilt-max="5" data-tilt-speed="300"></div>
+            <div class="expo-details">
+                <h3>Soluciones Completas para Eventos Empresariales</h3>
+                <p>Desde pequeñas reuniones hasta convenciones masivas, ofrecemos servicios integrales que incluyen:</p>
+                
+                <ul>
+                    <li>Diseño y montaje de stands creativos e innovadores</li>
+                    <li>Coordinación logística integral</li>
+                    <li>Tecnología de última generación para presentaciones</li>
+                    <li>Soluciones de streaming y realidad aumentada</li>
+                    <li>Gestión de speakers y contenido</li>
+                    <li>Producción audiovisual profesional</li>
+                    <li>Servicios de catering premium</li>
+                    <li>Seguridad y protocolo</li>
+                </ul>
+                
+                <a href="#contacto" class="cta-button">SOLICITAR PRESUPUESTO</a>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Media Section -->
+    <section class="media-section">
+        <div class="section-title">
+            <h2>PRENSA, MEDIOS Y MARKETING</h2>
+            <p>Soluciones integrales de comunicación y promoción para tu evento.</p>
+        </div>
+        
+        <div class="media-grid">
+            <!-- Prensa y Medios -->
+            <div class="media-card" data-tilt data-tilt-max="8" data-tilt-speed="400">
+                <div class="media-icon">
+                    <i class="fas fa-newspaper"></i>
+                </div>
+                <div class="media-content">
+                    <h3>Prensa y Medios</h3>
+                    <p>Gestión de relaciones con medios, cobertura de prensa, comunicados y ruedas de prensa profesionales.</p>
+                </div>
+            </div>
+            
+            <!-- Publicidad ATL -->
+            <div class="media-card" data-tilt data-tilt-max="8" data-tilt-speed="400">
+                <div class="media-icon">
+                    <i class="fas fa-bullhorn"></i>
+                </div>
+                <div class="media-content">
+                    <h3>Publicidad ATL</h3>
+                    <p>Campañas masivas en TV, radio, prensa y vallas publicitarias para maximizar el alcance de tu evento.</p>
+                </div>
+            </div>
+            
+            <!-- Marketing BTL -->
+            <div class="media-card" data-tilt data-tilt-max="8" data-tilt-speed="400">
+                <div class="media-icon">
+                    <i class="fas fa-handshake"></i>
+                </div>
+                <div class="media-content">
+                    <h3>Marketing BTL</h3>
+                    <p>Acciones directas, street marketing, sampling, activaciones de marca y experiencias interactivas.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Contact Section -->
+    <section class="contact-section" id="contacto">
+        <div class="section-title">
+            <h2>CONTÁCTANOS</h2>
+            <p>Estamos listos para convertir tu próximo evento en una experiencia inolvidable.</p>
+        </div>
+        
+        <div class="contact-container">
+            <div class="contact-info">
+                <h3>Información de Contacto</h3>
+                
+                <div class="contact-details">
+                    <div class="contact-item">
+                        <i class="fas fa-map-marker-alt"></i>
+                        <div class="contact-text">
+                            <h4>DIRECCIÓN</h4>
+                            <p>Av. Eventos 1234, Distrito Creativo, Ciudad</p>
+                        </div>
+                    </div>
+                    
+                    <div class="contact-item">
+                        <i class="fas fa-phone-alt"></i>
+                        <div class="contact-text">
+                            <h4>TELÉFONO</h4>
+                            <p>+1 (123) 456-7890</p>
+                        </div>
+                    </div>
+                    
+                    <div class="contact-item">
+                        <i class="fas fa-envelope"></i>
+                        <div class="contact-text">
+                            <h4>EMAIL</h4>
+                            <p>info@megaeventos.com</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="social-links">
+                    <a href="#"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                    <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                    <a href="#"><i class="fab fa-youtube"></i></a>
+                </div>
+            </div>
+            
+            <div class="contact-form" data-tilt data-tilt-max="5" data-tilt-speed="300">
+                <h3>Envíanos un Mensaje</h3>
+                <form>
+                    <div class="form-group">
+                        <label for="name">Nombre Completo</label>
+                        <input type="text" id="name" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="email">Correo Electrónico</label>
+                        <input type="email" id="email" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="phone">Teléfono</label>
+                        <input type="tel" id="phone">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="event">Tipo de Evento</label>
+                        <input type="text" id="event" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="message">Mensaje</label>
+                        <textarea id="message" required></textarea>
+                    </div>
+                    
+                    <button type="submit" class="cta-button">ENVIAR MENSAJE</button>
+                </form>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-logo">MEGA EVENTOS</div>
+            <p>Transformando ideas en experiencias extraordinarias desde 2010</p>
+            
+            <div class="footer-links">
+                <a href="#inicio">Inicio</a>
+                <a href="#servicios">Servicios</a>
+                <a href="#artistas">Artistas</a>
+                <a href="#expo">Expoferias</a>
+                <a href="#contacto">Contacto</a>
+                <a href="#">Términos y Condiciones</a>
+                <a href="#">Política de Privacidad</a>
+            </div>
+            
+            <div class="copyright">
+                &copy; 2023 MEGA EVENTOS. Todos los derechos reservados. Diseñado con pasión por eventos extraordinarios.
+            </div>
+        </div>
+    </footer>
+    
+    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tilt.js/1.2.1/tilt.jquery.min.js"></script>
+    <script>
+        // Particles.js Initialization
+        particlesJS("particles-js", {
+            particles: {
+                number: { value: 100, density: { enable: true, value_area: 800 } },
+                color: { value: "#ffffff" },
+                shape: { type: "circle" },
+                opacity: { value: 0.2, random: true },
+                size: { value: 3, random: true },
+                line_linked: {
+                    enable: true,
+                    distance: 150,
+                    color: "#ffffff",
+                    opacity: 0.1,
+                    width: 1
+                },
+                move: {
+                    enable: true,
+                    speed: 1,
+                    direction: "none",
+                    random: true,
+                    straight: false,
+                    out_mode: "out",
+                    bounce: false
+                }
+            },
+            interactivity: {
+                detect_on: "canvas",
+                events: {
+                    onhover: { enable: true, mode: "grab" },
+                    onclick: { enable: true, mode: "push" },
+                    resize: true
+                },
+                modes: {
+                    grab: { distance: 140, line_linked: { opacity: 0.3 } },
+                    push: { particles_nb: 4 }
+                }
+            },
+            retina_detect: true
+        });
+        
+        // Header scroll effect
+        window.addEventListener('scroll', function() {
+            const header = document.querySelector('header');
+            if (window.scrollY > 50) {
+                header.classList.add('scrolled');
+            } else {
+                header.classList.remove('scrolled');
+            }
+        });
+        
+        // Initialize Swiper with Coverflow effect
+        const swiper = new Swiper('.swiper-container', {
+            effect: 'coverflow',
+            grabCursor: true,
+            centeredSlides: true,
+            slidesPerView: 'auto',
+            coverflowEffect: {
+                rotate: 20,
+                stretch: 0,
+                depth: 200,
+                modifier: 1,
+                slideShadows: true,
+            },
+            pagination: {
+                el: '.swiper-pagination',
+                clickable: true,
+            },
+            navigation: {
+                nextEl: '.swiper-button-next',
+                prevEl: '.swiper-button-prev',
+            },
+            loop: true,
+            autoplay: {
+                delay: 3000,
+                disableOnInteraction: false,
+            },
+        });
+        
+        // Initialize Tilt.js for all elements with data-tilt attribute
+        $('.service-card, .media-card, .expo-image, .contact-form').tilt({
+            glare: true,
+            maxGlare: 0.2,
+            reset: true,
+            perspective: 1000
+        });
+        
+        // Smooth scrolling
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+        
+        // Add subtle animation to hero text
+        const heroTitle = document.querySelector('.hero h1');
+        window.addEventListener('load', () => {
+            heroTitle.style.transform = 'translateY(0)';
+            heroTitle.style.opacity = '1';
+        });
+        
+        // Add parallax effect to hero section
+        window.addEventListener('scroll', function() {
+            const scrollPosition = window.pageYOffset;
+            const hero = document.querySelector('.hero');
+            hero.style.backgroundPositionY = scrollPosition * 0.5 + 'px';
+        });
+    </script>
+</body>
+</html>

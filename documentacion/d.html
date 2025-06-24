@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Contacto – FLEBOLASER</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Poppins', sans-serif;
+    }
+
+    body {
+      background: linear-gradient(135deg, #eaf6ff, #ffffff);
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 40px 20px;
+    }
+
+    .contact-container {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      max-width: 1100px;
+      background: white;
+      border-radius: 24px;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.08);
+      overflow: hidden;
+    }
+
+    .contact-info {
+      background: linear-gradient(160deg, #004CD0, #0066ff);
+      color: white;
+      padding: 50px 40px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: 30px;
+    }
+
+    .contact-info h2 {
+      font-size: 2rem;
+      margin-bottom: 20px;
+    }
+
+    .info-item {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      font-size: 1.1rem;
+    }
+
+    .info-item i {
+      font-size: 1.5rem;
+      color: white;
+    }
+
+    .contact-form {
+      padding: 50px 40px;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .contact-form h2 {
+      font-size: 2rem;
+      color: #004CD0;
+      margin-bottom: 10px;
+    }
+
+    .contact-form input,
+    .contact-form textarea {
+      padding: 15px;
+      border: 2px solid #e0e0e0;
+      border-radius: 12px;
+      font-size: 1rem;
+      transition: 0.3s;
+    }
+
+    .contact-form input:focus,
+    .contact-form textarea:focus {
+      border-color: #004CD0;
+      outline: none;
+      box-shadow: 0 0 0 4px rgba(0,76,208,0.1);
+    }
+
+    .contact-form textarea {
+      min-height: 120px;
+      resize: vertical;
+    }
+
+    .contact-form button {
+      padding: 15px;
+      background: #004CD0;
+      color: white;
+      font-size: 1rem;
+      border: none;
+      border-radius: 12px;
+      cursor: pointer;
+      transition: background 0.3s, transform 0.2s;
+    }
+
+    .contact-form button:hover {
+      background: #0035a8;
+      transform: translateY(-2px);
+    }
+
+    @media (max-width: 850px) {
+      .contact-container {
+        grid-template-columns: 1fr;
+      }
+
+      .contact-info {
+        text-align: center;
+        align-items: center;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="contact-container">
+    <!-- Lado izquierdo: Info -->
+    <div class="contact-info">
+      <h2>Contáctanos</h2>
+      <div class="info-item"><i class="fas fa-map-marker-alt"></i> Lima, Perú</div>
+      <div class="info-item"><i class="fas fa-phone-alt"></i> +51 999 999 999</div>
+      <div class="info-item"><i class="fas fa-envelope"></i> contacto@flebolaser.com</div>
+      <div class="info-item"><i class="fab fa-facebook-f"></i> /Flebolaser</div>
+      <div class="info-item"><i class="fab fa-instagram"></i> @flebolaser</div>
+    </div>
+
+    <!-- Lado derecho: Formulario -->
+    <form class="contact-form">
+      <h2>Escríbenos</h2>
+      <input type="text" placeholder="Tu nombre" required />
+      <input type="email" placeholder="Tu correo electrónico" required />
+      <input type="text" placeholder="Asunto" />
+      <textarea placeholder="Tu mensaje..." required></textarea>
+      <button type="submit">Enviar mensaje</button>
+    </form>
+  </div>
+</body>
+</html>

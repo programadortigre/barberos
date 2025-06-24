@@ -1,0 +1,886 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nosotros - Imprenta Premium</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800&family=Roboto:wght@300;400;500;700&display=swap"
+        rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #e05c0b;
+            --primary-dark: #b34908;
+            --primary-light: #ff8c42;
+            --primary-transparent: rgba(224, 92, 11, 0.1);
+            --dark: #1e2a38;
+            --light: #f8f9fa;
+            --gray: #6c757d;
+            --light-gray: #e9ecef;
+        }
+
+        body {
+            background-color: #f9f9f9;
+            font-family: 'Roboto', sans-serif;
+            color: var(--dark);
+            line-height: 1.7;
+        }
+
+        .about-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Hero Section */
+        .hero-section {
+            background: linear-gradient(rgba(30, 42, 56, 0.85), rgba(30, 42, 56, 0.85)), url('https://images.unsplash.com/photo-1527689638836-411945a2b57a?ixlib=rb-1.2.1&auto=format&fit=crop&w=1950&q=80');
+            background-size: cover;
+            background-position: center;
+            min-height: 80vh;
+            display: flex;
+            align-items: center;
+            position: relative;
+            padding: 100px 0;
+        }
+
+        .hero-content {
+            max-width: 800px;
+            margin: 0 auto;
+            text-align: center;
+            padding: 0 20px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .hero-content h1 {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 4.5rem;
+            font-weight: 800;
+            color: white;
+            margin-bottom: 20px;
+            letter-spacing: -1px;
+            text-transform: uppercase;
+        }
+
+        .hero-content h1 span {
+            color: var(--primary);
+        }
+
+        .hero-content p {
+            font-size: 1.3rem;
+            color: rgba(255, 255, 255, 0.85);
+            margin-bottom: 40px;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .hero-divider {
+            height: 4px;
+            background: var(--primary);
+            width: 200px;
+            margin: 30px auto;
+            border-radius: 2px;
+        }
+
+        /* Timeline Section */
+        .timeline-section {
+            padding: 100px 0;
+            background-color: white;
+            position: relative;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 80px;
+        }
+
+        .section-header h2 {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 3.2rem;
+            color: var(--dark);
+            margin-bottom: 15px;
+            font-weight: 800;
+            position: relative;
+            display: inline-block;
+        }
+
+        .section-header h2::after {
+            content: '';
+            position: absolute;
+            bottom: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 5px;
+            background: var(--primary);
+            border-radius: 3px;
+        }
+
+        .section-header p {
+            font-size: 1.2rem;
+            color: var(--gray);
+            max-width: 700px;
+            margin: 30px auto 0;
+            line-height: 1.8;
+        }
+
+        .timeline {
+            position: relative;
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 40px 0;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            left: 50%;
+            width: 4px;
+            background: var(--light-gray);
+            margin-left: -2px;
+        }
+
+        .timeline-item {
+            position: relative;
+            margin-bottom: 80px;
+            width: 100%;
+            display: flex;
+        }
+
+        .timeline-item:nth-child(odd) {
+            justify-content: flex-start;
+            padding-right: 50%;
+        }
+
+        .timeline-item:nth-child(even) {
+            justify-content: flex-end;
+            padding-left: 50%;
+        }
+
+        .timeline-content {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.08);
+            width: 90%;
+            position: relative;
+            transition: all 0.4s ease;
+            border-left: 4px solid var(--primary);
+        }
+
+        .timeline-item:nth-child(even) .timeline-content {
+            border-left: none;
+            border-right: 4px solid var(--primary);
+        }
+
+        .timeline-content:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(224, 92, 11, 0.15);
+        }
+
+        .timeline-year {
+            position: absolute;
+            top: -25px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--primary);
+            color: white;
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 700;
+            font-size: 1.2rem;
+            padding: 8px 20px;
+            border-radius: 30px;
+            box-shadow: 0 5px 15px rgba(224, 92, 11, 0.3);
+        }
+
+        .timeline-content h3 {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 1.8rem;
+            margin-bottom: 15px;
+            color: var(--dark);
+        }
+
+        .timeline-content p {
+            color: var(--gray);
+            font-size: 1.05rem;
+            line-height: 1.8;
+        }
+
+        /* Team Section */
+        .team-section {
+            padding: 100px 0;
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+        }
+
+        .team-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 40px;
+            max-width: 1200px;
+            margin: 60px auto 0;
+        }
+
+        .team-member {
+            background: white;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.08);
+            transition: all 0.4s ease;
+            position: relative;
+        }
+
+        .team-member:hover {
+            transform: translateY(-15px);
+            box-shadow: 0 20px 50px rgba(224, 92, 11, 0.2);
+        }
+
+        .member-img {
+            height: 350px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .member-img img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+
+        .team-member:hover .member-img img {
+            transform: scale(1.05);
+        }
+
+        .member-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            padding: 30px;
+            background: linear-gradient(transparent, rgba(30, 42, 56, 0.9));
+            color: white;
+        }
+
+        .member-overlay h3 {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 1.8rem;
+            margin-bottom: 5px;
+        }
+
+        .member-overlay .position {
+            color: var(--primary);
+            font-weight: 600;
+            font-size: 1.1rem;
+        }
+
+        .member-social {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            transform: translateX(50px);
+            opacity: 0;
+            transition: all 0.4s ease;
+        }
+
+        .team-member:hover .member-social {
+            transform: translateX(0);
+            opacity: 1;
+        }
+
+        .social-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: var(--primary);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .social-icon:hover {
+            background: white;
+            color: var(--primary);
+            transform: translateY(-5px);
+        }
+
+        .member-info {
+            padding: 25px;
+        }
+
+        .member-info p {
+            color: var(--gray);
+            margin-bottom: 20px;
+        }
+
+        .member-contact {
+            display: flex;
+            align-items: center;
+            color: var(--primary);
+            margin-top: 15px;
+            font-weight: 500;
+        }
+
+        .member-contact i {
+            margin-right: 10px;
+        }
+
+        /* Values Section */
+        .values-section {
+            padding: 100px 0;
+            background: white;
+        }
+
+        .values-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 40px;
+            max-width: 1200px;
+            margin: 60px auto 0;
+        }
+
+        .value-card {
+            background: white;
+            border-radius: 20px;
+            padding: 50px 30px;
+            text-align: center;
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.05);
+            transition: all 0.4s ease;
+            border-bottom: 4px solid transparent;
+        }
+
+        .value-card:hover {
+            transform: translateY(-15px);
+            border-bottom: 4px solid var(--primary);
+            box-shadow: 0 20px 50px rgba(224, 92, 11, 0.1);
+        }
+
+        .value-icon {
+            width: 100px;
+            height: 100px;
+            background: var(--primary-transparent);
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 0 auto 30px;
+            transition: all 0.3s ease;
+        }
+
+        .value-card:hover .value-icon {
+            background: var(--primary);
+            transform: scale(1.1);
+        }
+
+        .value-icon i {
+            font-size: 42px;
+            color: var(--primary);
+            transition: all 0.3s ease;
+        }
+
+        .value-card:hover .value-icon i {
+            color: white;
+        }
+
+        .value-card h3 {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 1.8rem;
+            margin-bottom: 20px;
+            color: var(--dark);
+        }
+
+        .value-card p {
+            color: var(--gray);
+            font-size: 1.05rem;
+            line-height: 1.8;
+        }
+
+        /* Stats Section */
+        .stats-section {
+            padding: 100px 0;
+            background: linear-gradient(rgba(224, 92, 11, 0.9), rgba(224, 92, 11, 0.9)), url('https://images.unsplash.com/photo-1513151233558-d860c5398176?ixlib=rb-1.2.1&auto=format&fit=crop&w=1950&q=80');
+            background-size: cover;
+            background-position: center;
+            text-align: center;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 40px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .stat-item {
+            color: white;
+            padding: 30px;
+        }
+
+        .stat-number {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 4rem;
+            font-weight: 800;
+            color: white;
+            margin-bottom: 15px;
+        }
+
+        .stat-label {
+            font-size: 1.3rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            opacity: 0.9;
+            position: relative;
+            display: inline-block;
+        }
+
+        .stat-label::after {
+            content: '';
+            position: absolute;
+            bottom: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 50px;
+            height: 3px;
+            background: white;
+            border-radius: 2px;
+        }
+
+        /* CTA Section */
+        .cta-section {
+            padding: 100px 0;
+            background: white;
+            text-align: center;
+        }
+
+        .cta-content {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .cta-content h2 {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 3.5rem;
+            margin-bottom: 30px;
+            color: var(--dark);
+        }
+
+        .cta-content p {
+            font-size: 1.2rem;
+            color: var(--gray);
+            margin-bottom: 40px;
+            line-height: 1.8;
+        }
+
+        .cta-button {
+            display: inline-block;
+            padding: 18px 50px;
+            background: var(--primary);
+            color: white;
+            border-radius: 50px;
+            text-decoration: none;
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 700;
+            font-size: 1.2rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 25px rgba(224, 92, 11, 0.4);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .cta-button:hover {
+            background: var(--primary-dark);
+            transform: translateY(-5px);
+            box-shadow: 0 10px 35px rgba(224, 92, 11, 0.5);
+        }
+
+        .cta-button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.1);
+            transform: translateX(-100%) skewX(-15deg);
+            transition: transform 0.6s ease;
+        }
+
+        .cta-button:hover::before {
+            transform: translateX(300%) skewX(-15deg);
+        }
+
+        /* Responsive */
+        @media (max-width: 992px) {
+            .hero-content h1 {
+                font-size: 3.5rem;
+            }
+
+            .timeline::before {
+                left: 30px;
+            }
+
+            .timeline-item {
+                justify-content: flex-start !important;
+                padding-left: 70px !important;
+                padding-right: 0 !important;
+            }
+
+            .timeline-year {
+                left: 0;
+                transform: translateX(0);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .hero-content h1 {
+                font-size: 2.8rem;
+            }
+
+            .section-header h2 {
+                font-size: 2.5rem;
+            }
+
+            .timeline-item {
+                padding-left: 60px !important;
+            }
+
+            .cta-content h2 {
+                font-size: 2.8rem;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .hero-section {
+                min-height: 70vh;
+            }
+
+            .hero-content h1 {
+                font-size: 2.2rem;
+            }
+
+            .hero-content p {
+                font-size: 1.1rem;
+            }
+
+            .section-header h2 {
+                font-size: 2rem;
+            }
+
+            .stat-number {
+                font-size: 3rem;
+            }
+
+            .cta-content h2 {
+                font-size: 2.2rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <section class="hero-section">
+        <div class="hero-content">
+            <h1>Nuestra <span>Historia</span></h1>
+            <p>Más de 25 años transformando ideas en impresiones de alta calidad con pasión y dedicación</p>
+            <div class="hero-divider"></div>
+        </div>
+    </section>
+
+    <section class="timeline-section">
+        <div class="about-container">
+            <div class="section-header">
+                <h2>Nuestro Viaje</h2>
+                <p>Desde nuestros humildes comienzos hasta convertirnos en líderes de la industria gráfica, cada paso ha
+                    sido una lección de innovación y compromiso.</p>
+            </div>
+
+            <div class="timeline">
+                <div class="timeline-item">
+                    <div class="timeline-content">
+                        <div class="timeline-year">1998</div>
+                        <h3>Los Comienzos</h3>
+                        <p>Fundada en un pequeño garaje con una sola prensa manual. Nuestro fundador, Carlos Méndez,
+                            comenzó imprimiendo folletos y tarjetas personales para negocios locales, estableciendo los
+                            cimientos de lo que sería una gran empresa.</p>
+                    </div>
+                </div>
+
+                <div class="timeline-item">
+                    <div class="timeline-content">
+                        <div class="timeline-year">2005</div>
+                        <h3>Primera Expansión</h3>
+                        <p>Tras años de crecimiento constante, nos mudamos a un local industrial de 500m² e invertimos
+                            en nuestra primera prensa digital de alta velocidad. Este año también marcó nuestro primer
+                            gran contrato corporativo con una cadena de supermercados.</p>
+                    </div>
+                </div>
+
+                <div class="timeline-item">
+                    <div class="timeline-content">
+                        <div class="timeline-year">2012</div>
+                        <h3>Revolución Digital</h3>
+                        <p>Adoptamos la impresión digital de última generación y expandimos nuestros servicios a gran
+                            formato. Lanzamos nuestro departamento de diseño gráfico interno para ofrecer soluciones
+                            completas a nuestros clientes.</p>
+                    </div>
+                </div>
+
+                <div class="timeline-item">
+                    <div class="timeline-content">
+                        <div class="timeline-year">2018</div>
+                        <h3>Compromiso Ecológico</h3>
+                        <p>Implementamos nuestra política de sostenibilidad: tintas ecológicas, papel reciclado y
+                            procesos de producción con huella de carbono neutral. Recibimos el premio nacional a la
+                            innovación sostenible en la industria gráfica.</p>
+                    </div>
+                </div>
+
+                <div class="timeline-item">
+                    <div class="timeline-content">
+                        <div class="timeline-year">2023</div>
+                        <h3>Líderes del Sector</h3>
+                        <p>Con tres plantas de producción y más de 120 empleados, nos hemos consolidado como referentes
+                            en innovación gráfica. Hoy servimos a más de 2,000 clientes en todo el país con la misma
+                            pasión que el primer día.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="team-section">
+        <div class="about-container">
+            <div class="section-header">
+                <h2>Nuestro Equipo</h2>
+                <p>Profesionales apasionados por la impresión que combinan experiencia y creatividad para superar tus
+                    expectativas</p>
+            </div>
+
+            <div class="team-grid">
+                <div class="team-member">
+                    <div class="member-img">
+                        <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80"
+                            alt="Carlos Méndez">
+                        <div class="member-overlay">
+                            <h3>Carlos Méndez</h3>
+                            <div class="position">Fundador & CEO</div>
+                        </div>
+                        <div class="member-social">
+                            <a href="#" class="social-icon"><i class="fab fa-linkedin-in"></i></a>
+                            <a href="#" class="social-icon"><i class="fab fa-twitter"></i></a>
+                            <a href="#" class="social-icon"><i class="fas fa-envelope"></i></a>
+                        </div>
+                    </div>
+                    <div class="member-info">
+                        <p>Con más de 30 años en la industria gráfica, Carlos combina visión empresarial con pasión por
+                            el detalle artesanal.</p>
+                        <div class="member-contact">
+                            <i class="fas fa-phone"></i> +34 600 123 456
+                        </div>
+                    </div>
+                </div>
+
+                <div class="team-member">
+                    <div class="member-img">
+                        <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80"
+                            alt="Laura García">
+                        <div class="member-overlay">
+                            <h3>Laura García</h3>
+                            <div class="position">Directora Creativa</div>
+                        </div>
+                        <div class="member-social">
+                            <a href="#" class="social-icon"><i class="fab fa-linkedin-in"></i></a>
+                            <a href="#" class="social-icon"><i class="fab fa-behance"></i></a>
+                            <a href="#" class="social-icon"><i class="fas fa-envelope"></i></a>
+                        </div>
+                    </div>
+                    <div class="member-info">
+                        <p>Premiada diseñadora con especialización en branding corporativo. Transforma ideas en
+                            identidades visuales impactantes.</p>
+                        <div class="member-contact">
+                            <i class="fas fa-phone"></i> +34 600 234 567
+                        </div>
+                    </div>
+                </div>
+
+                <div class="team-member">
+                    <div class="member-img">
+                        <img src="https://images.unsplash.com/photo-1551836022-d5d88e9218df?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80"
+                            alt="Javier Rodríguez">
+                        <div class="member-overlay">
+                            <h3>Javier Rodríguez</h3>
+                            <div class="position">Director de Producción</div>
+                        </div>
+                        <div class="member-social">
+                            <a href="#" class="social-icon"><i class="fab fa-linkedin-in"></i></a>
+                            <a href="#" class="social-icon"><i class="fab fa-twitter"></i></a>
+                            <a href="#" class="social-icon"><i class="fas fa-envelope"></i></a>
+                        </div>
+                    </div>
+                    <div class="member-info">
+                        <p>Experto en procesos de impresión y gestión de calidad. Garantiza que cada proyecto cumpla los
+                            más altos estándares.</p>
+                        <div class="member-contact">
+                            <i class="fas fa-phone"></i> +34 600 345 678
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="values-section">
+        <div class="about-container">
+            <div class="section-header">
+                <h2>Nuestros Valores</h2>
+                <p>Principios fundamentales que guían cada proyecto y cada interacción con nuestros clientes</p>
+            </div>
+
+            <div class="values-grid">
+                <div class="value-card">
+                    <div class="value-icon">
+                        <i class="fas fa-medal"></i>
+                    </div>
+                    <h3>Calidad</h3>
+                    <p>Nos obsesiona la perfección en cada detalle. Desde la selección de materiales hasta los acabados
+                        finales, cada proyecto recibe el mismo nivel de excelencia.</p>
+                </div>
+
+                <div class="value-card">
+                    <div class="value-icon">
+                        <i class="fas fa-lightbulb"></i>
+                    </div>
+                    <h3>Innovación</h3>
+                    <p>Invertimos continuamente en tecnología de vanguardia y capacitación para ofrecer soluciones
+                        gráficas que marquen tendencia.</p>
+                </div>
+
+                <div class="value-card">
+                    <div class="value-icon">
+                        <i class="fas fa-leaf"></i>
+                    </div>
+                    <h3>Sostenibilidad</h3>
+                    <p>Comprometidos con prácticas ecológicas: utilizamos tintas vegetales, papel reciclado y procesos
+                        que minimizan nuestro impacto ambiental.</p>
+                </div>
+
+                <div class="value-card">
+                    <div class="value-icon">
+                        <i class="fas fa-hands-helping"></i>
+                    </div>
+                    <h3>Servicio Personalizado</h3>
+                    <p>Entendemos que cada proyecto es único. Ofrecemos atención personalizada y soluciones a medida
+                        para cada necesidad específica.</p>
+                </div>
+
+                <div class="value-card">
+                    <div class="value-icon">
+                        <i class="fas fa-clock"></i>
+                    </div>
+                    <h3>Puntualidad</h3>
+                    <p>Respetamos los plazos como un compromiso sagrado. Implementamos procesos eficientes que
+                        garantizan entregas a tiempo, siempre.</p>
+                </div>
+
+                <div class="value-card">
+                    <div class="value-icon">
+                        <i class="fas fa-heart"></i>
+                    </div>
+                    <h3>Pasión</h3>
+                    <p>Amamos lo que hacemos. Esta pasión se refleja en cada impresión, cada diseño y cada interacción
+                        con nuestros clientes.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="stats-section">
+        <div class="about-container">
+            <div class="stats-grid">
+                <div class="stat-item">
+                    <div class="stat-number">25+</div>
+                    <div class="stat-label">Años de Experiencia</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">2,500+</div>
+                    <div class="stat-label">Clientes Satisfechos</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">120+</div>
+                    <div class="stat-label">Profesionales</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">98%</div>
+                    <div class="stat-label">Satisfacción</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="cta-section">
+        <div class="about-container">
+            <div class="cta-content">
+                <h2>¿Listo para Impresionar?</h2>
+                <p>Nuestro equipo está listo para transformar tus ideas en impresiones excepcionales. Cuéntanos sobre tu
+                    proyecto y te guiaremos para crear algo verdaderamente memorable.</p>
+                <a href="#" class="cta-button">Contactar Ahora <i class="fas fa-arrow-right"></i></a>
+            </div>
+        </div>
+    </section>
+
+    <script>
+        // Animación para elementos al aparecer al hacer scroll
+        document.addEventListener('DOMContentLoaded', function () {
+            const observerOptions = {
+                root: null,
+                rootMargin: '0px',
+                threshold: 0.1
+            };
+
+            const observer = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('animated');
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, observerOptions);
+
+            // Observar elementos de la línea de tiempo
+            document.querySelectorAll('.timeline-content').forEach(item => {
+                observer.observe(item);
+            });
+
+            // Observar miembros del equipo
+            document.querySelectorAll('.team-member').forEach(member => {
+                observer.observe(member);
+            });
+
+            // Observar tarjetas de valores
+            document.querySelectorAll('.value-card').forEach(card => {
+                observer.observe(card);
+            });
+        });
+    </script>
+</body>
+
+</html>
