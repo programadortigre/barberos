@@ -22,16 +22,18 @@ echo -e "${CYAN}==> 3. Levantando servicios en segundo plano...${NC}"
 docker-compose -f docker-compose.prod.yml up -d
 
 echo -e "${CYAN}==> 4. Esperando a que MySQL esté listo...${NC}"
-until docker exec mysql mysqladmin ping -h localhost -uuser -puserpassword --silent; do
-  sleep 2
+until docker exec mysql mysqladmin ping -h127.0.0.1 -uuser -puserpassword --silent &> /dev/null; do
+  echo -e "${RED}MySQL no está listo aún. Esperando...${NC}"
+  sleep 3
 done
+echo -e "${GREEN}✅ MySQL está listo.${NC}"
 
 echo -e "${CYAN}==> 5. Ejecutando migraciones con Alembic...${NC}"
 docker exec fastapi alembic upgrade head || echo -e "${RED}⚠️  No se pudo ejecutar Alembic (¿ya migrado?). Continuando...${NC}"
 
 # INSERTA UN ADMIN INICIAL SOLO SI NO EXISTE
 echo -e "${CYAN}==> 6. Insertando usuario admin si no existe...${NC}"
-docker exec -i fastapi mysql -uuser -puserpassword barberia <<'EOF'
+docker exec -i mysql mysql -uuser -puserpassword barberia <<'EOF'
 INSERT INTO personas (id, nombres, apellidos, fecha_nacimiento, direccion, telefono, correo)
 SELECT 1, 'Admin', 'Principal', '1990-01-01', 'Lima', '999999999', 'admin@zyma.lat'
 FROM DUAL
