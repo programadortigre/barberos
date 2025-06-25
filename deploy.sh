@@ -7,6 +7,11 @@ GREEN='\033[0;32m'
 CYAN='\033[1;36m'
 NC='\033[0m'
 
+echo -e "${CYAN}==> 0. Verificando carpeta certs y acme.json...${NC}"
+mkdir -p certs
+touch certs/acme.json
+chmod 600 certs/acme.json
+
 echo -e "${CYAN}==> 1. Parando contenedores previos...${NC}"
 docker-compose -f docker-compose.prod.yml down
 
@@ -24,7 +29,6 @@ done
 echo -e "${CYAN}==> 5. Ejecutando migraciones con Alembic...${NC}"
 docker exec fastapi alembic upgrade head
 
-# INSERTA UN ADMIN INICIAL SOLO SI NO EXISTE
 echo -e "${CYAN}==> 6. Insertando usuario admin si no existe...${NC}"
 docker exec -i fastapi mysql -uuser -puserpassword barberia <<'EOF'
 INSERT INTO personas (id, nombres, apellidos, fecha_nacimiento, direccion, telefono, correo)
