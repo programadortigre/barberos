@@ -50,7 +50,7 @@ FROM DUAL
 WHERE NOT EXISTS (SELECT id FROM personas WHERE id = 1);
 
 -- Insertar usuario admin si no existe
-INSERT INTO usuarios (id, username, password, rol_id, persona_id, estado, created_at, updated_at)
+INSERT INTO usuarios (id, username, password_hash, rol_id, persona_id, estado, created_at, updated_at)
 SELECT 1, 'admin', '$2b$12$D934RFLr6F3oMo7UT4n4MOG2xarK2DLRQdL2p1Gpdn3L084w2nfuK', 2, 1, 'activo', NOW(), NOW()
 FROM DUAL
 WHERE NOT EXISTS (SELECT id FROM usuarios WHERE id = 1);
