@@ -49,7 +49,7 @@ if ! command -v docker >/dev/null 2>&1; then
 fi
 
 echo -e "${CYAN}🧹 Limpiando certificados antiguos...${NC}"
-for domain in "$DOMAIN" "www.$DOMAIN" "$API_DOMAIN"; do
+for domain in "$DOMAIN" "www.$DOMAIN"; do
   sudo rm -rf ./certbot/conf/live/$domain ./certbot/conf/archive/$domain ./certbot/conf/renewal/$domain.conf 2>/dev/null || true
 done
 
@@ -168,7 +168,7 @@ if [[ "$USE_SSL" == "s" ]]; then
     -v "$(pwd)/certbot/www:/var/www/certbot" \
     certbot/certbot certonly --webroot --webroot-path=/var/www/certbot \
     --email admin@$DOMAIN --agree-tos --no-eff-email \
-    -d $DOMAIN -d www.$DOMAIN -d $API_DOMAIN; then
+    -d $DOMAIN -d www.$DOMAIN; then
 
     echo -e "${CYAN}🔁 Verificando configuración Nginx...${NC}"
     $DOCKER_COMPOSE_CMD -f docker-compose.prod.yml exec nginx nginx -t
