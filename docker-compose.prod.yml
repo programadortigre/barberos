@@ -3,6 +3,7 @@ version: '3.9'
 services:
   mysql:
     image: mariadb:10.6
+    container_name: mysql
     restart: unless-stopped
     environment:
       MYSQL_ROOT_PASSWORD: rootpassword
