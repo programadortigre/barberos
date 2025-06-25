@@ -8,13 +8,13 @@ CYAN='\033[1;36m'
 NC='\033[0m'
 
 echo -e "${CYAN}==> 1. Parando contenedores previos...${NC}"
-docker compose -f docker-compose.prod.yml down
+docker-compose -f docker-compose.prod.yml down
 
 echo -e "${CYAN}==> 2. Construyendo contenedores...${NC}"
-docker compose -f docker-compose.prod.yml build
+docker-compose -f docker-compose.prod.yml build
 
 echo -e "${CYAN}==> 3. Levantando servicios en segundo plano...${NC}"
-docker compose -f docker-compose.prod.yml up -d
+docker-compose -f docker-compose.prod.yml up -d
 
 echo -e "${CYAN}==> 4. Esperando a que MySQL esté listo...${NC}"
 until docker exec fastapi mysqladmin ping -h mysql -uuser -puserpassword --silent; do
