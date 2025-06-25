@@ -33,7 +33,8 @@ services:
     volumes:
       - ./backend:/app
     working_dir: /app
-    command: uvicorn main:app --host 0.0.0.0 --port 8000 --proxy-headers --forwarded-allow-ips="*"
+    command: uvicorn main:app --host 0.0.0.0 --port 8000 --proxy-headers --forwarded-allow-ips="*" --root-path /api
+
     environment:
       MYSQL_HOST: mysql
       MYSQL_PORT: 3306
