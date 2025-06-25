@@ -13,7 +13,7 @@ touch certs/acme.json
 chmod 600 certs/acme.json
 
 echo -e "${CYAN}==> 1. Parando contenedores previos...${NC}"
-docker-compose -f docker-compose.prod.yml down
+docker-compose -f docker-compose.prod.yml down --remove-orphans || true
 
 echo -e "${CYAN}==> 2. Construyendo contenedores...${NC}"
 docker-compose -f docker-compose.prod.yml build
@@ -22,13 +22,14 @@ echo -e "${CYAN}==> 3. Levantando servicios en segundo plano...${NC}"
 docker-compose -f docker-compose.prod.yml up -d
 
 echo -e "${CYAN}==> 4. Esperando a que MySQL esté listo...${NC}"
-until docker exec fastapi mysqladmin ping -h mysql -uuser -puserpassword --silent; do
+until docker exec mysql mysqladmin ping -h localhost -uuser -puserpassword --silent; do
   sleep 2
 done
 
 echo -e "${CYAN}==> 5. Ejecutando migraciones con Alembic...${NC}"
-docker exec fastapi alembic upgrade head
+docker exec fastapi alembic upgrade head || echo -e "${RED}⚠️  No se pudo ejecutar Alembic (¿ya migrado?). Continuando...${NC}"
 
+# INSERTA UN ADMIN INICIAL SOLO SI NO EXISTE
 echo -e "${CYAN}==> 6. Insertando usuario admin si no existe...${NC}"
 docker exec -i fastapi mysql -uuser -puserpassword barberia <<'EOF'
 INSERT INTO personas (id, nombres, apellidos, fecha_nacimiento, direccion, telefono, correo)
