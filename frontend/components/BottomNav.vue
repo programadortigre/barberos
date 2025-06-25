@@ -73,216 +73,216 @@
     items: {
       type: Array,
       required: true,
-  default: () => [
-    {
-      icon: 'fas fa-home',
-      label: 'Inicio',
-      href: '/ventas',
-      notification: null
-    },
-    {
-      icon: 'fas fa-cash-register',
-      label: 'Operaciones',
-      notification: 3,
-      submenu: [
+      default: () => [
         {
-          icon: 'fas fa-plus-circle',
-          label: 'Nueva Operación',
-          href: '/nueva-operacion'
+          icon: 'fas fa-home',
+          label: 'Inicio',
+          href: '/ventas',
+          notification: null
         },
-        {
-          icon: 'fas fa-history',
-          label: 'Historial',
-          href: '/historial-operaciones'
-        },
-        {
-          icon: 'fas fa-chart-line',
-          label: 'Estadísticas',
-          href: '/estadisticas-operaciones'
-        }
-      ]
-    },
-    {
-      icon: 'fas fa-shopping-cart',
-      label: 'Ventas',
-      notification: 2,
-      submenu: [
         {
           icon: 'fas fa-cash-register',
-          label: 'Punto de Venta',
-          href: '/pos'
+          label: 'Operaciones',
+          notification: 3,
+          submenu: [
+            {
+              icon: 'fas fa-plus-circle',
+              label: 'Nueva Operación',
+              href: '/nueva-operacion'
+            },
+            {
+              icon: 'fas fa-history',
+              label: 'Historial',
+              href: '/historial-operaciones'
+            },
+            {
+              icon: 'fas fa-chart-line',
+              label: 'Estadísticas',
+              href: '/estadisticas-operaciones'
+            }
+          ]
         },
         {
-          icon: 'fas fa-list',
-          label: 'Historial de Ventas',
-          href: '/ventas/historial'
+          icon: 'fas fa-shopping-cart',
+          label: 'Ventas',
+          notification: 2,
+          submenu: [
+            {
+              icon: 'fas fa-cash-register',
+              label: 'Punto de Venta',
+              href: '/pos'
+            },
+            {
+              icon: 'fas fa-list',
+              label: 'Historial de Ventas',
+              href: '/ventas/historial'
+            },
+            {
+              icon: 'fas fa-undo',
+              label: 'Devoluciones',
+              href: '/ventas/devoluciones'
+            }
+          ]
         },
         {
-          icon: 'fas fa-undo',
-          label: 'Devoluciones',
-          href: '/ventas/devoluciones'
+          icon: 'fas fa-boxes',
+          label: 'Productos',
+          submenu: [
+            {
+              icon: 'fas fa-box',
+              label: 'Inventario',
+              href: '/productos/inventario'
+            },
+            {
+              icon: 'fas fa-tags',
+              label: 'Categorías',
+              href: '/productos/categorias'
+            },
+            {
+              icon: 'fas fa-plus-circle',
+              label: 'Nuevo Producto',
+              href: '/productos/nuevo'
+            }
+          ]
+        },
+        {
+          icon: 'fas fa-users',
+          label: 'Clientes',
+          notification: 5,
+          submenu: [
+            {
+              icon: 'fas fa-plus-circle',
+              label: 'Nuevo Cliente',
+              href: '/clientes/nuevo'
+            },
+            {
+              icon: 'fas fa-address-book',
+              label: 'Directorio',
+              href: '/clientes/directorio'
+            },
+            {
+              icon: 'fas fa-chart-line',
+              label: 'Estadísticas',
+              href: '/clientes/estadisticas'
+            }
+          ]
+        },
+        {
+          icon: 'fas fa-user-tie',
+          label: 'Empleados',
+          submenu: [
+            {
+              icon: 'fas fa-user-plus',
+              label: 'Nuevo Empleado',
+              href: '/empleados/nuevo'
+            },
+            {
+              icon: 'fas fa-users-cog',
+              label: 'Gestión de Empleados',
+              href: '/empleados/gestion'
+            },
+            {
+              icon: 'fas fa-calendar-check',
+              label: 'Asistencias',
+              href: '/empleados/asistencias'
+            }
+          ]
+        },
+        {
+          icon: 'fas fa-file-invoice-dollar',
+          label: 'Finanzas',
+          submenu: [
+            {
+              icon: 'fas fa-wallet',
+              label: 'Cuentas por Cobrar',
+              href: '/finanzas/cuentas-cobrar'
+            },
+            {
+              icon: 'fas fa-file-invoice',
+              label: 'Cuentas por Pagar',
+              href: '/finanzas/cuentas-pagar'
+            },
+            {
+              icon: 'fas fa-chart-pie',
+              label: 'Resumen Financiero',
+              href: '/finanzas/resumen'
+            }
+          ]
+        },
+        {
+          icon: 'fas fa-tools',
+          label: 'Herramientas',
+          submenu: [
+            {
+              icon: 'fas fa-database',
+              label: 'Respaldo de Datos',
+              href: '/herramientas/respaldo'
+            },
+            {
+              icon: 'fas fa-upload',
+              label: 'Importar Datos',
+              href: '/herramientas/importar'
+            },
+            {
+              icon: 'fas fa-sync-alt',
+              label: 'Sincronización',
+              href: '/herramientas/sincronizar'
+            }
+          ]
+        },
+        {
+          icon: 'fas fa-cogs',
+          label: 'Configuración',
+          submenu: [
+            {
+              icon: 'fas fa-user-cog',
+              label: 'Perfil',
+              href: '/configuracion/perfil'
+            },
+            {
+              icon: 'fas fa-shield-alt',
+              label: 'Seguridad',
+              href: '/configuracion/seguridad'
+            },
+            {
+              icon: 'fas fa-bell',
+              label: 'Notificaciones',
+              href: '/configuracion/notificaciones'
+            },
+            {
+              icon: 'fas fa-sliders-h',
+              label: 'Preferencias',
+              href: '/configuracion/preferencias'
+            }
+          ]
+        },
+        {
+          icon: 'fas fa-question-circle',
+          label: 'Ayuda',
+          submenu: [
+            {
+              icon: 'fas fa-book',
+              label: 'Documentación',
+              href: '/ayuda/documentacion'
+            },
+            {
+              icon: 'fas fa-headset',
+              label: 'Soporte Técnico',
+              href: '/ayuda/soporte'
+            },
+            {
+              icon: 'fas fa-comment-dots',
+              label: 'Feedback',
+              href: '/ayuda/feedback'
+            }
+          ]
+        },
+        {
+          icon: 'fas fa-chart-bar',
+          label: 'Reportes',
+          href: '/reportes'
         }
       ]
-    },
-    {
-      icon: 'fas fa-boxes',
-      label: 'Productos',
-      submenu: [
-        {
-          icon: 'fas fa-box',
-          label: 'Inventario',
-          href: '/productos/inventario'
-        },
-        {
-          icon: 'fas fa-tags',
-          label: 'Categorías',
-          href: '/productos/categorias'
-        },
-        {
-          icon: 'fas fa-plus-circle',
-          label: 'Nuevo Producto',
-          href: '/productos/nuevo'
-        }
-      ]
-    },
-    {
-      icon: 'fas fa-users',
-      label: 'Clientes',
-      notification: 5,
-      submenu: [
-        {
-          icon: 'fas fa-plus-circle',
-          label: 'Nuevo Cliente',
-          href: '/clientes/nuevo'
-        },
-        {
-          icon: 'fas fa-address-book',
-          label: 'Directorio',
-          href: '/clientes/directorio'
-        },
-        {
-          icon: 'fas fa-chart-line',
-          label: 'Estadísticas',
-          href: '/clientes/estadisticas'
-        }
-      ]
-    },
-    {
-      icon: 'fas fa-user-tie',
-      label: 'Empleados',
-      submenu: [
-        {
-          icon: 'fas fa-user-plus',
-          label: 'Nuevo Empleado',
-          href: '/empleados/nuevo'
-        },
-        {
-          icon: 'fas fa-users-cog',
-          label: 'Gestión de Empleados',
-          href: '/empleados/gestion'
-        },
-        {
-          icon: 'fas fa-calendar-check',
-          label: 'Asistencias',
-          href: '/empleados/asistencias'
-        }
-      ]
-    },
-    {
-      icon: 'fas fa-file-invoice-dollar',
-      label: 'Finanzas',
-      submenu: [
-        {
-          icon: 'fas fa-wallet',
-          label: 'Cuentas por Cobrar',
-          href: '/finanzas/cuentas-cobrar'
-        },
-        {
-          icon: 'fas fa-file-invoice',
-          label: 'Cuentas por Pagar',
-          href: '/finanzas/cuentas-pagar'
-        },
-        {
-          icon: 'fas fa-chart-pie',
-          label: 'Resumen Financiero',
-          href: '/finanzas/resumen'
-        }
-      ]
-    },
-    {
-      icon: 'fas fa-tools',
-      label: 'Herramientas',
-      submenu: [
-        {
-          icon: 'fas fa-database',
-          label: 'Respaldo de Datos',
-          href: '/herramientas/respaldo'
-        },
-        {
-          icon: 'fas fa-upload',
-          label: 'Importar Datos',
-          href: '/herramientas/importar'
-        },
-        {
-          icon: 'fas fa-sync-alt',
-          label: 'Sincronización',
-          href: '/herramientas/sincronizar'
-        }
-      ]
-    },
-    {
-      icon: 'fas fa-cogs',
-      label: 'Configuración',
-      submenu: [
-        {
-          icon: 'fas fa-user-cog',
-          label: 'Perfil',
-          href: '/configuracion/perfil'
-        },
-        {
-          icon: 'fas fa-shield-alt',
-          label: 'Seguridad',
-          href: '/configuracion/seguridad'
-        },
-        {
-          icon: 'fas fa-bell',
-          label: 'Notificaciones',
-          href: '/configuracion/notificaciones'
-        },
-        {
-          icon: 'fas fa-sliders-h',
-          label: 'Preferencias',
-          href: '/configuracion/preferencias'
-        }
-      ]
-    },
-    {
-      icon: 'fas fa-question-circle',
-      label: 'Ayuda',
-      submenu: [
-        {
-          icon: 'fas fa-book',
-          label: 'Documentación',
-          href: '/ayuda/documentacion'
-        },
-        {
-          icon: 'fas fa-headset',
-          label: 'Soporte Técnico',
-          href: '/ayuda/soporte'
-        },
-        {
-          icon: 'fas fa-comment-dots',
-          label: 'Feedback',
-          href: '/ayuda/feedback'
-        }
-      ]
-    },
-    {
-      icon: 'fas fa-chart-bar',
-      label: 'Reportes',
-      href: '/reportes'
-    }
-  ]
     }
   })
 

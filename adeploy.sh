@@ -158,8 +158,70 @@ echo -e "${CYAN}⏳ Esperando MySQL...${NC}"
 MYSQL_CONTAINER="$($DOCKER_COMPOSE_CMD -f docker-compose.prod.yml ps -q mysql)"
 until docker exec "$MYSQL_CONTAINER" mysqladmin ping -u root -prootpassword --silent; do sleep 2; done
 
-echo -e "${GREEN}✅ Base de datos migrada exitosamente${NC}"
-echo -e "${CYAN}ℹ️  No se creó ningún usuario administrador${NC}"
+echo -e "${CYAN}🔐 Creación de usuario administrador...${NC}"
+read -p "👤 Nombre completo: " ADMIN_NOMBRE
+read -p "🔢 DNI: " ADMIN_DNI
+
+IFS=' ' read -ra NOMBRES <<< "$ADMIN_NOMBRE"
+ADMIN_NOMBRE="${NOMBRES[0]}"
+ADMIN_AP_PATERNO="${NOMBRES[1]}"
+ADMIN_AP_MATERNO="${NOMBRES[2]:-}"
+
+read -p "📅 Fecha nacimiento (YYYY-MM-DD): " ADMIN_FECHA_NAC
+read -p "🚻 Género (M/F/O): " ADMIN_GENERO
+read -p "🏠 Dirección: " ADMIN_DIRECCION
+read -p "📞 Teléfono: " ADMIN_TELEFONO
+read -p "📧 Email: " ADMIN_EMAIL
+read -s -p "🔐 Clave de cifrado AES: " ENCRYPTION_KEY
+echo
+
+while true; do
+    read -p "👤 Usuario admin: " ADMIN_USER
+    read -s -p "🔑 Contraseña: " ADMIN_PASS
+    echo
+    read -s -p "🔄 Confirmar contraseña: " ADMIN_PASS_CONFIRM
+    echo
+    [[ "$ADMIN_PASS" == "$ADMIN_PASS_CONFIRM" ]] && break || echo -e "${RED}❌ No coinciden.${NC}"
+done
+
+# Sanitizar entradas para SQL
+ADMIN_NOMBRE="${ADMIN_NOMBRE//\'/\\\'}"
+ADMIN_AP_PATERNO="${ADMIN_AP_PATERNO//\'/\\\'}"
+ADMIN_AP_MATERNO="${ADMIN_AP_MATERNO//\'/\\\'}"
+ADMIN_DIRECCION="${ADMIN_DIRECCION//\'/\\\'}"
+ADMIN_TELEFONO="${ADMIN_TELEFONO//\'/\\\'}"
+ADMIN_EMAIL="${ADMIN_EMAIL//\'/\\\'}"
+
+echo -e "${CYAN}🔐 Generando hash...${NC}"
+HASHED_PASS=$($DOCKER_COMPOSE_CMD -f docker-compose.prod.yml exec backend python -c "import bcrypt; print(bcrypt.hashpw('$ADMIN_PASS'.encode(), bcrypt.gensalt()).decode())")
+
+[[ -n "$ADMIN_AP_MATERNO" ]] && APELLIDO_MAT="'$ADMIN_AP_MATERNO'" || APELLIDO_MAT="NULL"
+
+echo -e "${CYAN}📝 Insertando en MySQL...${NC}"
+docker exec -i "$MYSQL_CONTAINER" mysql -u root -prootpassword barberia <<EOF
+INSERT INTO personas (
+  tipo_documento, dni, nombres, apellido_paterno, apellido_materno,
+  fecha_nacimiento, genero, direccion_cifrada, telefono_cifrado, correo_cifrado
+) VALUES (
+  'DNI', '$ADMIN_DNI', '$ADMIN_NOMBRE', '$ADMIN_AP_PATERNO', $APELLIDO_MAT,
+  '$ADMIN_FECHA_NAC', '$ADMIN_GENERO',
+  AES_ENCRYPT('$ADMIN_DIRECCION', '$ENCRYPTION_KEY'),
+  AES_ENCRYPT('$ADMIN_TELEFONO', '$ENCRYPTION_KEY'),
+  AES_ENCRYPT('$ADMIN_EMAIL', '$ENCRYPTION_KEY')
+);
+
+SET @persona_id = LAST_INSERT_ID();
+
+INSERT INTO usuarios (
+  persona_id, username, password_hash, rol_id, estado, intentos_fallidos
+) VALUES (
+  @persona_id, '$ADMIN_USER', '$HASHED_PASS', 2, 'activo', 0
+);
+
+INSERT INTO perfiles (persona_id, tipo_perfil_id) VALUES (@persona_id, 1);
+EOF
+
+echo -e "${GREEN}✅ Usuario '$ADMIN_USER' creado correctamente.${NC}"
 
 if [[ "$USE_SSL" == "s" ]]; then
   echo -e "${CYAN}🔐 Solicitando certificados SSL...${NC}"
