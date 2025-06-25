@@ -21,13 +21,18 @@ from api import (
     auth_router,
 )
 
-app = FastAPI()
+ENV = os.getenv("ENV", "development")
+
+app = FastAPI(
+    title="Barbería API",
+    docs_url=None if ENV == "production" else "/docs",
+    redoc_url=None if ENV == "production" else "/redoc",
+    openapi_url=None if ENV == "production" else "/openapi.json",
+)
 
 # Leer CORS desde entorno
 raw_origins = os.environ.get("CORS_ORIGINS", "")
 origins = [origin.strip() for origin in raw_origins.split(",") if origin.strip()]
-
-# Agregar logging para diagnóstico
 print(f"🌐 Orígenes CORS permitidos: {origins}")
 
 app.add_middleware(
