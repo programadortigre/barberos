@@ -34,15 +34,27 @@ docker exec fastapi alembic upgrade head || echo -e "${RED}⚠️  No se pudo ej
 # INSERTA UN ADMIN INICIAL SOLO SI NO EXISTE
 echo -e "${CYAN}==> 6. Insertando usuario admin si no existe...${NC}"
 docker exec -i mysql mysql -uuser -puserpassword barberia <<'EOF'
-INSERT INTO personas (id, nombres, apellidos, fecha_nacimiento, direccion, telefono, correo)
-SELECT 1, 'Admin', 'Principal', '1990-01-01', 'Lima', '999999999', 'admin@zyma.lat'
+-- Insertar rol ADMIN si no existe
+INSERT INTO roles (id, nombre, descripcion, created_at, updated_at)
+SELECT 2, 'ADMIN', 'Acceso total al sistema. Puede gestionar todo.', NOW(), NOW()
+FROM DUAL
+WHERE NOT EXISTS (SELECT id FROM roles WHERE id = 2);
+
+-- Insertar persona si no existe
+INSERT INTO personas (id, tipo_documento, dni, nombres, apellido_paterno, apellido_materno, fecha_nacimiento, genero, direccion_cifrada, telefono_cifrado, correo_cifrado)
+SELECT 1, 'DNI', '00000001', 'Administrador', 'Principal', '', '1990-01-01', 'M',
+       AES_ENCRYPT('Lima, Perú', 'clave_para_mysql'),
+       AES_ENCRYPT('999999999', 'clave_para_mysql'),
+       AES_ENCRYPT('admin@zyma.lat', 'clave_para_mysql')
 FROM DUAL
 WHERE NOT EXISTS (SELECT id FROM personas WHERE id = 1);
 
+-- Insertar usuario admin si no existe
 INSERT INTO usuarios (id, username, password, rol_id, persona_id, estado, created_at, updated_at)
-SELECT 1, 'admin', '$2b$12$eFKEkGjtsCH9nP85mR8GzuJXG.xcMQ2mAvzm.d4N1D7ybdVbfxKaC', 2, 1, 'activo', NOW(), NOW()
+SELECT 1, 'admin', '$2b$12$D934RFLr6F3oMo7UT4n4MOG2xarK2DLRQdL2p1Gpdn3L084w2nfuK', 2, 1, 'activo', NOW(), NOW()
 FROM DUAL
 WHERE NOT EXISTS (SELECT id FROM usuarios WHERE id = 1);
 EOF
+
 
 echo -e "${GREEN}✅ Despliegue completo y plataforma operativa en:${NC} https://zyma.lat"
