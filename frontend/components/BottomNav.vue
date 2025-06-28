@@ -1,24 +1,14 @@
 <template>
   <div class="nav-container">
     <!-- Submenú reactivo -->
-    <div 
-      v-if="activeSubmenu" 
-      class="submenu-wrapper"
-      :style="{
-        left: `${submenuPosition.x}px`,
-        top: `${submenuPosition.y}px`
-      }"
-      ref="submenuRef"
-    >
+    <div v-if="activeSubmenu" class="submenu-wrapper" :style="{
+      left: `${submenuPosition.x}px`,
+      top: `${submenuPosition.y}px`
+    }" ref="submenuRef">
       <div class="submenu">
         <div class="submenu-content">
-          <a 
-            v-for="(subItem, idx) in activeSubmenu" 
-            :key="idx"
-            href="#" 
-            class="submenu-item"
-            @click.prevent="handleSubmenuClick(subItem, $event)"
-          >
+          <a v-for="(subItem, idx) in activeSubmenu" :key="idx" href="#" class="submenu-item"
+            @click.prevent="handleSubmenuClick(subItem, $event)">
             <i :class="subItem.icon"></i>
             <span>{{ subItem.label }}</span>
           </a>
@@ -29,56 +19,34 @@
 
     <!-- Barra de navegación principal -->
     <div class="bottom-nav-container">
-      <div 
-        v-if="showScrollLeft" 
-        class="scroll-arrow left" 
-        @click="scrollNav(-1)"
-        aria-label="Desplazar menú a la izquierda"
-      >
+      <div v-if="showScrollLeft" class="scroll-arrow left" @click="scrollNav(-1)"
+        aria-label="Desplazar menú a la izquierda">
         <i class="fas fa-chevron-left"></i>
       </div>
-      
+
       <div class="scroll-wrapper" ref="scrollWrapper">
-        <nav 
-          class="bottom-nav"
-          ref="navElement"
-          role="navigation"
-          aria-label="Navegación principal"
-        >
-          <div
-            v-for="(item, index) in items"
-            :key="index"
-            class="nav-item"
-            :class="{ 
-              active: activeItemIndex === index, 
-              'has-notification': item.notification
-            }"
-            @click="handleClick(item, index, $event)"
-          >
+        <nav class="bottom-nav" ref="navElement" role="navigation" aria-label="Navegación principal">
+          <div v-for="(item, index) in items" :key="index" class="nav-item" :class="{
+            active: activeItemIndex === index,
+            'has-notification': item.notification
+          }" @click="handleClick(item, index, $event)">
             <div class="icon-wrapper">
               <i :class="item.icon" aria-hidden="true"></i>
-              <span 
-                v-if="item.notification" 
-                class="notification-badge" 
-                :aria-label="`${item.notification} notificaciones`"
-              >
+              <span v-if="item.notification" class="notification-badge"
+                :aria-label="`${item.notification} notificaciones`">
                 {{ item.notification }}
               </span>
             </div>
             <span class="label">{{ item.label }}</span>
           </div>
-          
+
           <!-- Indicador activo -->
           <div class="active-indicator" ref="indicator" :style="indicatorStyle"></div>
         </nav>
       </div>
-      
-      <div 
-        v-if="showScrollRight" 
-        class="scroll-arrow right" 
-        @click="scrollNav(1)"
-        aria-label="Desplazar menú a la derecha"
-      >
+
+      <div v-if="showScrollRight" class="scroll-arrow right" @click="scrollNav(1)"
+        aria-label="Desplazar menú a la derecha">
         <i class="fas fa-chevron-right"></i>
       </div>
     </div>
@@ -311,7 +279,7 @@ const props = defineProps({
       {
         icon: 'fas fa-chart-bar',
         label: 'Reportes',
-        href: '/reportes'
+        href: '/negocio/reportes'
       }
     ]
   }
@@ -345,13 +313,13 @@ watch(() => route.path, (newPath) => {
   // Buscar el ítem que coincide con la ruta actual
   for (let i = 0; i < props.items.length; i++) {
     const item = props.items[i]
-    
+
     // Verificar ítem principal
     if (item.href === newPath) {
       activeItemIndex.value = i
       return
     }
-    
+
     // Verificar subítems
     if (item.submenu) {
       for (const subItem of item.submenu) {
@@ -362,7 +330,7 @@ watch(() => route.path, (newPath) => {
       }
     }
   }
-  
+
   activeItemIndex.value = -1
 }, { immediate: true })
 
@@ -376,14 +344,14 @@ watch(activeItemIndex, (newIndex) => {
 // Manejar clic en un ítem
 function handleClick(item, index, event) {
   const alreadyOpen = activeItemIndex.value === index && activeSubmenu.value
-  
+
   // Cerrar todos los submenús primero
   closeSubmenus()
-  
+
   if (item.submenu && !alreadyOpen) {
     activeItemIndex.value = index
     activeSubmenu.value = item.submenu
-    
+
     const rect = event.currentTarget.getBoundingClientRect()
     submenuPosition.value = {
       x: rect.left + rect.width / 2,
@@ -422,14 +390,14 @@ function scrollNav(direction) {
 // CORRECCIÓN: Nuevo cálculo para centrar el indicador
 function updateIndicatorPosition() {
   if (!navElement.value || activeItemIndex.value === -1) return
-  
+
   const items = navElement.value.querySelectorAll('.nav-item')
   if (!items[activeItemIndex.value]) return
-  
+
   const activeItem = items[activeItemIndex.value]
   const itemRect = activeItem.getBoundingClientRect()
   const navRect = navElement.value.getBoundingClientRect()
-  
+
   // Calcular la posición centrada del indicador
   const centerX = itemRect.left - navRect.left + itemRect.width / 2
   indicatorPosition.value = centerX - 35 // 70px (ancho del indicador) / 2
@@ -439,17 +407,17 @@ function updateIndicatorPosition() {
 function checkScrollArrows() {
   if (scrollWrapper.value) {
     showScrollLeft.value = scrollWrapper.value.scrollLeft > 0
-    showScrollRight.value = 
-      scrollWrapper.value.scrollLeft + scrollWrapper.value.clientWidth < 
+    showScrollRight.value =
+      scrollWrapper.value.scrollLeft + scrollWrapper.value.clientWidth <
       scrollWrapper.value.scrollWidth - 10
   }
 }
 
 // Cerrar submenús al hacer clic fuera
 function handleClickOutside(event) {
-  if (!event.target.closest('.nav-item') && 
-      !event.target.closest('.submenu-wrapper') &&
-      !event.target.closest('.submenu')) {
+  if (!event.target.closest('.nav-item') &&
+    !event.target.closest('.submenu-wrapper') &&
+    !event.target.closest('.submenu')) {
     closeSubmenus()
   }
 }
@@ -459,11 +427,11 @@ onMounted(() => {
   window.addEventListener('resize', updateIndicatorPosition)
   window.addEventListener('click', handleClickOutside)
   window.addEventListener('scroll', checkScrollArrows)
-  
+
   if (scrollWrapper.value) {
     scrollWrapper.value.addEventListener('scroll', checkScrollArrows)
   }
-  
+
   nextTick(() => {
     updateIndicatorPosition()
     checkScrollArrows()
@@ -475,11 +443,11 @@ onUnmounted(() => {
   window.removeEventListener('resize', updateIndicatorPosition)
   window.removeEventListener('click', handleClickOutside)
   window.removeEventListener('scroll', checkScrollArrows)
-  
+
   if (scrollWrapper.value) {
     scrollWrapper.value.removeEventListener('scroll', checkScrollArrows)
   }
-  
+
   closeSubmenus()
 })
 </script>
@@ -530,8 +498,13 @@ onUnmounted(() => {
   transition: var(--transition);
   color: var(--primary);
 
-  &.left { left: 5px; }
-  &.right { right: 5px; }
+  &.left {
+    left: 5px;
+  }
+
+  &.right {
+    right: 5px;
+  }
 
   &:hover {
     background: var(--primary);
@@ -734,20 +707,43 @@ onUnmounted(() => {
 
 /* Animaciones */
 @keyframes float {
-  0%, 100% { transform: translateY(0) rotate(0deg); }
-  50% { transform: translateY(-8px) rotate(3deg); }
+
+  0%,
+  100% {
+    transform: translateY(0) rotate(0deg);
+  }
+
+  50% {
+    transform: translateY(-8px) rotate(3deg);
+  }
 }
 
 @keyframes bubble {
-  0% { transform: translateY(0) scale(1); }
-  40% { transform: translateY(-20px) scale(1.3); }
-  100% { transform: translateY(-12px) scale(1.15); }
+  0% {
+    transform: translateY(0) scale(1);
+  }
+
+  40% {
+    transform: translateY(-20px) scale(1.3);
+  }
+
+  100% {
+    transform: translateY(-12px) scale(1.15);
+  }
 }
 
 @keyframes pulse {
-  0% { transform: scale(1); }
-  50% { transform: scale(1.15); }
-  100% { transform: scale(1); }
+  0% {
+    transform: scale(1);
+  }
+
+  50% {
+    transform: scale(1.15);
+  }
+
+  100% {
+    transform: scale(1);
+  }
 }
 
 @keyframes fadeInUp {
@@ -755,6 +751,7 @@ onUnmounted(() => {
     opacity: 0;
     transform: translate(-50%, 8px);
   }
+
   to {
     opacity: 1;
     transform: translate(-50%, 0);
@@ -766,13 +763,13 @@ onUnmounted(() => {
   .bottom-nav-container {
     padding: 0 30px;
   }
-  
+
   .scroll-arrow {
     width: 25px;
     height: 25px;
     font-size: 12px;
   }
-  
+
   .nav-item {
     min-width: 60px;
   }
@@ -783,30 +780,30 @@ onUnmounted(() => {
     padding: 0 20px;
     bottom: 15px;
   }
-  
+
   .scroll-arrow {
     width: 22px;
     height: 22px;
   }
-  
+
   .nav-item {
     min-width: 50px;
     padding: 6px 0;
   }
-  
+
   .icon-wrapper {
     width: 32px;
     height: 32px;
   }
-  
+
   .nav-item i {
     font-size: 18px;
   }
-  
+
   .label {
     font-size: 9px;
   }
-  
+
   .active-indicator {
     width: 55px;
     height: 55px;

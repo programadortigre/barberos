@@ -72,15 +72,8 @@ function onModuloClick(modulo: Modulo) {
 
     <h2>Módulos activos</h2>
     <div class="modulos-list">
-      <div 
-        v-for="modulo in modulos" 
-        :key="modulo.name" 
-        class="modulo-item" 
-        @click="onModuloClick(modulo)" 
-        role="button"
-        tabindex="0"
-        @keyup.enter="onModuloClick(modulo)"
-      >
+      <div v-for="modulo in modulos" :key="modulo.name" class="modulo-item" @click="onModuloClick(modulo)" role="button"
+        tabindex="0" @keyup.enter="onModuloClick(modulo)">
         <span class="icon">{{ modulo.icon }}</span>
         <div class="modulo-text">
           <strong>{{ modulo.name }}</strong>
@@ -110,7 +103,7 @@ function onModuloClick(modulo: Modulo) {
 .logo img {
   max-width: 120px;
   border-radius: 10px;
-  box-shadow: 0 0 12px rgba(0,0,0,0.1);
+  box-shadow: 0 0 12px rgba(0, 0, 0, 0.1);
 }
 
 .info h1 {

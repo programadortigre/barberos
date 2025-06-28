@@ -1,11 +1,4 @@
 <style scoped lang="scss">
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    -webkit-tap-highlight-color: transparent;
-}
-
 header {
     position: fixed;
     top: 0;
@@ -112,7 +105,7 @@ header {
             <div class="user-avatar">J</div>
             <div class="user-info">
                 <div class="user-greeting">Buen día</div>
-                <div class="user-name">Juan Pérez</div>
+                <div class="user-name">{{ user?.persona?.nombres || user?.username }}</div>
             </div>
         </div>
         <div class="header-actions">
@@ -124,9 +117,32 @@ header {
                 <i class="fas fa-cog"></i>
             </a>
             <ThemeToggle />
+            <button @click="handleLogout" class="logout-btn">
+                <span class="icon">🚪</span>
+                <span v-if="!collapsed">Cerrar sesión</span>
+            </button>
 
         </div>
     </header>
 </template>
 <script setup>
+import { useRouter } from 'vue-router'
+import { useAuthStore } from '~/stores/auth'
+import { computed, onMounted } from 'vue'
+
+const router = useRouter()
+const auth = useAuthStore()
+
+function handleLogout() {
+    auth.logout()
+    router.push('/login')
+}
+// Asegúrate de cargar el usuario si no está aún
+onMounted(async () => {
+    if (!auth.user) {
+        await auth.init()
+    }
+})
+
+const user = computed(() => auth.user)
 </script>
