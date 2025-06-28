@@ -1,3 +1,0 @@
-mkdir -p certs
-touch certs/acme.json
-chmod 600 certs/acme.json
