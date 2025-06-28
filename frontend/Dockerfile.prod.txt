@@ -1,0 +1,19 @@
+# frontend/Dockerfile.prod
+
+FROM node:18-alpine
+
+WORKDIR /app
+
+# Copiamos dependencias e instalamos
+COPY package*.json ./
+RUN npm install
+
+# Copiamos el resto del código
+COPY . .
+
+# Construimos Nuxt en tiempo de build (¡clave!)
+RUN npm run build
+
+# Exponemos puerto y lanzamos preview
+EXPOSE 3000
+CMD ["npm", "run", "start"]

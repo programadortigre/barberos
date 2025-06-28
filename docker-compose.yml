@@ -1,8 +1,7 @@
-version: '3.9'
-
 services:
   mysql:
-    image: mysql:8.0
+    #image: mysql:8.0
+    image: mariadb:10.6 # <--- CAMBIADO
     restart: always
     environment:
       MYSQL_ROOT_PASSWORD: rootpassword
@@ -14,10 +13,11 @@ services:
     volumes:
       - mysql_data:/var/lib/mysql
     healthcheck:  # Agregar healthcheck
-      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-uroot", "-prootpassword"]
       timeout: 20s
       interval: 10s
       retries: 10
+    command: --default-authentication-plugin=mysql_native_password # <--- AÑADIDO
 
   backend:
     build:
@@ -31,7 +31,7 @@ services:
     volumes:
       - ./backend:/app
     working_dir: /app  # Directorio de trabajo
-    command: uvicorn main:app --host 0.0.0.0 --port 8000 --reload  # Comando para iniciar
+    command: uvicorn main:app --host 0.0.0.0 --port 8000 --reload --log-level debug  # Comando para iniciar
     environment:
       ENV: development
       MYSQL_HOST: mysql
