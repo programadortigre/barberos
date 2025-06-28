@@ -2,62 +2,31 @@
   <div class="auth-page">
     <div class="auth-container">
       <div class="tabs" role="tablist" aria-label="Autenticación">
-        <button
-          :class="{ active: activeTab === 'login' }"
-          @click="activeTab = 'login'"
-          :aria-selected="activeTab === 'login'"
-          role="tab"
-          id="tab-login"
-          aria-controls="panel-login"
-          tabindex="0"
-        >
+        <button :class="{ active: activeTab === 'login' }" @click="activeTab = 'login'"
+          :aria-selected="activeTab === 'login'" role="tab" id="tab-login" aria-controls="panel-login" tabindex="0">
           Iniciar Sesión
         </button>
-        <button
-          :class="{ active: activeTab === 'register' }"
-          @click="activeTab = 'register'"
-          :aria-selected="activeTab === 'register'"
-          role="tab"
-          id="tab-register"
-          aria-controls="panel-register"
-          tabindex="-1"
-        >
+        <button :class="{ active: activeTab === 'register' }" @click="activeTab = 'register'"
+          :aria-selected="activeTab === 'register'" role="tab" id="tab-register" aria-controls="panel-register"
+          tabindex="-1">
           Registro Socio
         </button>
       </div>
 
       <div class="panels-wrapper" :class="activeTab">
-        <section
-          v-show="activeTab === 'login'"
-          id="panel-login"
-          role="tabpanel"
-          aria-labelledby="tab-login"
-          tabindex="0"
-          class="tab-panel login-panel"
-        >
+        <section v-show="activeTab === 'login'" id="panel-login" role="tabpanel" aria-labelledby="tab-login"
+          tabindex="0" class="tab-panel login-panel">
           <form @submit.prevent="handleLogin" novalidate>
             <div class="input-group">
               <label for="login-email">Correo Electrónico</label>
-              <input
-                type="email"
-                id="login-email"
-                v-model="email"
-                placeholder="tu@email.com"
-                required
-                autocomplete="username"
-              />
+              <input type="email" id="login-email" v-model="email" placeholder="tu@email.com" required
+                autocomplete="username" />
             </div>
 
             <div class="input-group">
               <label for="login-password">Contraseña</label>
-              <input
-                type="password"
-                id="login-password"
-                v-model="password"
-                placeholder="••••••••"
-                required
-                autocomplete="current-password"
-              />
+              <input type="password" id="login-password" v-model="password" placeholder="••••••••" required
+                autocomplete="current-password" />
             </div>
 
             <button type="submit" :disabled="loading" aria-live="polite" aria-busy="loading">
@@ -68,50 +37,25 @@
           </form>
         </section>
 
-        <section
-          v-show="activeTab === 'register'"
-          id="panel-register"
-          role="tabpanel"
-          aria-labelledby="tab-register"
-          tabindex="0"
-          class="tab-panel register-panel"
-        >
+        <section v-show="activeTab === 'register'" id="panel-register" role="tabpanel" aria-labelledby="tab-register"
+          tabindex="0" class="tab-panel register-panel">
           <form @submit.prevent="handleRegister" novalidate>
             <div class="input-group">
               <label for="reg-name">Nombre Completo</label>
-              <input
-                type="text"
-                id="reg-name"
-                v-model="regName"
-                placeholder="Tu nombre completo"
-                required
-                autocomplete="name"
-              />
+              <input type="text" id="reg-name" v-model="regName" placeholder="Tu nombre completo" required
+                autocomplete="name" />
             </div>
 
             <div class="input-group">
               <label for="reg-email">Correo Electrónico</label>
-              <input
-                type="email"
-                id="reg-email"
-                v-model="regEmail"
-                placeholder="tu@email.com"
-                required
-                autocomplete="email"
-              />
+              <input type="email" id="reg-email" v-model="regEmail" placeholder="tu@email.com" required
+                autocomplete="email" />
             </div>
 
             <div class="input-group">
               <label for="reg-password">Contraseña</label>
-              <input
-                type="password"
-                id="reg-password"
-                v-model="regPassword"
-                placeholder="••••••••"
-                required
-                autocomplete="new-password"
-                minlength="6"
-              />
+              <input type="password" id="reg-password" v-model="regPassword" placeholder="••••••••" required
+                autocomplete="new-password" minlength="6" />
             </div>
 
             <button type="submit" :disabled="loadingRegister" aria-live="polite" aria-busy="loadingRegister">
@@ -158,7 +102,7 @@ async function handleLogin() {
   loading.value = true
   try {
     await auth.login(email.value, password.value)
-    await router.push('/dashboard')
+    await router.push('/negocio')
   } catch (err) {
     error.value = 'Credenciales incorrectas'
   } finally {
@@ -175,7 +119,7 @@ async function handleRegister() {
       email: regEmail.value,
       password: regPassword.value
     })
-    await router.push('/dashboard')
+    await router.push('/negocio')
   } catch (err) {
     errorRegister.value = 'Error en el registro. Inténtalo de nuevo.'
   } finally {
@@ -258,11 +202,11 @@ $text-muted: #9ab1d6;
     height: 320px;
     transform-style: preserve-3d;
     transition: transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
-    
+
     &.login {
       transform: rotateY(0deg);
     }
-    
+
     &.register {
       transform: rotateY(180deg);
     }
@@ -278,7 +222,8 @@ $text-muted: #9ab1d6;
       form {
         .input-group {
           margin-bottom: 1.4rem;
-        display: grid;
+          display: grid;
+
           label {
             display: block;
             margin-bottom: 0.5rem;
@@ -358,6 +303,7 @@ $text-muted: #9ab1d6;
   0% {
     transform: rotate(0deg);
   }
+
   100% {
     transform: rotate(360deg);
   }
