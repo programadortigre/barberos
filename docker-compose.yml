@@ -39,7 +39,7 @@ services:
       MYSQL_USER: user
       MYSQL_PASSWORD: userpassword
       MYSQL_DATABASE: barberia
-      CORS_ORIGINS: http://localhost:3000
+      CORS_ORIGINS: http://161.132.48.94:3000
 
   frontend:
     build:
@@ -57,7 +57,7 @@ services:
       NUXT_PORT: 3000
       NUXT_HOST: 0.0.0.0
       CHOKIDAR_USEPOLLING: "true"
-      NUXT_PUBLIC_API_BASE_URL: "http://localhost:8000/"
+      NUXT_PUBLIC_API_BASE_URL: "http://161.132.48.94:8000/"
 
 
 volumes:
