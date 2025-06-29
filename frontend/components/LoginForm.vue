@@ -149,6 +149,9 @@ $text-muted: #9ab1d6;
   font-family: 'Poppins', sans-serif;
   color: $text-light;
   width: 100%;
+  position: fixed;
+  top: 0;
+  left: 0;
 }
 
 .auth-container {
