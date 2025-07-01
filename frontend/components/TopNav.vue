@@ -135,7 +135,7 @@ const auth = useAuthStore()
 
 function handleLogout() {
     auth.logout()
-    router.push('/login')
+    router.replace('/login') // Usa replace para que no quede en el historial
 }
 // Asegúrate de cargar el usuario si no está aún
 onMounted(async () => {

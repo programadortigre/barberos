@@ -1,43 +1,39 @@
-import { ref } from 'vue'
+// stores/auth.ts (o donde sea tu store)
+import { defineStore } from 'pinia'
 
 export const useAuthStore = defineStore('auth', () => {
-  const token = ref<string | null>(null)
-  const user = ref<any>(null)
-  const config = useRuntimeConfig()
+  const user = ref(null)
+  const token = ref(null)
 
-  // Solo en cliente: cargar token desde localStorage
-  if (process.client) {
-    token.value = localStorage.getItem('token')
-  }
-
-  const login = async (username: string, password: string) => {
-    const { data, error } = await useFetch('/login', {
-      baseURL: config.public.apiBaseUrl,
-      method: 'POST',
-      body: { username, password }
-    })
-
-    if (error.value) throw error.value
-
-    token.value = data.value.access_token
-    if (process.client) {
-      localStorage.setItem('token', token.value)
-    }
-
-    await getUser()
-  }
-
-  const getUser = async () => {
-    const { data, error } = await useFetch('/usuarios/me', {
-      baseURL: config.public.apiBaseUrl,
-      headers: {
-        Authorization: `Bearer ${token.value}`
+  const init = async () => {
+    token.value = localStorage.getItem('token') || null
+    if (token.value) {
+      try {
+        const data = await $fetch('/perfil', {
+          headers: { Authorization: `Bearer ${token.value}` }
+        })
+        user.value = data
+      } catch {
+        logout()
       }
-    })
+    }
+  }
 
-    if (error.value) throw error.value
-
-    user.value = data.value
+  const login = async (credenciales) => {
+    try {
+      const data = await $fetch('/login', {
+        method: 'POST',
+        body: credenciales,
+      })
+      token.value = data.access_token
+      localStorage.setItem('token', token.value)
+      await init()
+      return true
+    } catch (e) {
+      console.error('Login fallido', e)
+      logout()
+      return false
+    }
   }
 
   const logout = () => {
@@ -48,19 +44,11 @@ export const useAuthStore = defineStore('auth', () => {
     }
   }
 
-  const init = async () => {
-    if (process.client && !token.value) {
-      token.value = localStorage.getItem('token')
-    }
-
-    if (token.value) {
-      try {
-        await getUser()
-      } catch (err) {
-        logout()
-      }
-    }
+  return {
+    user,
+    token,
+    login,
+    logout,
+    init
   }
-
-  return { token, user, login, logout, init }
 })
