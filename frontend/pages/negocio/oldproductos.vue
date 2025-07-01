@@ -1,11 +1,13 @@
 <script setup>
-definePageMeta({ layout: 'aplicacion' });
+definePageMeta({ layout: 'aplicacion' })
 
-import { ref, computed } from 'vue';
-import CardItem from '@/components/ui/CardItem.vue';
-import { useStockBar } from '@/composables/useStockBar';
-const { getStockInfo } = useStockBar();
+import { ref, reactive, computed, onMounted } from 'vue';
 
+import ProductCard from '@/components/negocio/ProductCard.vue'
+const filteredProducts = computed(() => products.value);
+
+// Datos de productos
+let info = null;
 const products = ref([
     {
         id: 1,
@@ -13,7 +15,7 @@ const products = ref([
         sku: "LAP-HP-001",
         img: "fas fa-laptop",
         price: 899.99,
-        stock: 0,
+        stock: 10,
         min: 10,
         category: "Tecnología"
     },
@@ -89,22 +91,44 @@ const products = ref([
     }
 ]);
 
-const filteredProducts = computed(() => products.value);
 </script>
-
 <template>
+
     <div class="container">
         <div class="content">
-            <CardItem v-for="product in filteredProducts" :key="product.id" :title="product.name"
-                :subtitle="product.category" :details="[
-                    { label: 'SKU', value: product.sku },
-                    { label: 'Precio', value: 'S/ ' + product.price.toFixed(2) },
-                    { label: 'Stock', value: product.stock }
-                ]" :icon="product.img" :item="product" :getStatusInfo="getStockInfo" :actions="[
-    { label: 'Editar', class: 'btn-verde', onClick: () => editar(product) },
-    { label: 'Eliminar', class: 'btn-rojo', onClick: () => eliminar(product) }
-]" />
+            <!-- Bienvenida Mejorada -->
+            <div class="card">
+                <div class="search-bar">
+                    <input type="text" class="search-input" placeholder="Buscar productos...">
+                    <button class="search-btn">
+                        <i class="fas fa-search"></i>
+                    </button>
+                </div>
+
+                <div class="filter-bar">
+                    <div class="filter-btn active">Todos</div>
+                    <div class="filter-btn">Bajo stock</div>
+                    <div class="filter-btn">Agotados</div>
+                    <div class="filter-btn">Próximos a vencer</div>
+                    <div class="filter-btn">Sin movimiento</div>
+                </div>
+
+                <ul class="inventory-list">
+                    <li v-for="product in filteredProducts" :key="product.id">
+                        <ProductCard :product="product" @click="addToCart(product)" />
+                    </li>
+
+
+
+                </ul>
+
+                <button class="btn btn-outline">
+                    <i class="fas fa-sync-alt"></i> Cargar más productos
+                </button>
+            </div>
+            <!-- Bienvenida Mejorada -->
 
         </div>
     </div>
+
 </template>

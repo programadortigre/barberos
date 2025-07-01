@@ -77,13 +77,29 @@
                 <span>Productos Disponibles</span>
             </div>
 
-            <ul class="inventory-list">
-                <li v-for="product in filteredProducts" :key="product.id">
-                    <ProductCard :product="product" @click="addToCart(product)" />
+            <ul class="products-grid">
+                <li class="product-card animate-in" v-for="product in filteredProducts" :key="product.id"
+                    @click="addToCart(product)">
+                    <div class="product-image">
+                        <i :class="product.img"></i>
+                    </div>
+                    <div class="product-info">
+                        <div class="product-title">{{ product.name }}</div>
+                        <div class="product-price">${{ product.price.toFixed(2) }}</div>
+                        <div class="product-stock" :class="{
+                            'in-stock': product.stock > 10,
+                            'low-stock': product.stock > 0 && product.stock <= 10,
+                            'out-of-stock': product.stock === 0
+                        }">
+                            <i :class="{
+                                'fas fa-check-circle': product.stock > 10,
+                                'fas fa-exclamation-triangle': product.stock > 0 && product.stock <= 10,
+                                'fas fa-times-circle': product.stock === 0
+                            }"></i>
+                            {{ stockStatusText(product) }}
+                        </div>
+                    </div>
                 </li>
-
-
-
             </ul>
 
             <!-- Venta actual estilo app -->
@@ -325,10 +341,7 @@ definePageMeta({ layout: 'aplicacion' })
 
 import { ref, reactive, computed, onMounted } from 'vue';
 
-import ProductCard from '@/components/negocio/ProductCard.vue'
-
 // Datos de productos
-let info = null;
 const products = ref([
     {
         id: 1,
@@ -336,7 +349,7 @@ const products = ref([
         sku: "LAP-HP-001",
         img: "fas fa-laptop",
         price: 899.99,
-        stock: 10,
+        stock: 15,
         min: 10,
         category: "Tecnología"
     },
@@ -529,18 +542,6 @@ const stockStatusText = (product) => {
     return 'Agotado';
 };
 
-/*const stockWidth = (producto) => {
-    const maximoVisual = 30; // Este es el valor que representará el 100% de la barra (puedes ajustarlo)
-
-    // Calculamos el porcentaje del stock actual respecto al máximo visual
-    const porcentaje = Math.min((producto.stock / maximoVisual) * 100, 100);
-
-    // Devolvemos el valor en formato de porcentaje con el símbolo %
-    return porcentaje + '%';
-};
-*/
-
-
 const addToCart = (product) => {
     const existingItem = cart.value.find(item => item.id === product.id);
 
@@ -687,11 +688,6 @@ onMounted(() => {
 </script>
 
 <style lang="scss" scoped>
-.separator {
-    margin: 0 10px;
-    color: #aaa;
-}
-
 .app-container {
     max-width: 500px;
     margin: 0 auto;
@@ -1494,11 +1490,5 @@ onMounted(() => {
     .modal-body {
         padding: 15px;
     }
-}
-
-.inventory-list {
-    list-style: none;
-
-
 }
 </style>
