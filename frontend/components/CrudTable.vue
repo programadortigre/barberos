@@ -1,8 +1,8 @@
 <!-- CrudTable.vue -->
 <script setup lang="ts">
 import { ref, computed, onMounted } from 'vue'
-import CrudForm from './CrudForm.vue'
-import CrudTableToolbar from './CrudTableToolbar.vue'
+import CrudForm from './old/CrudForm.vue'
+import CrudTableToolbar from './old/CrudTableToolbar.vue'
 import { useCrud } from '@/composables/useCrud'
 
 const relacionesData = ref<Record<string, any[]>>({})

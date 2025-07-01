@@ -6,5 +6,5 @@
 </template>
 
 <script setup>
-import ThemeToggle from './ThemeToggle.vue'
+import ThemeToggle from '../ThemeToggle.vue'
 </script>

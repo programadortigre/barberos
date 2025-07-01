@@ -11,6 +11,6 @@
 </template>
 
 <script setup>
-import Sidebar from './Sidebar.vue'
-import Topbar from './Topbar.vue'
+import Sidebar from './old/Sidebar.vue'
+import Topbar from './old/Topbar.vue'
 </script>

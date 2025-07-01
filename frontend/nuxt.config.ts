@@ -9,7 +9,7 @@ export default defineNuxtConfig({
       ]
     }
   },
-  css: ['@/assets/styles/main.scss'],
+  css: ['@/assets/styles/main.scss', '@fortawesome/fontawesome-free/css/all.min.css'],
   runtimeConfig: {
     public: {
       apiBaseUrl: process.env.NUXT_PUBLIC_API_BASE_URL || 'http://localhost:8000'
